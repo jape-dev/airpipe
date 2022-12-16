@@ -1,15 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
-
-const sxStyle = {
-  position: "relative",
-  height: "100%",
-  width: "100%",
-};
 
 export const Canvas = (props: { code: string }) => {
   const [frameSrc, setFrameSrc] = useState<string>("");
-
   const chart = `
   <html>
       <body>
