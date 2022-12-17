@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 
 export const Canvas = (props: { code: string }) => {
-  const [frameSrc, setFrameSrc] = useState<string>("");
   const chart = `
   <html>
       <body>
@@ -13,6 +12,9 @@ export const Canvas = (props: { code: string }) => {
       </body>
   </html>
   `;
+  const [frameSrc, setFrameSrc] = useState<string>(
+    `data:text/html;charset=utf-8,${encodeURIComponent(chart)}`
+  );
 
   // Use the useEffect hook to update the iframe when the code changes.
   useEffect(() => {
