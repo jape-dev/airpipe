@@ -1,8 +1,35 @@
 import { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import {
+  DefaultService,
+  QueryResults,
+  SqlQuery,
+  TableColumns,
+} from "../vizoApi";
 
-export const Search = () => {
+export const Search = (props: {
+  setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [input, setInput] = useState("");
+
+  const handleSubmit = () => {
+    DefaultService.getTableColumnsTableColumnsGet("google_ads").then(
+      (res: TableColumns) => {
+        DefaultService.sqlQuerySqlQueryPost(
+          "sum impressions and clicks by campaign id",
+          res
+        ).then((res: SqlQuery) => {
+          props.setQuery(res.query);
+          DefaultService.runQueryRunQueryGet(res.query).then(
+            (res: QueryResults) => {
+              props.setResults(res.results);
+            }
+          );
+        });
+      }
+    );
+  };
 
   return (
     <div className="flex items-center my-4 border-2 rounded-md relative w-full bg-white border-neutral-200">
@@ -15,7 +42,7 @@ export const Search = () => {
       ></input>
       <button
         className="h-8 w-8 bg-indigo-600 rounded-md flex justify-center items-center m-1 p-2"
-        onClick={() => console.log(input)}
+        onClick={handleSubmit}
       >
         <MagnifyingGlassIcon className="h-4 w-4 fill-gray-100" />
       </button>

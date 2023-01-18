@@ -6,11 +6,11 @@ export const Home = () => {
   return (
     <>
       <NavBar />
-      <div className="h-screen grid grid-cols-5 gap-2 p-0">
-        <div className="col-span-1">
+      <div className="h-screen grid grid-cols-7 gap-2 p-0">
+        <div className="col-span-2">
           <SideBar />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-5">
           <Results />
         </div>
       </div>
