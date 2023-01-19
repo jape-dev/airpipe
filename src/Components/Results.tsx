@@ -6,6 +6,26 @@ export const Results = () => {
   const [query, setQuery] = useState<string>("");
   const [columns, setColumns] = useState<string[]>();
 
+  // const tableDataToArray = () => {
+  //   if (results !== undefined) {
+  //     {
+  //       results.map((item) => {
+  //         return (
+  //           <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+  //             {Object.values(item).map((value) => {
+  //               return (
+  //                 <td scope="row" className="px-6 py-4">
+  //                   {value}
+  //                 </td>
+  //               );
+  //             })}
+  //           </tr>
+  //         );
+  //       });
+  //     }
+  //   }
+  // };
+
   useEffect(() => {
     if (results !== undefined) {
       Object.entries(results).forEach(([key, value]) =>
