@@ -1,30 +1,26 @@
 import { Search } from "./Search";
 import { useState, useEffect } from "react";
+import { CSVLink, CSVDownload } from "react-csv";
 
 export const Results = () => {
   const [results, setResults] = useState<Object[]>();
   const [query, setQuery] = useState<string>("");
   const [columns, setColumns] = useState<string[]>();
+  const [csvData, setCsvData] = useState<any[]>();
 
-  // const tableDataToArray = () => {
-  //   if (results !== undefined) {
-  //     {
-  //       results.map((item) => {
-  //         return (
-  //           <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-  //             {Object.values(item).map((value) => {
-  //               return (
-  //                 <td scope="row" className="px-6 py-4">
-  //                   {value}
-  //                 </td>
-  //               );
-  //             })}
-  //           </tr>
-  //         );
-  //       });
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    if (results !== undefined && columns !== undefined) {
+      let data: any[] = [columns];
+      results.map((item) => {
+        let row: string[] = [];
+        Object.values(item).map((value) => {
+          row.push(value);
+        });
+        data.push(row);
+      });
+      setCsvData(data);
+    }
+  }, [results, columns]);
 
   useEffect(() => {
     if (results !== undefined) {
@@ -33,6 +29,10 @@ export const Results = () => {
       );
     }
   }, [results]);
+
+  useEffect(() => {
+    console.log(csvData);
+  }, [csvData]);
 
   return (
     <div className="p-5">
@@ -70,6 +70,9 @@ export const Results = () => {
           )}
         </table>
       </div>
+      {csvData === undefined ? null : (
+        <CSVLink data={csvData}>Download</CSVLink>
+      )}
     </div>
   );
 };
