@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type QueryResults = {
-    results: Array<any>;
+export type Token = {
+    access_token: string;
+    token_type: string;
 };
