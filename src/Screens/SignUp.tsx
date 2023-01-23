@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, DefaultService } from "../vizoApi";
+import {
+  User,
+  DefaultService,
+  Body_login_for_access_token_token_post,
+} from "../vizoApi";
 import { RouterPath } from "../App";
 
 export const SignUp = () => {
@@ -22,12 +26,25 @@ export const SignUp = () => {
       email: email,
       hashed_password: password,
     };
-    DefaultService.createCustomerCreateCustomerPost(newUser).then(
-      (response) => {
-        console.log(response);
+    DefaultService.createCustomerCreateCustomerPost(newUser)
+      .then((response) => {
+        const body: Body_login_for_access_token_token_post = {
+          username: email,
+          password: password,
+        };
+        DefaultService.loginForAccessTokenTokenPost(body)
+          .then((response) => {
+            document.cookie = `token=${response.access_token}`;
+            localStorage.setItem("token", response.access_token);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         navigate(RouterPath.HOME);
-      }
-    );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
