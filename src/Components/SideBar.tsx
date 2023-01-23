@@ -3,8 +3,8 @@ import { DefaultService, OpenAPI } from "../vizoApi";
 export const SideBar = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.location.href =
-      "https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://aefe-2a01-4b00-c004-d500-41b7-6cd9-9c84-69b3.ngrok.io/facebook_login/&state=123456&config_id=728465868571401";
+    const token = localStorage.getItem("token");
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://bd44-82-69-4-0.ngrok.io/facebook_login/&config_id=728465868571401&state=${token}`;
     // const token = localStorage.getItem("token");
     // if (token) {
     //   console.log(token);
