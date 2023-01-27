@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AdAccount } from '../models/AdAccount';
 import type { Body_login_for_access_token_token_post } from '../models/Body_login_for_access_token_token_post';
 import type { Completion } from '../models/Completion';
 import type { GoogleAd } from '../models/GoogleAd';
@@ -33,18 +34,6 @@ formData: Body_login_for_access_token_token_post,
             errors: {
                 422: `Validation Error`,
             },
-        });
-    }
-
-    /**
-     * Read Users Me
-     * @returns User Successful Response
-     * @throws ApiError
-     */
-    public static readUsersMeUsersMeGet(): CancelablePromise<User> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/users/me/',
         });
     }
 
@@ -164,18 +153,6 @@ query: string,
     }
 
     /**
-     * Facebook Auth
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static facebookAuthFacebookAuthGet(): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/facebook_auth',
-        });
-    }
-
-    /**
      * Facebook Login
      * @returns any Successful Response
      * @throws ApiError
@@ -201,6 +178,27 @@ requestBody: User,
             url: '/create_customer',
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Ad Accounts
+     * @param token 
+     * @returns AdAccount Successful Response
+     * @throws ApiError
+     */
+    public static adAccountsAdAccountsGet(
+token: string,
+): CancelablePromise<Array<AdAccount>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/ad_accounts',
+            query: {
+                'token': token,
+            },
             errors: {
                 422: `Validation Error`,
             },

@@ -6,6 +6,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AdAccount } from './models/AdAccount';
 export type { Body_login_for_access_token_token_post } from './models/Body_login_for_access_token_token_post';
 export type { Completion } from './models/Completion';
 export type { GoogleAd } from './models/GoogleAd';
