@@ -1,16 +1,24 @@
-import { DefaultService, OpenAPI, AdAccount } from "../vizoApi";
-import { useEffect, useState } from "react";
-import Select, { MultiValue } from "react-select";
+import { DefaultService, AdAccount, FacebookQuery } from "../vizoApi";
+import { useState } from "react";
+import Select, { MultiValue, SingleValue } from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export const SideBar = () => {
+export const SideBar = (props: {
+  setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
+}) => {
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
   const [metrics, setMetrics] = useState<string[]>();
-  const [dimensions, setDimensions] = useState<string[]>();
-  const [startDate, setStartDate] = useState(number);
-  const [endDate, setEndDate] = useState(new Date());
+  const [dimensions, setDimensions] = useState<string>();
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startTimestamp, setStartTimestamp] = useState<number>(
+    new Date().getTime() / 1000
+  );
+  const [endTimestamp, setEndTimestamp] = useState<number>(
+    new Date().getTime() / 1000
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,13 +57,37 @@ export const SideBar = () => {
   };
 
   const handleSelectedDimensions = (
-    event: MultiValue<{
+    event: SingleValue<{
       value: string;
       label: string;
     }>
   ) => {
-    const values = [...event].map((opt) => opt.value);
-    setDimensions(values);
+    // const values = [...event].map((opt) => opt.value);
+    if (event === null) {
+      return;
+    } else {
+      setDimensions(event.value);
+    }
+  };
+
+  const handleStartDateClick = (date: Date | null) => {
+    if (date === null) {
+      return;
+    } else {
+      setStartDate(date);
+      const timestamp = Math.floor(date.getTime() / 1000);
+      setStartTimestamp(timestamp);
+    }
+  };
+
+  const handleEndDateClick = (date: Date | null) => {
+    if (date === null) {
+      return;
+    } else {
+      setEndDate(date);
+      const timestamp = Math.floor(date.getTime() / 1000);
+      setEndTimestamp(timestamp);
+    }
   };
 
   const handleQuerySubmit = () => {
@@ -65,15 +97,35 @@ export const SideBar = () => {
       metrics === undefined ||
       dimensions === undefined
     ) {
+      alert("Please select an ad account, metrics and dimensions");
       return;
     } else {
       // Make a post request to the server
+      const query: FacebookQuery = {
+        account_id: selectedAdAccount,
+        metrics: metrics,
+        dimension: dimensions,
+        start_date: startTimestamp,
+        end_date: endTimestamp,
+      };
+      const token = localStorage.getItem("token");
+      if (token === null) {
+        alert("Please login to continue");
+        return;
+      } else {
+        DefaultService.runFacebookQueryRunFacebookQueryPost(token, query)
+          .then((response) => {
+            console.log(response);
+            props.setResults(response.results);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   };
 
   const metricOptions = [
-    { value: "action_values", label: "Action Values" },
-    { value: "actions", label: "Actions" },
     { value: "clicks", label: "Clicks" },
     { value: "conversions", label: "Conversions" },
     { value: "cost_per_conversion", label: "Cost Per Conversion" },
@@ -128,7 +180,10 @@ export const SideBar = () => {
       value: "unique_inline_link_click_ctr",
       label: "Unique Inline Link Click CTR",
     },
-    { value: "unique_inline_link_clicks", label: "Unique Inline Link Clicks" },
+    {
+      value: "unique_inline_link_clicks",
+      label: "Unique Inline Link Clicks",
+    },
     { value: "unique_link_clicks_ctr", label: "Unique Link Clicks CTR" },
     { value: "unique_outbound_clicks", label: "Unique Outbound Clicks" },
     {
@@ -165,10 +220,22 @@ export const SideBar = () => {
       value: "video_p100_watched_actions",
       label: "Video P100 Watched Actions",
     },
-    { value: "video_p25_watched_actions", label: "Video P25 Watched Actions" },
-    { value: "video_p50_watched_actions", label: "Video P50 Watched Actions" },
-    { value: "video_p75_watched_actions", label: "Video P75 Watched Actions" },
-    { value: "video_p95_watched_actions", label: "Video P95 Watched Actions" },
+    {
+      value: "video_p25_watched_actions",
+      label: "Video P25 Watched Actions",
+    },
+    {
+      value: "video_p50_watched_actions",
+      label: "Video P50 Watched Actions",
+    },
+    {
+      value: "video_p75_watched_actions",
+      label: "Video P75 Watched Actions",
+    },
+    {
+      value: "video_p95_watched_actions",
+      label: "Video P95 Watched Actions",
+    },
     { value: "video_play_actions", label: "Video Play Actions" },
     {
       value: "video_play_retention_0_to_15s_actions",
@@ -237,17 +304,16 @@ export const SideBar = () => {
             <Select
               options={dimensionOptions}
               onChange={(event) => handleSelectedDimensions(event)}
-              isMulti
             />
             <p>Start Date</p>
             <DatePicker
               selected={startDate}
-              onChange={(date: Date) => setStartDate(Date.parse(date))}
+              onChange={(date) => handleStartDateClick(date)}
             />
             <p>End Date</p>
             <DatePicker
               selected={endDate}
-              onChange={(date: Date) => setEndDate(date)}
+              onChange={(date) => handleEndDateClick(date)}
             />
             <button onClick={handleQuerySubmit}>Run</button>
           </>

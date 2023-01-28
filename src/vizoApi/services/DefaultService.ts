@@ -4,6 +4,8 @@
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_login_for_access_token_token_post } from '../models/Body_login_for_access_token_token_post';
 import type { Completion } from '../models/Completion';
+import type { FacebookQuery } from '../models/FacebookQuery';
+import type { FacebookQueryResults } from '../models/FacebookQueryResults';
 import type { GoogleAd } from '../models/GoogleAd';
 import type { QueryResults } from '../models/QueryResults';
 import type { SqlQuery } from '../models/SqlQuery';
@@ -199,6 +201,31 @@ token: string,
             query: {
                 'token': token,
             },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Run Facebook Query
+     * @param token 
+     * @param requestBody 
+     * @returns FacebookQueryResults Successful Response
+     * @throws ApiError
+     */
+    public static runFacebookQueryRunFacebookQueryPost(
+token: string,
+requestBody: FacebookQuery,
+): CancelablePromise<FacebookQueryResults> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/run_facebook_query',
+            query: {
+                'token': token,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },

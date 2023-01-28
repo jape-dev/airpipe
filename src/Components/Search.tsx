@@ -14,19 +14,19 @@ export const Search = (props: {
   const [input, setInput] = useState("");
 
   const handleSubmit = () => {
+    // Need to replace this first endpoint call with the response from the query editor.
     DefaultService.getTableColumnsTableColumnsGet("google_ads").then(
       (res: TableColumns) => {
-        DefaultService.sqlQuerySqlQueryPost(
-          "sum impressions and clicks by campaign id",
-          res
-        ).then((res: SqlQuery) => {
-          props.setQuery(res.query);
-          DefaultService.runQueryRunQueryGet(res.query).then(
-            (res: QueryResults) => {
-              props.setResults(res.results);
-            }
-          );
-        });
+        DefaultService.sqlQuerySqlQueryPost(input, res).then(
+          (res: SqlQuery) => {
+            props.setQuery(res.query);
+            DefaultService.runQueryRunQueryGet(res.query).then(
+              (res: QueryResults) => {
+                props.setResults(res.results);
+              }
+            );
+          }
+        );
       }
     );
   };

@@ -1,17 +1,21 @@
 import { Search } from "./Search";
 import { useState, useEffect } from "react";
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
-export const Results = () => {
-  const [results, setResults] = useState<Object[]>();
+export const Results = (props: {
+  results: Object[];
+  setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
+}) => {
+  // Need to set Results from the sidebar and from Search.
+  // Need to set results from the Home page
   const [query, setQuery] = useState<string>("");
   const [columns, setColumns] = useState<string[]>();
   const [csvData, setCsvData] = useState<any[]>();
 
   useEffect(() => {
-    if (results !== undefined && columns !== undefined) {
+    if (props.results !== undefined && columns !== undefined) {
       let data: any[] = [columns];
-      results.map((item) => {
+      props.results.map((item) => {
         let row: string[] = [];
         Object.values(item).map((value) => {
           row.push(value);
@@ -20,15 +24,15 @@ export const Results = () => {
       });
       setCsvData(data);
     }
-  }, [results, columns]);
+  }, [props.results, columns]);
 
   useEffect(() => {
-    if (results !== undefined) {
-      Object.entries(results).forEach(([key, value]) =>
+    if (props.results !== undefined) {
+      Object.entries(props.results).forEach(([key, value]) =>
         setColumns(Object.keys(value))
       );
     }
-  }, [results]);
+  }, [props.results]);
 
   useEffect(() => {
     console.log(csvData);
@@ -36,7 +40,7 @@ export const Results = () => {
 
   return (
     <div className="p-5">
-      <Search setResults={setResults} setQuery={setQuery} />
+      <Search setResults={props.setResults} setQuery={setQuery} />
       <p>{query}</p>
       <div className="relative overflow-x-auto">
         <table className="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -51,9 +55,9 @@ export const Results = () => {
               })}
             </tr>
           </thead>
-          {!results ? null : (
+          {!props.results ? null : (
             <tbody>
-              {results.map((item) => {
+              {props.results.map((item) => {
                 return (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     {Object.values(item).map((value) => {

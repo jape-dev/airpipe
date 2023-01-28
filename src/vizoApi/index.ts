@@ -9,6 +9,8 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 export type { AdAccount } from './models/AdAccount';
 export type { Body_login_for_access_token_token_post } from './models/Body_login_for_access_token_token_post';
 export type { Completion } from './models/Completion';
+export type { FacebookQuery } from './models/FacebookQuery';
+export type { FacebookQueryResults } from './models/FacebookQueryResults';
 export type { GoogleAd } from './models/GoogleAd';
 export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { QueryResults } from './models/QueryResults';
