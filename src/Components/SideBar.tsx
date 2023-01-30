@@ -1,6 +1,7 @@
 import { DefaultService, AdAccount, FacebookQuery } from "../vizoApi";
 import { useState } from "react";
 import Select, { MultiValue, SingleValue } from "react-select";
+import { RouterPath } from "../App";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -37,7 +38,11 @@ export const SideBar = (props: {
           setAdAccounts(response);
         })
         .catch((error) => {
-          console.log(error);
+          if (error.status === 401) {
+            window.location.href = RouterPath.LOGIN;
+          } else {
+            console.log(error);
+          }
         });
     }
   };
@@ -119,7 +124,11 @@ export const SideBar = (props: {
             props.setResults(response.results);
           })
           .catch((error) => {
-            console.log(error);
+            if (error.status === 401) {
+              window.location.href = RouterPath.LOGIN;
+            } else {
+              console.log(error);
+            }
           });
       }
     }
