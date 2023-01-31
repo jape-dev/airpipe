@@ -10,25 +10,33 @@ import {
 export const Search = (props: {
   setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  currentResults?: object[];
+  currentColumns?: string[];
 }) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = () => {
     // Need to replace this first endpoint call with the response from the query editor.
-    DefaultService.getTableColumnsTableColumnsGet("google_ads").then(
-      (res: TableColumns) => {
-        DefaultService.sqlQuerySqlQueryPost(input, res).then(
-          (res: SqlQuery) => {
-            props.setQuery(res.query);
-            DefaultService.runQueryRunQueryGet(res.query).then(
-              (res: QueryResults) => {
-                props.setResults(res.results);
-              }
-            );
-          }
-        );
-      }
-    );
+    if (
+      props.currentResults !== undefined &&
+      props.currentColumns !== undefined
+    ) {
+      let columns: TableColumns = {
+        name: "test",
+        columns: props.currentColumns,
+      };
+      DefaultService.sqlQuerySqlQueryPost(input, columns).then(
+        (res: SqlQuery) => {
+          console.log(res.query);
+          props.setQuery(res.query);
+          DefaultService.runQueryRunQueryGet(res.query).then(
+            (res: QueryResults) => {
+              props.setResults(res.results);
+            }
+          );
+        }
+      );
+    }
   };
 
   return (

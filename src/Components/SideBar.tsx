@@ -4,6 +4,7 @@ import Select, { MultiValue, SingleValue } from "react-select";
 import { RouterPath } from "../App";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Insights } from "../Data/StaticInsights";
 
 export const SideBar = (props: {
   setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
@@ -121,7 +122,8 @@ export const SideBar = (props: {
         DefaultService.runFacebookQueryRunFacebookQueryPost(token, query)
           .then((response) => {
             console.log(response);
-            props.setResults(response.results);
+            props.setResults(Insights["data"]);
+            // props.setResults(response.results);
           })
           .catch((error) => {
             if (error.status === 401) {

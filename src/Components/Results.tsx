@@ -40,7 +40,12 @@ export const Results = (props: {
 
   return (
     <div className="p-5">
-      <Search setResults={props.setResults} setQuery={setQuery} />
+      <Search
+        setResults={props.setResults}
+        setQuery={setQuery}
+        currentResults={props.results}
+        currentColumns={columns}
+      />
       <p>{query}</p>
       <div className="relative overflow-x-auto">
         <table className="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
