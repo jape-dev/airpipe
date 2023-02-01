@@ -5,6 +5,7 @@ import {
   QueryResults,
   SqlQuery,
   TableColumns,
+  CurrentResults,
 } from "../vizoApi";
 
 export const Search = (props: {
@@ -21,21 +22,30 @@ export const Search = (props: {
       props.currentResults !== undefined &&
       props.currentColumns !== undefined
     ) {
-      let columns: TableColumns = {
-        name: "test",
+      const timestamp = Date.now();
+      let results: CurrentResults = {
+        name: `facebook_${timestamp}`,
+        columns: props.currentColumns,
+        results: props.currentResults,
+      };
+      let tableColumns: TableColumns = {
+        name: `facebook_${timestamp}`,
         columns: props.currentColumns,
       };
-      DefaultService.sqlQuerySqlQueryPost(input, columns).then(
-        (res: SqlQuery) => {
-          console.log(res.query);
-          props.setQuery(res.query);
-          DefaultService.runQueryRunQueryGet(res.query).then(
-            (res: QueryResults) => {
-              props.setResults(res.results);
-            }
-          );
-        }
-      );
+      console.log("currentResults", props.currentResults);
+      DefaultService.createNewTableCreateNewTablePost(results).then(() => {
+        DefaultService.sqlQuerySqlQueryPost(input, tableColumns).then(
+          (res: SqlQuery) => {
+            console.log(res.query);
+            props.setQuery(res.query);
+            DefaultService.runQueryRunQueryGet(res.query).then(
+              (res: QueryResults) => {
+                props.setResults(res.results);
+              }
+            );
+          }
+        );
+      });
     }
   };
 

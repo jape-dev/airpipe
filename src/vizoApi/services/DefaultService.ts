@@ -4,6 +4,7 @@
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_login_for_access_token_token_post } from '../models/Body_login_for_access_token_token_post';
 import type { Completion } from '../models/Completion';
+import type { CurrentResults } from '../models/CurrentResults';
 import type { FacebookQuery } from '../models/FacebookQuery';
 import type { FacebookQueryResults } from '../models/FacebookQueryResults';
 import type { GoogleAd } from '../models/GoogleAd';
@@ -224,6 +225,26 @@ requestBody: FacebookQuery,
             query: {
                 'token': token,
             },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Create New Table
+     * @param requestBody 
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static createNewTableCreateNewTablePost(
+requestBody: CurrentResults,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/create_new_table',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
