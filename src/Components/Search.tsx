@@ -11,6 +11,11 @@ import {
 export const Search = (props: {
   setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  setQueryList: React.Dispatch<React.SetStateAction<string[]>>;
+  setTableNameList: React.Dispatch<React.SetStateAction<string[]>>;
+  setResultsList: React.Dispatch<React.SetStateAction<object[][]>>;
+  index: number;
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
   currentResults?: object[];
   currentColumns?: string[];
 }) => {
@@ -32,15 +37,31 @@ export const Search = (props: {
         name: `facebook_${timestamp}`,
         columns: props.currentColumns,
       };
-      console.log("currentResults", props.currentResults);
+      // Need to add a conditional step to make this work with the query editor.
+      // Query off whatever the latest table currently is
+      // It's just about where the result is inserted in the array
       DefaultService.createNewTableCreateNewTablePost(results).then(() => {
         DefaultService.sqlQuerySqlQueryPost(input, tableColumns).then(
           (res: SqlQuery) => {
-            console.log(res.query);
             props.setQuery(res.query);
+            props.setTableNameList((prev) => [
+              ...prev.slice(0, props.index + 1),
+              tableColumns.name,
+            ]);
+
+            props.setQueryList((prev) => [
+              ...prev.slice(0, props.index + 1),
+              res.query,
+            ]);
+
             DefaultService.runQueryRunQueryGet(res.query).then(
               (res: QueryResults) => {
                 props.setResults(res.results);
+                props.setResultsList((prev) => [
+                  ...prev.slice(0, props.index + 1),
+                  res.results,
+                ]);
+                props.setIndex((prev) => prev + 1);
               }
             );
           }
