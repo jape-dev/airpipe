@@ -12,7 +12,7 @@ export const SideBar = (props: {
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
   const [metrics, setMetrics] = useState<string[]>();
-  const [dimensions, setDimensions] = useState<string>();
+  const [dimensions, setDimensions] = useState<string[]>();
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [startTimestamp, setStartTimestamp] = useState<number>(
@@ -63,17 +63,13 @@ export const SideBar = (props: {
   };
 
   const handleSelectedDimensions = (
-    event: SingleValue<{
+    event: MultiValue<{
       value: string;
       label: string;
     }>
   ) => {
-    // const values = [...event].map((opt) => opt.value);
-    if (event === null) {
-      return;
-    } else {
-      setDimensions(event.value);
-    }
+    const values = [...event].map((opt) => opt.value);
+    setDimensions(values);
   };
 
   const handleStartDateClick = (date: Date | null) => {
@@ -110,7 +106,7 @@ export const SideBar = (props: {
       const query: FacebookQuery = {
         account_id: selectedAdAccount,
         metrics: metrics,
-        dimension: dimensions,
+        dimensions: dimensions,
         start_date: startTimestamp,
         end_date: endTimestamp,
       };
@@ -122,8 +118,7 @@ export const SideBar = (props: {
         DefaultService.runFacebookQueryRunFacebookQueryPost(token, query)
           .then((response) => {
             console.log(response);
-            props.setResults(Insights["data"]);
-            // props.setResults(response.results);
+            props.setResults(response.results);
           })
           .catch((error) => {
             if (error.status === 401) {
@@ -281,6 +276,7 @@ export const SideBar = (props: {
     { value: "campaign_name", label: "Campaign Name" },
     { value: "ad_id", label: "Ad Id" },
     { value: "ad_name", label: "Ad Name" },
+    { value: "date", label: "Date" },
   ];
 
   return (
@@ -315,6 +311,7 @@ export const SideBar = (props: {
             <Select
               options={dimensionOptions}
               onChange={(event) => handleSelectedDimensions(event)}
+              isMulti
             />
             <p>Start Date</p>
             <DatePicker

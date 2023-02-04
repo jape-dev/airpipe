@@ -5,7 +5,7 @@
 export type FacebookQuery = {
     account_id: string;
     metrics: Array<string>;
-    dimension: string;
+    dimensions: Array<string>;
     start_date: number;
     end_date: number;
 };
