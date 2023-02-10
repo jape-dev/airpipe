@@ -15,7 +15,8 @@ export const SideBar = (props: {
   const [metrics, setMetrics] = useState<string[]>();
   const [dimensions, setDimensions] = useState<string[]>();
   const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date()); // change this to the current date minus one month
+
   const [startTimestamp, setStartTimestamp] = useState<number>(
     new Date().getTime() / 1000
   );
@@ -159,7 +160,7 @@ export const SideBar = (props: {
             className="h-5 w-5 mr-2"
           />
           <p className="mr-2">Facebook Ads | </p>
-          {currentUser?.access_token !== undefined ? (
+          {currentUser?.access_token ? (
             <form
               onSubmit={handleAdAccountSubmit}
               className="flex items-center"
@@ -195,48 +196,36 @@ export const SideBar = (props: {
       <div className="p-8">
         {selectedAdAccount ? (
           <>
-            <p>Metrics</p>
-            <Select
-              options={metricOptions}
-              onChange={(event) => handleSelectedMetrics(event)}
-              isMulti
-              styles={{
-                option: (provided, state) => ({
-                  ...provided,
-                  borderBottom: "1px dotted pink",
-                  color: state.isSelected ? "red" : "blue",
-                  padding: 0,
-                }),
-                control: (baseStyles) => ({
-                  ...baseStyles,
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  borderRadius: "8px",
-                  padding: "6px 5px",
-                  border: "1px solid #21274F !important",
-                  boxShadow: "none",
-                  "&:focus": {
-                    border: "0 !important",
-                  },
-                }),
-              }}
-            />
-            <p>Dimensions</p>
-            <Select
-              options={dimensionOptions}
-              onChange={(event) => handleSelectedDimensions(event)}
-              isMulti
-            />
-            <p>Start Date</p>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => handleStartDateClick(date)}
-            />
-            <p>End Date</p>
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => handleEndDateClick(date)}
-            />
+            <div className="mt-2">
+              <p>Metrics</p>
+              <Select
+                options={metricOptions}
+                onChange={(event) => handleSelectedMetrics(event)}
+                isMulti
+              />
+            </div>
+            <div className="mt-5">
+              <p>Dimensions</p>
+              <Select
+                options={dimensionOptions}
+                onChange={(event) => handleSelectedDimensions(event)}
+                isMulti
+              />
+            </div>
+            <div className="mt-5">
+              <p>Start Date</p>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => handleStartDateClick(date)}
+              />
+            </div>
+            <div className="mt-2">
+              <p>End Date</p>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => handleEndDateClick(date)}
+              />
+            </div>
             <button onClick={handleQuerySubmit}>Run</button>
           </>
         ) : null}
