@@ -1,10 +1,11 @@
-import { DefaultService, AdAccount, FacebookQuery } from "../vizoApi";
-import { useState } from "react";
+import { DefaultService, AdAccount, FacebookQuery, User } from "../vizoApi";
+import { useEffect, useState } from "react";
 import Select, { MultiValue, SingleValue } from "react-select";
 import { RouterPath } from "../App";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Insights } from "../Data/StaticInsights";
+import { metricOptions, dimensionOptions } from "../Data/Options";
+import { ChevronDownIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 
 export const SideBar = (props: {
   setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
@@ -21,11 +22,14 @@ export const SideBar = (props: {
   const [endTimestamp, setEndTimestamp] = useState<number>(
     new Date().getTime() / 1000
   );
+  const [currentUser, setCurrentUser] = useState<User>();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://aefe-2a01-4b00-c004-d500-41b7-6cd9-9c84-69b3.ngrok.io/facebook_login/&config_id=728465868571401&state=${token}`;
+    console.log("token");
+    console.log(token);
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://ea96-2a01-4b00-c004-d500-b3fa-d43f-faa3-47d9.ngrok.io/facebook_login/&config_id=728465868571401&state=${token}`;
   };
 
   const handleAdAccountSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -117,7 +121,6 @@ export const SideBar = (props: {
       } else {
         DefaultService.runFacebookQueryRunFacebookQueryPost(token, query)
           .then((response) => {
-            console.log(response);
             props.setResults(response.results);
           })
           .catch((error) => {
@@ -131,174 +134,65 @@ export const SideBar = (props: {
     }
   };
 
-  const metricOptions = [
-    { value: "clicks", label: "Clicks" },
-    { value: "conversions", label: "Conversions" },
-    { value: "cost_per_conversion", label: "Cost Per Conversion" },
-    {
-      value: "cost_per_inline_link_click",
-      label: "Cost Per Inline Link Click",
-    },
-    {
-      value: "cost_per_inline_post_engagement",
-      label: "Cost Per Inline Post Engagement",
-    },
-    { value: "cost_per_outbound_click", label: "Cost Per Outbound Click" },
-    { value: "cost_per_thruplay", label: "Cost Per Thruplay" },
-    {
-      value: "cost_per_unique_action_type",
-      label: "Cost Per Unique Action Type",
-    },
-    { value: "cost_per_unique_click", label: "Cost Per Unique Click" },
-    {
-      value: "cost_per_unique_inline_link_click",
-      label: "Cost Per Unique Inline Link Click",
-    },
-    {
-      value: "cost_per_unique_outbound_click",
-      label: "Cost Per Unique Outbound Click",
-    },
-    { value: "cpc", label: "CPC" },
-    { value: "cpm", label: "CPM" },
-    { value: "cpp", label: "CPP" },
-    { value: "ctr", label: "CTR" },
-    { value: "frequency", label: "Frequency" },
-    { value: "impressions", label: "Impressions" },
-    { value: "inline_link_click_ctr", label: "Inline Link Click CTR" },
-    { value: "inline_link_clicks", label: "Inline Link Clicks" },
-    { value: "inline_post_engagement", label: "Inline Post Engagement" },
-    { value: "outbound_clicks", label: "Outbound Clicks" },
-    { value: "outbound_clicks_ctr", label: "Outbound Clicks CTR" },
-    { value: "reach", label: "Reach" },
-    { value: "relevance_score", label: "Relevance Score" },
-    { value: "social_clicks", label: "Social Clicks" },
-    { value: "social_impressions", label: "Social Impressions" },
-    { value: "social_reach", label: "Social Reach" },
-    { value: "social_spend", label: "Social Spend" },
-    { value: "spend", label: "Spend" },
-    { value: "total_action_value", label: "Total Action Value" },
-    { value: "total_actions", label: "Total Actions" },
-    { value: "total_unique_actions", label: "Total Unique Actions" },
-    { value: "unique_actions", label: "Unique Actions" },
-    { value: "unique_clicks", label: "Unique Clicks" },
-    { value: "unique_ctr", label: "Unique CTR" },
-    {
-      value: "unique_inline_link_click_ctr",
-      label: "Unique Inline Link Click CTR",
-    },
-    {
-      value: "unique_inline_link_clicks",
-      label: "Unique Inline Link Clicks",
-    },
-    { value: "unique_link_clicks_ctr", label: "Unique Link Clicks CTR" },
-    { value: "unique_outbound_clicks", label: "Unique Outbound Clicks" },
-    {
-      value: "unique_outbound_clicks_ctr",
-      label: "Unique Outbound Clicks CTR",
-    },
-    {
-      value: "unique_video_continuous_2_sec_watched_actions",
-      label: "Unique Video Continuous 2 Sec Watched Actions",
-    },
-    { value: "unique_video_view_15_sec", label: "Unique Video View 15 Sec" },
-    { value: "unique_video_view_30_sec", label: "Unique Video View 30 Sec" },
-    {
-      value: "video_15_sec_watched_actions",
-      label: "Video 15 Sec Watched Actions",
-    },
-    {
-      value: "video_30_sec_watched_actions",
-      label: "Video 30 Sec Watched Actions",
-    },
-    {
-      value: "video_avg_pct_watched_actions",
-      label: "Video Avg Pct Watched Actions",
-    },
-    {
-      value: "video_avg_sec_watched_actions",
-      label: "Video Avg Sec Watched Actions",
-    },
-    {
-      value: "video_continuous_2_sec_watched_actions",
-      label: "Video Continuous 2 Sec Watched Actions",
-    },
-    {
-      value: "video_p100_watched_actions",
-      label: "Video P100 Watched Actions",
-    },
-    {
-      value: "video_p25_watched_actions",
-      label: "Video P25 Watched Actions",
-    },
-    {
-      value: "video_p50_watched_actions",
-      label: "Video P50 Watched Actions",
-    },
-    {
-      value: "video_p75_watched_actions",
-      label: "Video P75 Watched Actions",
-    },
-    {
-      value: "video_p95_watched_actions",
-      label: "Video P95 Watched Actions",
-    },
-    { value: "video_play_actions", label: "Video Play Actions" },
-    {
-      value: "video_play_retention_0_to_15s_actions",
-      label: "Video Play Retention 0 To 15s Actions",
-    },
-    {
-      value: "video_play_retention_20_to_60s_actions",
-      label: "Video Play Retention 20 To 60s Actions",
-    },
-    {
-      value: "video_play_retention_graph_actions",
-      label: "Video Play Retention Graph Actions",
-    },
-    {
-      value: "video_thruplay_watched_actions",
-      label: "Video Thruplay Watched Actions",
-    },
-    {
-      value: "video_time_watched_actions",
-      label: "Video Time Watched Actions",
-    },
-    { value: "website_ctr", label: "Website CTR" },
-    { value: "website_purchase_roas", label: "Website Purchase ROAS" },
-  ];
-
-  const dimensionOptions = [
-    { value: "account_id", label: "Account Id" },
-    { value: "account_name", label: "Account Name" },
-    { value: "adset_id", label: "Adset Id" },
-    { value: "adset_name", label: "Adset Name" },
-    { value: "campaign_id", label: "Campaign Id" },
-    { value: "campaign_name", label: "Campaign Name" },
-    { value: "ad_id", label: "Ad Id" },
-    { value: "ad_name", label: "Ad Name" },
-    { value: "date", label: "Date" },
-  ];
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      window.location.href = RouterPath.LOGIN;
+    } else {
+      DefaultService.currentUserCurrentUserGet(token)
+        .then((response) => {
+          setCurrentUser(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
 
   return (
-    <div className="w-full h-full relative p-8 border-2 bg-white border-white border-r-neutral-200">
-      <form onSubmit={handleSubmit}>
-        <button>Facebook</button>
-      </form>
-      <form onSubmit={handleAdAccountSubmit}>
-        <button>Ad Accounts</button>
-      </form>
-      <div>
-        {adAccounts
-          ? adAccounts.map((adAccount) => {
-              return (
-                <button onClick={() => handeAdAccountSelect(adAccount.id)}>
-                  {adAccount.name}
-                </button>
-              );
-            })
-          : null}
+    <div className="w-full h-full relative pt-8 border-2 bg-white border-white border-r-neutral-200">
+      <p className="text-lg pl-8 pr-8 font-semibold">Data Sources</p>
+      <div className="pl-8 pr-8 mt-2 hover:bg-gray-50">
+        <div className="flex items-center">
+          <img
+            src={require("../Static/images/facebook-icon.png")}
+            className="h-5 w-5 mr-2"
+          />
+          <p className="mr-2">Facebook Ads | </p>
+          {currentUser?.access_token !== undefined ? (
+            <form
+              onSubmit={handleAdAccountSubmit}
+              className="flex items-center"
+            >
+              <p>Select Ad Account</p>
+              <button>
+                <ChevronDownIcon className="h-4 w-4 fill-gray-500" />
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex items-center">
+              <p className="mr-1">Connect</p>
+              <button>
+                <ArrowRightIcon className="h-4 w-4 fill-gray-300" />{" "}
+              </button>
+            </form>
+          )}
+        </div>
+        <div className="mt-2">
+          {adAccounts
+            ? adAccounts.map((adAccount) => {
+                return (
+                  <div className="text-sm hover:bg-gray-200">
+                    <button onClick={() => handeAdAccountSelect(adAccount.id)}>
+                      {adAccount.name} ({adAccount.id})
+                    </button>
+                  </div>
+                );
+              })
+            : null}
+        </div>
       </div>
-      <div>
+      <div className="p-8">
         {selectedAdAccount ? (
           <>
             <p>Metrics</p>
@@ -306,6 +200,26 @@ export const SideBar = (props: {
               options={metricOptions}
               onChange={(event) => handleSelectedMetrics(event)}
               isMulti
+              styles={{
+                option: (provided, state) => ({
+                  ...provided,
+                  borderBottom: "1px dotted pink",
+                  color: state.isSelected ? "red" : "blue",
+                  padding: 0,
+                }),
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  borderRadius: "8px",
+                  padding: "6px 5px",
+                  border: "1px solid #21274F !important",
+                  boxShadow: "none",
+                  "&:focus": {
+                    border: "0 !important",
+                  },
+                }),
+              }}
             />
             <p>Dimensions</p>
             <Select

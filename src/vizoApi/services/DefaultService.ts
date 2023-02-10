@@ -253,4 +253,25 @@ requestBody: CurrentResults,
         });
     }
 
+    /**
+     * Current User
+     * @param token 
+     * @returns User Successful Response
+     * @throws ApiError
+     */
+    public static currentUserCurrentUserGet(
+token: string,
+): CancelablePromise<User> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/current_user',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
 }
