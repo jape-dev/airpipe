@@ -5,6 +5,7 @@ import { Home } from "./Screens/Home";
 import { SignUp } from "./Screens/SignUp";
 import { Login } from "./Screens/Login";
 import { OpenAPI } from "./vizoApi";
+import { ProtectedRoute } from "./Components/ProtectedRoute";
 
 export const RouterPath = {
   HOME: "/",
@@ -19,7 +20,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path={RouterPath.HOME} element={<Home />} />
+        <Route
+          path={RouterPath.HOME}
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route path={RouterPath.LOGIN} element={<Login />} />
         <Route path={RouterPath.SIGNUP} element={<SignUp />} />
       </Routes>
