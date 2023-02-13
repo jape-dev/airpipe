@@ -59,3 +59,12 @@ button.required {
   border-radius: 0px;
   font-weight: bolder;
 }
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  border-width: 0.5px !important;
+  border-radius: 5px;
+  margin-top: 0;
+  border-color: #d4d3d3;
+}

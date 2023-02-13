@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { metricOptions, dimensionOptions } from "../Data/Options";
 import { ChevronDownIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
+import "../index.css";
 
 export const SideBar = (props: {
   setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
@@ -14,7 +15,13 @@ export const SideBar = (props: {
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
   const [metrics, setMetrics] = useState<string[]>();
   const [dimensions, setDimensions] = useState<string[]>();
-  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() - 1,
+      new Date().getDate()
+    )
+  );
   const [endDate, setEndDate] = useState<Date>(new Date()); // change this to the current date minus one month
 
   const [startTimestamp, setStartTimestamp] = useState<number>(
@@ -30,7 +37,7 @@ export const SideBar = (props: {
     const token = localStorage.getItem("token");
     console.log("token");
     console.log(token);
-    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://ea96-2a01-4b00-c004-d500-b3fa-d43f-faa3-47d9.ngrok.io/facebook_login/&config_id=728465868571401&state=${token}`;
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://4695-2a01-4b00-c004-d500-85eb-9006-9a3d-8f91.ngrok.io/facebook_login/&config_id=728465868571401&state=${token}`;
   };
 
   const handleAdAccountSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -150,6 +157,15 @@ export const SideBar = (props: {
     }
   }, []);
 
+  const customThemeFn = (theme: any) => ({
+    ...theme,
+    spacing: {
+      ...theme.spacing,
+      controlHeight: 30,
+      baseUnit: 1,
+    },
+  });
+
   return (
     <div className="w-full h-full relative pt-8 border-2 bg-white border-white border-r-neutral-200">
       <p className="text-lg pl-8 pr-8 font-semibold">Data Sources</p>
@@ -202,6 +218,14 @@ export const SideBar = (props: {
                 options={metricOptions}
                 onChange={(event) => handleSelectedMetrics(event)}
                 isMulti
+                theme={customThemeFn}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    borderColor: "#d4d3d3",
+                    borderWidth: "2px",
+                  }),
+                }}
               />
             </div>
             <div className="mt-5">
@@ -210,6 +234,14 @@ export const SideBar = (props: {
                 options={dimensionOptions}
                 onChange={(event) => handleSelectedDimensions(event)}
                 isMulti
+                theme={customThemeFn}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    borderColor: "#d4d3d3",
+                    borderWidth: "2px",
+                  }),
+                }}
               />
             </div>
             <div className="mt-5">
@@ -219,14 +251,22 @@ export const SideBar = (props: {
                 onChange={(date) => handleStartDateClick(date)}
               />
             </div>
-            <div className="mt-2">
+            <div className="mt-5">
               <p>End Date</p>
               <DatePicker
                 selected={endDate}
                 onChange={(date) => handleEndDateClick(date)}
               />
             </div>
-            <button onClick={handleQuerySubmit}>Run</button>
+            <div className="mt-5">
+              <button
+                type="button"
+                className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={handleQuerySubmit}
+              >
+                Run
+              </button>
+            </div>
           </>
         ) : null}
       </div>

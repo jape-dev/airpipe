@@ -2,6 +2,7 @@ import { Search } from "./Search";
 import { Toggle } from "./Toggle";
 import { useState, useEffect } from "react";
 import { CSVLink } from "react-csv";
+import { StickyHeadTable } from "./Table";
 
 export const Results = (props: {
   results: Object[];
@@ -61,44 +62,23 @@ export const Results = (props: {
         />
       </div>
       <div className="col-span-8">
-        <p>{queryList[index]}</p>
+        <pre className="text-sm font-mono bg-gray-200 text-black p-4 rounded-lg overflow-auto">
+          <code>{queryList[index]}</code>
+        </pre>
       </div>
       <div className="col-span-8">
-        <div className="relative overflow-x-auto">
-          <table className="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {columns?.map((result) => {
-                  return (
-                    <th scope="col" className="px-6 py-3">
-                      {result}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            {!resultsList[index] ? null : (
-              <tbody>
-                {resultsList[index].map((item) => {
-                  return (
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      {Object.values(item).map((value) => {
-                        return (
-                          <td scope="row" className="px-6 py-4">
-                            {value}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            )}
-          </table>
-        </div>
+        {columns === undefined ? null : (
+          <StickyHeadTable results={resultsList[index]} columns={columns} />
+        )}
       </div>
+
       {csvData === undefined ? null : (
-        <CSVLink data={csvData}>Download</CSVLink>
+        <button
+          type="button"
+          className="text-white bg-teal-500 hover:bg-teal-700  font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center dark:bg-blue-600"
+        >
+          <CSVLink data={csvData}>Download CSV</CSVLink>
+        </button>
       )}
     </div>
   );
