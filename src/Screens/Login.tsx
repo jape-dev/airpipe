@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
   DefaultService,
@@ -86,12 +86,13 @@ export const Login = () => {
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-                <a
-                  href="#"
+                <Link
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  to={RouterPath.SIGNUP}
                 >
-                  Sign up
-                </a>
+                  {" "}
+                  Sign Up
+                </Link>
               </p>
             </form>
           </div>
