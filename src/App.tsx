@@ -15,7 +15,7 @@ export const RouterPath = {
 };
 
 function App() {
-  OpenAPI.BASE = "http://localhost:8000";
+  OpenAPI.BASE = "https://airpipe-api.onrender.com";
 
   return (
     <Router>

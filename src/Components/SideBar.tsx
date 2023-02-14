@@ -35,7 +35,7 @@ export const SideBar = (props: {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://4695-2a01-4b00-c004-d500-85eb-9006-9a3d-8f91.ngrok.io/facebook_login/&config_id=728465868571401&state=${token}`;
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://airpipe-api.onrender.com/facebook_login/&config_id=728465868571401&state=${token}`;
   };
 
   const handleAdAccountSubmit = (event: React.FormEvent<HTMLFormElement>) => {
