@@ -54,16 +54,21 @@ export const Search = (props: {
               res.query,
             ]);
 
-            DefaultService.runQueryRunQueryGet(res.query).then(
-              (res: QueryResults) => {
+            DefaultService.runQueryRunQueryGet(res.query)
+              .then((res: QueryResults) => {
                 props.setResults(res.results);
                 props.setResultsList((prev) => [
                   ...prev.slice(0, props.index + 1),
                   res.results,
                 ]);
                 props.setIndex((prev) => prev + 1);
-              }
-            );
+              })
+              .catch((error) => {
+                console.error(error);
+                alert(
+                  "This query is invalid. Please tweak your prompt and try again."
+                );
+              });
           }
         );
       });

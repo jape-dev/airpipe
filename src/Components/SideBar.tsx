@@ -8,6 +8,9 @@ import { metricOptions, dimensionOptions } from "../Data/Options";
 import { ChevronDownIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import "../index.css";
 
+const DOMAIN_URL =
+  process.env.REACT_APP_DOMAIN_URL || "https://airpipe-api.onrender.com";
+
 export const SideBar = (props: {
   setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
 }) => {
@@ -35,7 +38,7 @@ export const SideBar = (props: {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=https://airpipe-api.onrender.com/facebook_login/&config_id=728465868571401&state=${token}`;
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=${DOMAIN_URL}/facebook_login/&config_id=728465868571401&state=${token}`;
   };
 
   const handleAdAccountSubmit = (event: React.FormEvent<HTMLFormElement>) => {

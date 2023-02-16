@@ -15,7 +15,8 @@ export const RouterPath = {
 };
 
 function App() {
-  OpenAPI.BASE = "https://airpipe-api.onrender.com";
+  OpenAPI.BASE =
+    process.env.REACT_APP_DOMAIN_URL || "https://airpipe-api.onrender.com";
 
   return (
     <Router>

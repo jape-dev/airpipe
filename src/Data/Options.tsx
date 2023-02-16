@@ -37,15 +37,7 @@ export const metricOptions = [
   { value: "outbound_clicks", label: "Outbound Clicks" },
   { value: "outbound_clicks_ctr", label: "Outbound Clicks CTR" },
   { value: "reach", label: "Reach" },
-  { value: "relevance_score", label: "Relevance Score" },
-  { value: "social_clicks", label: "Social Clicks" },
-  { value: "social_impressions", label: "Social Impressions" },
-  { value: "social_reach", label: "Social Reach" },
-  { value: "social_spend", label: "Social Spend" },
   { value: "spend", label: "Spend" },
-  { value: "total_action_value", label: "Total Action Value" },
-  { value: "total_actions", label: "Total Actions" },
-  { value: "total_unique_actions", label: "Total Unique Actions" },
   { value: "unique_actions", label: "Unique Actions" },
   { value: "unique_clicks", label: "Unique Clicks" },
   { value: "unique_ctr", label: "Unique CTR" },
@@ -68,7 +60,6 @@ export const metricOptions = [
     label: "Unique Video Continuous 2 Sec Watched Actions",
   },
   { value: "unique_video_view_15_sec", label: "Unique Video View 15 Sec" },
-  { value: "unique_video_view_30_sec", label: "Unique Video View 30 Sec" },
   {
     value: "video_15_sec_watched_actions",
     label: "Video 15 Sec Watched Actions",
@@ -76,14 +67,6 @@ export const metricOptions = [
   {
     value: "video_30_sec_watched_actions",
     label: "Video 30 Sec Watched Actions",
-  },
-  {
-    value: "video_avg_pct_watched_actions",
-    label: "Video Avg Pct Watched Actions",
-  },
-  {
-    value: "video_avg_sec_watched_actions",
-    label: "Video Avg Sec Watched Actions",
   },
   {
     value: "video_continuous_2_sec_watched_actions",
