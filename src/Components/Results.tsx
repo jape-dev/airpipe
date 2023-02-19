@@ -75,7 +75,7 @@ export const Results = (props: {
       {csvData === undefined ? null : (
         <button
           type="button"
-          className="text-white bg-teal-500 hover:bg-teal-700  font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center dark:bg-blue-600"
+          className="text-white bg-teal-500 hover:bg-teal-700  font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center"
         >
           <CSVLink data={csvData}>Download CSV</CSVLink>
         </button>
