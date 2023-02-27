@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { metricOptions, dimensionOptions } from "../Data/Options";
 import { ChevronDownIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import "../index.css";
+import { GoogleConnector } from "./GoogleConnector";
 
 const DOMAIN_URL =
   process.env.REACT_APP_DOMAIN_URL || "https://airpipe-api.onrender.com";
@@ -38,7 +39,7 @@ export const SideBar = (props: {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=${DOMAIN_URL}/facebook_login/&config_id=728465868571401&state=${token}`;
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=${DOMAIN_URL}/connector/facebook/login/&config_id=728465868571401&state=${token}`;
   };
 
   const handleAdAccountSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,7 +48,7 @@ export const SideBar = (props: {
     if (token === null) {
       return;
     } else {
-      DefaultService.adAccountsAdAccountsGet(token)
+      DefaultService.adAccountsConnectorFacebookAdAccountsGet(token)
         .then((response) => {
           setAdAccounts(response);
         })
@@ -128,7 +129,7 @@ export const SideBar = (props: {
         alert("Please login to continue");
         return;
       } else {
-        DefaultService.runFacebookQueryRunFacebookQueryPost(token, query)
+        DefaultService.runQueryConnectorFacebookRunQueryPost(token, query)
           .then((response) => {
             props.setResults(response.results);
           })
@@ -148,7 +149,7 @@ export const SideBar = (props: {
     if (token === null) {
       window.location.href = RouterPath.LOGIN;
     } else {
-      DefaultService.currentUserCurrentUserGet(token)
+      DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((response) => {
           setCurrentUser(response);
         })
@@ -170,6 +171,7 @@ export const SideBar = (props: {
   return (
     <div className="w-full h-full relative pt-8 border-2 bg-white border-white border-r-neutral-200">
       <p className="text-lg pl-8 pr-8 font-semibold">Data Sources</p>
+      {/* <GoogleConnector /> */}
       <div className="pl-8 pr-8 mt-2 hover:bg-gray-50">
         <div className="flex items-center">
           <img
