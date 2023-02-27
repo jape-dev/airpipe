@@ -14,7 +14,6 @@ export const GoogleConnector = () => {
         data-callback="handleGoogleLogin"
         data-itp_support="true"
       ></div>
-
       <div
         className="g_id_signin"
         data-type="standard"
