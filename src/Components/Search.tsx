@@ -40,8 +40,8 @@ export const Search = (props: {
       // Need to add a conditional step to make this work with the query editor.
       // Query off whatever the latest table currently is
       // It's just about where the result is inserted in the array
-      DefaultService.createNewTableCreateNewTablePost(results).then(() => {
-        DefaultService.sqlQuerySqlQueryPost(input, tableColumns).then(
+      DefaultService.createNewTableQueryCreateNewTablePost(results).then(() => {
+        DefaultService.sqlQueryQuerySqlQueryPost(input, tableColumns).then(
           (res: SqlQuery) => {
             props.setQuery(res.query);
             props.setTableNameList((prev) => [
@@ -54,7 +54,7 @@ export const Search = (props: {
               res.query,
             ]);
 
-            DefaultService.runQueryRunQueryGet(res.query)
+            DefaultService.runQueryQueryRunQueryGet(res.query)
               .then((res: QueryResults) => {
                 props.setResults(res.results);
                 props.setResultsList((prev) => [

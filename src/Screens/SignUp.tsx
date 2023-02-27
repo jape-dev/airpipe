@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import {
   User,
   DefaultService,
-  Body_login_for_access_token_token_post,
+  Body_login_for_access_token_user_auth_token_post,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 
@@ -26,13 +26,13 @@ export const SignUp = () => {
       email: email,
       hashed_password: password,
     };
-    DefaultService.createCustomerCreateCustomerPost(newUser)
+    DefaultService.createCustomerUserCreateCustomerPost(newUser)
       .then((response) => {
-        const body: Body_login_for_access_token_token_post = {
+        const body: Body_login_for_access_token_user_auth_token_post = {
           username: email,
           password: password,
         };
-        DefaultService.loginForAccessTokenTokenPost(body)
+        DefaultService.loginForAccessTokenUserAuthTokenPost(body)
           .then((response) => {
             localStorage.setItem("token", response.access_token);
           })
