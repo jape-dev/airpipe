@@ -171,7 +171,7 @@ export const SideBar = (props: {
   return (
     <div className="w-full h-full relative pt-8 border-2 bg-white border-white border-r-neutral-200">
       <p className="text-lg pl-8 pr-8 font-semibold">Data Sources</p>
-      {/* <GoogleConnector /> */}
+      <GoogleConnector />
       <div className="pl-8 pr-8 mt-2 hover:bg-gray-50">
         <div className="flex items-center">
           <img
