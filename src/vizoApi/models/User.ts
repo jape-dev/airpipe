@@ -5,5 +5,6 @@
 export type User = {
     email: string;
     hashed_password: string;
-    access_token?: string;
+    facebook_access_token?: string;
+    google_access_token?: string;
 };

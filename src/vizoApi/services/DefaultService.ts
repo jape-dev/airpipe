@@ -44,14 +44,23 @@ export class DefaultService {
     }
 
     /**
-     * Metrics
+     * Ad Accounts
+     * @param token 
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static metricsConnectorGoogleMetricsGet(): CancelablePromise<any> {
+    public static adAccountsConnectorGoogleAdAccountsGet(
+token: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/connector/google/metrics',
+            url: '/connector/google/ad_accounts',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
         });
     }
 

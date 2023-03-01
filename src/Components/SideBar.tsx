@@ -1,6 +1,6 @@
 import { DefaultService, AdAccount, FacebookQuery, User } from "../vizoApi";
 import { useEffect, useState } from "react";
-import Select, { MultiValue, SingleValue } from "react-select";
+import Select, { MultiValue } from "react-select";
 import { RouterPath } from "../App";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -171,7 +171,7 @@ export const SideBar = (props: {
   return (
     <div className="w-full h-full relative pt-8 border-2 bg-white border-white border-r-neutral-200">
       <p className="text-lg pl-8 pr-8 font-semibold">Data Sources</p>
-      <GoogleConnector />
+      <GoogleConnector currentUser={currentUser} />
       <div className="pl-8 pr-8 mt-2 hover:bg-gray-50">
         <div className="flex items-center">
           <img
@@ -179,7 +179,7 @@ export const SideBar = (props: {
             className="h-5 w-5 mr-2"
           />
           <p className="mr-2">Facebook Ads | </p>
-          {currentUser?.access_token ? (
+          {currentUser?.facebook_access_token ? (
             <form
               onSubmit={handleAdAccountSubmit}
               className="flex items-center"

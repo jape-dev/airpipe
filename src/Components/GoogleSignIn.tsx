@@ -14,7 +14,8 @@ const GoogleSignIn = () => {
           "666024859022-rq09jru86c64amvrlqhkom354jtmg2k8.apps.googleusercontent.com",
         callback: (res: any) => {
           localStorage.setItem("googleToken", res.credential);
-          window.location.href = `${DOMAIN_URL}/connector/google/auth?token=${res.credential}`;
+          const token = localStorage.getItem("token");
+          window.location.href = `${DOMAIN_URL}/connector/google/auth?token=${token}&googleToken=${res.credential}`;
         },
       });
       google.accounts.id.renderButton(g_sso.current, {
