@@ -34,7 +34,6 @@ export const SignUp = () => {
         };
         DefaultService.loginForAccessTokenUserAuthTokenPost(body)
           .then((response) => {
-            console.log("access token to be set", response.access_token);
             localStorage.setItem("token", response.access_token);
           })
           .then(() => {
