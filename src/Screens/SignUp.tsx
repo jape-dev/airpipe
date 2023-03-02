@@ -34,16 +34,21 @@ export const SignUp = () => {
         };
         DefaultService.loginForAccessTokenUserAuthTokenPost(body)
           .then((response) => {
+            console.log("access token to be set", response.access_token);
             localStorage.setItem("token", response.access_token);
           })
+          .then(() => {
+            navigate(RouterPath.HOME);
+          })
           .catch((error) => {
-            console.log(error);
+            console.log("Error");
           });
-        navigate(RouterPath.HOME);
       })
       .catch((error) => {
         if (error.status === 400) {
           alert("Email already exists");
+        } else {
+          console.log("Error");
         }
       });
   };
