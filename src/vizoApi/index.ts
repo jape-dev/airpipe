@@ -12,6 +12,8 @@ export type { Completion } from './models/Completion';
 export type { CurrentResults } from './models/CurrentResults';
 export type { FacebookQuery } from './models/FacebookQuery';
 export type { FacebookQueryResults } from './models/FacebookQueryResults';
+export type { GoogleQuery } from './models/GoogleQuery';
+export type { GoogleQueryResults } from './models/GoogleQueryResults';
 export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { QueryResults } from './models/QueryResults';
 export type { SqlQuery } from './models/SqlQuery';

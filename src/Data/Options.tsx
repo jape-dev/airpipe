@@ -128,3 +128,180 @@ export const dimensionOptions = [
   { value: "ad_name", label: "Ad Name" },
   { value: "date", label: "Date" },
 ];
+
+export const googleMetricOptions = [
+  {
+    value: "metrics.absolute_top_impression_percentage",
+    label: "Absolute Top Impressions Percentage",
+  },
+  { value: "metrics.active_view_cpm", label: "Active View CPM" },
+  { value: "metrics.active_view_ctr", label: "Active View CTR" },
+  {
+    value: "metrics.active_view_impressions",
+    label: "Active View Impressions",
+  },
+  {
+    value: "metrics.active_view_measurability",
+    label: "Active View Measurability",
+  },
+  {
+    value: "metrics.active_view_measurable_cost_micros",
+    label: "Active View Measurable Cost Micros",
+  },
+  {
+    value: "metrics.active_view_measurable_impressions",
+    label: "Active View Measurable Impressions",
+  },
+  {
+    value: "metrics.active_view_viewability",
+    label: "Active View Viewability",
+  },
+  { value: "metrics.all_conversions", label: "All Conversions" },
+  {
+    value: "metrics.all_conversions_by_conversion_date",
+    label: "All Conversions By Conversion Date",
+  },
+  {
+    value: "metrics.all_conversions_from_interactions_rate",
+    label: "All Conversions From Interactions Rate",
+  },
+  {
+    value: "metrics.all_conversions_from_interactions_value_per_interaction",
+    label: "All Conversions From Interactions Value Per Interaction",
+  },
+  {
+    value: "metrics.metrics.all_conversions_value",
+    label: "All Conversions Value",
+  },
+  {
+    value: "metrics.all_conversions_value_by_conversion_date",
+    label: "All Conversions Value By Conversion Date",
+  },
+  {
+    value: "metrics.all_conversions_value_per_cost",
+    label: "All Conversions Value Per Cost",
+  },
+  { value: "metrics.average_cost", label: "Average Cost" },
+  { value: "metrics.average_cpc", label: "Average CPC" },
+  { value: "metrics.average_cpe", label: "Average CPE" },
+  { value: "metrics.average_cpm", label: "Average CPM" },
+  { value: "metrics.average_cpv", label: "Average CPV" },
+  { value: "metrics.average_page_views", label: "Average Page Views" },
+  { value: "metrics.average_time_on_site", label: "Average Time On Site" },
+  { value: "metrics.bounce_rate", label: "Bounce Rate" },
+  { value: "metrics.clicks", label: "Clicks" },
+  { value: "metrics.conversions", label: "Conversions" },
+  {
+    value: "metrics.conversions_by_conversion_date",
+    label: "Conversions By Conversion Date",
+  },
+  {
+    value: "metrics.conversions_from_interactions_rate",
+    label: "Conversions From Interactions Rate",
+  },
+  {
+    value: "metrics.conversions_from_interactions_value_per_interaction",
+    label: "Conversions From Interactions Value Per Interaction",
+  },
+  { value: "metrics.conversions_value", label: "Conversions Value" },
+  {
+    value: "metrics.conversions_value_by_conversion_date",
+    label: "Conversions Value By Conversion Date",
+  },
+  {
+    value: "metrics.conversions_value_per_cost",
+    label: "Conversions Value Per Cost",
+  },
+  { value: "metrics.cost_micros", label: "Cost Micros" },
+  {
+    value: "metrics.cost_per_all_conversions",
+    label: "Cost Per All Conversions",
+  },
+  { value: "metrics.cost_per_conversion", label: "Cost Per Conversion" },
+  {
+    value: "metrics.cost_per_current_model_attributed_conversion",
+    label: "Cost Per Current Model Attributed Conversion",
+  },
+  {
+    value: "metrics.cross_device_conversions",
+    label: "Cross Device Conversions",
+  },
+  { value: "metrics.ctr", label: "CTR" },
+  {
+    value: "metrics.current_model_attributed_conversions",
+    label: "Current Model Attributed Conversions",
+  },
+  {
+    value:
+      "metrics.current_model_attributed_conversions_from_interactions_rate",
+    label: "Current Model Attributed Conversions From Interactions Rate",
+  },
+  {
+    value:
+      "metrics.current_model_attributed_conversions_from_interactions_value_per_interaction",
+    label:
+      "Current Model Attributed Conversions From Interactions Value Per Interaction",
+  },
+  {
+    value: "metrics.current_model_attributed_conversions_value",
+    label: "Current Model Attributed Conversions Value",
+  },
+  {
+    value: "metrics.current_model_attributed_conversions_value_per_cost",
+    label: "Current Model Attributed Conversions Value Per Cost",
+  },
+  { value: "metrics.engagement_rate", label: "Engagement Rate" },
+  { value: "metrics.engagements", label: "Engagements" },
+  { value: "metrics.gmail_forwards", label: "Gmail Forwards" },
+  { value: "metrics.gmail_saves", label: "Gmail Saves" },
+  { value: "metrics.gmail_secondary_clicks", label: "Gmail Secondary Clicks" },
+  { value: "metrics.impressions", label: "Impressions" },
+  {
+    value: "metrics.interaction_event_types",
+    label: "Interaction Event Types",
+  },
+  { value: "metrics.interaction_rate", label: "Interaction Rate" },
+  { value: "metrics.interactions", label: "Interactions" },
+  { value: "metrics.percent_new_visitors", label: "Percent New Visitors" },
+  { value: "metrics.phone_calls", label: "Phone Calls" },
+  { value: "metrics.phone_impressions", label: "Phone Impressions" },
+  { value: "metrics.phone_through_rate", label: "Phone Through Rate" },
+  {
+    value: "metrics.top_impression_percentage",
+    label: "Top Impressions Percentage",
+  },
+  {
+    value: "metrics.value_per_all_conversions",
+    label: "Value Per All Conversions",
+  },
+  {
+    value: "metrics.value_per_all_conversions_by_conversion_date",
+    label: "Value Per Conversion By Date",
+  },
+  { value: "metrics.value_per_conversion", label: "Value Per Conversion" },
+  {
+    value: "metrics.value_per_current_model_attributed_conversion",
+    label: "Value Per Current Model Attributed Conversion",
+  },
+  {
+    value: "metrics.video_quartile_100_rate",
+    label: "Video Quartile 100 Rate",
+  },
+  { value: "metrics.video_quartile_25_rate", label: "Video Quartile 25 Rate" },
+  { value: "metrics.video_quartile_50_rate", label: "Video Quartile 50 Rate" },
+  { value: "metrics.video_quartile_75_rate", label: "Video Quartile 75 Rate" },
+  { value: "metrics.video_view_rate", label: "Video View Rate" },
+  { value: "metrics.video_views", label: "Video Views" },
+  {
+    value: "metrics.view_through_conversions",
+    label: "View Through Conversions",
+  },
+];
+
+export const googleDimensionOptions = [
+  { value: "segments.date", label: "Date" },
+  { value: "ad_group.name,", label: "Ad Group Name" },
+  { value: "ad_group.id,", label: "Ad Group Id" },
+  { value: "campaign.id,", label: "Campaign Id" },
+  { value: "campaign.name,", label: "Campaign Name" },
+];

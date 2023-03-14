@@ -7,6 +7,8 @@ import type { Completion } from '../models/Completion';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { FacebookQuery } from '../models/FacebookQuery';
 import type { FacebookQueryResults } from '../models/FacebookQueryResults';
+import type { GoogleQuery } from '../models/GoogleQuery';
+import type { GoogleQueryResults } from '../models/GoogleQueryResults';
 import type { QueryResults } from '../models/QueryResults';
 import type { SqlQuery } from '../models/SqlQuery';
 import type { TableColumns } from '../models/TableColumns';
@@ -46,18 +48,43 @@ export class DefaultService {
     /**
      * Ad Accounts
      * @param token 
-     * @returns any Successful Response
+     * @returns AdAccount Successful Response
      * @throws ApiError
      */
     public static adAccountsConnectorGoogleAdAccountsGet(
 token: string,
-): CancelablePromise<any> {
+): CancelablePromise<Array<AdAccount>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/connector/google/ad_accounts',
             query: {
                 'token': token,
             },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Run Query
+     * @param token 
+     * @param requestBody 
+     * @returns GoogleQueryResults Successful Response
+     * @throws ApiError
+     */
+    public static runQueryConnectorGoogleRunQueryPost(
+token: string,
+requestBody: GoogleQuery,
+): CancelablePromise<GoogleQueryResults> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/connector/google/run_query',
+            query: {
+                'token': token,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },
