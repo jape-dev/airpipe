@@ -7,7 +7,7 @@ import { GoogleConnector } from "./GoogleConnector";
 import { FacebookConnector } from "./FacebookConnector";
 
 export const SideBar = (props: {
-  setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
+  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
 }) => {
   const [currentUser, setCurrentUser] = useState<User>();
 

@@ -11,7 +11,7 @@ const DOMAIN_URL =
 
 export const FacebookConnector = (props: {
   currentUser: User | undefined;
-  setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
+  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
 }) => {
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
@@ -75,7 +75,9 @@ export const FacebookConnector = (props: {
       } else {
         DefaultService.runQueryConnectorFacebookRunQueryPost(token, query)
           .then((response) => {
-            props.setResults(response.results);
+            console.log(response.results);
+            let newResults = response.results;
+            props.setResults((results) => [...results, newResults]);
           })
           .catch((error) => {
             if (error.status === 401) {

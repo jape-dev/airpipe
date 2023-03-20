@@ -1,14 +1,20 @@
 import { CustomModal } from "./CustomModal";
 import { useState } from "react";
 import GoogleSignIn from "./GoogleSignIn";
-import { DefaultService, User, AdAccount, GoogleQuery } from "../vizoApi";
+import {
+  DefaultService,
+  User,
+  AdAccount,
+  GoogleQuery,
+  CurrentResults,
+} from "../vizoApi";
 import "react-datepicker/dist/react-datepicker.css";
 import { googleMetricOptions, googleDimensionOptions } from "../Data/Options";
 import { ConnectorForm } from "./ConnectorForm";
 
 export const GoogleConnector = (props: {
   currentUser: User | undefined;
-  setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
+  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
 }) => {
   const [modal, setModal] = useState(false);
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
@@ -70,9 +76,11 @@ export const GoogleConnector = (props: {
         alert("Please login to continue");
         return;
       } else {
+        // Change this to append to results instead of setting directly
         DefaultService.runQueryConnectorGoogleRunQueryPost(token, query)
           .then((response) => {
-            props.setResults(response.results);
+            let newResults = response.results;
+            props.setResults((results) => [{ ...results, newResults }]);
           })
           .catch((error) => {
             if (error.status === 401) {

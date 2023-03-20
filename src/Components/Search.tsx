@@ -6,73 +6,48 @@ import {
   SqlQuery,
   TableColumns,
   CurrentResults,
+  Schema,
 } from "../vizoApi";
 
 export const Search = (props: {
-  setResults: React.Dispatch<React.SetStateAction<any[] | undefined>>;
+  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[]>>;
   setTableNameList: React.Dispatch<React.SetStateAction<string[]>>;
   setResultsList: React.Dispatch<React.SetStateAction<object[][]>>;
   index: number;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
-  currentResults?: object[];
-  currentColumns?: string[];
+  schema: Schema;
 }) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = () => {
     // Need to replace this first endpoint call with the response from the query editor.
-    if (
-      props.currentResults !== undefined &&
-      props.currentColumns !== undefined
-    ) {
-      const timestamp = Date.now();
-      let results: CurrentResults = {
-        name: `facebook_${timestamp}`,
-        columns: props.currentColumns,
-        results: props.currentResults,
-      };
-      let tableColumns: TableColumns = {
-        name: `facebook_${timestamp}`,
-        columns: props.currentColumns,
-      };
-      // Need to add a conditional step to make this work with the query editor.
-      // Query off whatever the latest table currently is
-      // It's just about where the result is inserted in the array
-      DefaultService.createNewTableQueryCreateNewTablePost(results).then(() => {
-        DefaultService.sqlQueryQuerySqlQueryPost(input, tableColumns).then(
-          (res: SqlQuery) => {
-            props.setQuery(res.query);
-            props.setTableNameList((prev) => [
-              ...prev.slice(0, props.index + 1),
-              tableColumns.name,
-            ]);
+    DefaultService.sqlQueryQuerySqlQueryPost(input, {
+      tabs: props.schema.tabs,
+    }).then((res: SqlQuery) => {
+      props.setQuery(res.query);
 
-            props.setQueryList((prev) => [
-              ...prev.slice(0, props.index + 1),
-              res.query,
-            ]);
-
-            DefaultService.runQueryQueryRunQueryGet(res.query)
-              .then((res: QueryResults) => {
-                props.setResults(res.results);
-                props.setResultsList((prev) => [
-                  ...prev.slice(0, props.index + 1),
-                  res.results,
-                ]);
-                props.setIndex((prev) => prev + 1);
-              })
-              .catch((error) => {
-                console.error(error);
-                alert(
-                  "This query is invalid. Please tweak your prompt and try again."
-                );
-              });
-          }
-        );
-      });
-    }
+      props.setQueryList((prev) => [
+        ...prev.slice(0, props.index + 1),
+        res.query,
+      ]);
+      DefaultService.runQueryQueryRunQueryGet(res.query)
+        .then((res: QueryResults) => {
+          props.setResults((results) => [...results, res.results]);
+          props.setResultsList((prev) => [
+            ...prev.slice(0, props.index + 1),
+            res.results,
+          ]);
+          props.setIndex((prev) => prev + 1);
+        })
+        .catch((error) => {
+          console.error(error);
+          alert(
+            "This query is invalid. Please tweak your prompt and try again."
+          );
+        });
+    });
   };
 
   return (

@@ -10,6 +10,7 @@ import type { FacebookQueryResults } from '../models/FacebookQueryResults';
 import type { GoogleQuery } from '../models/GoogleQuery';
 import type { GoogleQueryResults } from '../models/GoogleQueryResults';
 import type { QueryResults } from '../models/QueryResults';
+import type { Schema } from '../models/Schema';
 import type { SqlQuery } from '../models/SqlQuery';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
@@ -244,7 +245,7 @@ completion?: string,
      */
     public static sqlQueryQuerySqlQueryPost(
 prompt: string,
-requestBody: TableColumns,
+requestBody: Schema,
 ): CancelablePromise<SqlQuery> {
         return __request(OpenAPI, {
             method: 'POST',
