@@ -13,7 +13,7 @@ export const Home = () => {
     tabIndex: tabIndex,
     data: [],
   });
-
+  const [tableNameList, setTableNameList] = useState<string[][]>([]);
   const [schema, setSchema] = useState<Schema>({ tabs: [tabData] });
 
   const handleNewTabClick = () => {
@@ -25,6 +25,9 @@ export const Home = () => {
   };
 
   useEffect(() => {
+    // issue is that I'm using the current tabIndex to match, need to setTabIndex
+    // to +1 in tabIndex connector
+
     const index = schema.tabs.findIndex((item) => item.tabIndex === tabIndex);
 
     if (index === -1) {
@@ -46,7 +49,7 @@ export const Home = () => {
   }, [tabData]);
 
   useEffect(() => {
-    console.log(schema);
+    console.log("schema", schema);
   }, [schema]);
 
   return (
@@ -54,27 +57,41 @@ export const Home = () => {
       <NavBar />
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
         <div className="col-span-2">
-          <SideBar setResults={setResults} />
+          <SideBar
+            setResults={setResults}
+            tableNameList={tableNameList}
+            setTableNameList={setTableNameList}
+            tabIndex={tabIndex}
+            setTabIndex={setTabIndex}
+            setTabData={setTabData}
+          />
         </div>
         <div className="col-span-5">
-          {schema.tabs && schema.tabs[0].data.length > 0 ? (
+          {results ? (
             <Tabs>
               <TabList>
-                {schema.tabs.map((tab, index) => (
+                {results.map((tab, index) => (
                   <Tab
                     onClick={() => {
                       setTabIndex(index);
                     }}
                   >
-                    {tab.data[tab.data.length - 1]
-                      ? tab.data[tab.data.length - 1].name
-                      : "Tab"}
+                    {schema.tabs[index] !== undefined &&
+                    schema.tabs[index].data.length > 0
+                      ? schema.tabs[index].data[
+                          schema.tabs[index].data.length - 1
+                        ]
+                        ? schema.tabs[index].data[
+                            schema.tabs[index].data.length - 1
+                          ].name
+                        : "Loading"
+                      : "Loading"}
                   </Tab>
                 ))}
               </TabList>
               <button onClick={handleNewTabClick}>Add new Tab</button>
               <button onClick={handleRemoveTabClick}>Remove tab</button>
-              {schema.tabs.map((tab, index) => (
+              {results.map((tab, index) => (
                 <TabPanel>
                   <Results
                     results={results[index]}
@@ -83,12 +100,15 @@ export const Home = () => {
                     tabIndex={tabIndex}
                     tabData={tabData}
                     setTabData={setTabData}
+                    allResults={results}
+                    tableNameList={tableNameList}
+                    setTableNameList={setTableNameList}
                   />
                 </TabPanel>
               ))}
             </Tabs>
           ) : (
-            <p>Instructions go here</p>
+            <p>Instructions go here </p>
           )}
         </div>
       </div>

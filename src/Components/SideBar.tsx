@@ -1,4 +1,4 @@
-import { DefaultService, User } from "../vizoApi";
+import { DefaultService, User, Schema, TabData } from "../vizoApi";
 import { useEffect, useState } from "react";
 import { RouterPath } from "../App";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,6 +8,11 @@ import { FacebookConnector } from "./FacebookConnector";
 
 export const SideBar = (props: {
   setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
+  tableNameList: string[][];
+  setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
+  tabIndex: number;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
 }) => {
   const [currentUser, setCurrentUser] = useState<User>();
 
@@ -36,6 +41,11 @@ export const SideBar = (props: {
       <FacebookConnector
         currentUser={currentUser}
         setResults={props.setResults}
+        tableNameList={props.tableNameList}
+        setTableNameList={props.setTableNameList}
+        tabIndex={props.tabIndex}
+        setTabIndex={props.setTabIndex}
+        setTabData={props.setTabData}
       />
     </div>
   );

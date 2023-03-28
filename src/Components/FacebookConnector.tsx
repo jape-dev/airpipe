@@ -1,8 +1,16 @@
-import { useState } from "react";
-import { DefaultService, User, AdAccount, FacebookQuery } from "../vizoApi";
+import { useState, useEffect } from "react";
+import {
+  DefaultService,
+  User,
+  AdAccount,
+  FacebookQuery,
+  CurrentResults,
+  TableColumns,
+  Schema,
+  TabData,
+} from "../vizoApi";
 import { RouterPath } from "../App";
 import "react-datepicker/dist/react-datepicker.css";
-import Select, { MultiValue } from "react-select";
 import { metricOptions, dimensionOptions } from "../Data/Options";
 import { ConnectorForm } from "./ConnectorForm";
 
@@ -12,6 +20,11 @@ const DOMAIN_URL =
 export const FacebookConnector = (props: {
   currentUser: User | undefined;
   setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
+  tableNameList: string[][];
+  setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
+  tabIndex: number;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
 }) => {
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
@@ -75,9 +88,56 @@ export const FacebookConnector = (props: {
       } else {
         DefaultService.runQueryConnectorFacebookRunQueryPost(token, query)
           .then((response) => {
-            console.log(response.results);
             let newResults = response.results;
-            props.setResults((results) => [...results, newResults]);
+            // use response results to get columns and the results and then
+            let columns: string[] = [];
+            Object.entries(newResults).forEach(
+              ([key, value]) => (columns = Object.keys(value))
+            );
+            const timestamp = Date.now();
+            let results: CurrentResults = {
+              name: `facebook_${timestamp}`,
+              columns: columns,
+              results: response.results,
+            };
+            let tableColumns: TableColumns = {
+              name: `facebook_${timestamp}`,
+              columns: columns,
+            };
+            DefaultService.createNewTableQueryCreateNewTablePost(results).then(
+              () => {
+                const newTableNameList = props.tableNameList;
+                // if it's not zero need to do tabIndex plus 1
+                let newTabIndex = props.tabIndex;
+                if (props.tabIndex === 0) {
+                  // if first time data being run
+                  if (newTableNameList[props.tabIndex] === undefined) {
+                    newTableNameList[props.tabIndex] = [];
+                    newTableNameList[props.tabIndex].push(tableColumns.name);
+                  } else {
+                    // not first time data being run
+                    newTableNameList[props.tabIndex + 1] = [];
+                    newTableNameList[props.tabIndex + 1].push(
+                      tableColumns.name
+                    );
+                    newTabIndex = props.tabIndex + 1;
+                  }
+                } else {
+                  if (newTableNameList[props.tabIndex + 1] === undefined) {
+                    newTableNameList[props.tabIndex + 1] = [];
+                  }
+                  newTableNameList[props.tabIndex + 1].push(tableColumns.name);
+                  newTabIndex = props.tabIndex + 1;
+                }
+                props.setTableNameList(newTableNameList);
+                props.setResults((results) => [...results, newResults]);
+                props.setTabIndex(newTabIndex);
+                props.setTabData({
+                  tabIndex: newTabIndex,
+                  data: [tableColumns],
+                } as TabData);
+              }
+            );
           })
           .catch((error) => {
             if (error.status === 401) {

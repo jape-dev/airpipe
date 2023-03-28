@@ -7,47 +7,88 @@ import {
   TableColumns,
   CurrentResults,
   Schema,
+  TabData,
 } from "../vizoApi";
 
 export const Search = (props: {
   setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[]>>;
-  setTableNameList: React.Dispatch<React.SetStateAction<string[]>>;
   setResultsList: React.Dispatch<React.SetStateAction<object[][]>>;
   index: number;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   schema: Schema;
+  currentResults?: object[];
+  currentColumns?: string[];
+  tableNameList: string[][];
+  setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
+  tabIndex: number;
+  tabData: TabData;
+  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
 }) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = () => {
-    // Need to replace this first endpoint call with the response from the query editor.
-    DefaultService.sqlQueryQuerySqlQueryPost(input, {
-      tabs: props.schema.tabs,
-    }).then((res: SqlQuery) => {
-      props.setQuery(res.query);
-
-      props.setQueryList((prev) => [
-        ...prev.slice(0, props.index + 1),
-        res.query,
-      ]);
-      DefaultService.runQueryQueryRunQueryGet(res.query)
-        .then((res: QueryResults) => {
-          props.setResults((results) => [...results, res.results]);
-          props.setResultsList((prev) => [
+    if (
+      props.currentResults !== undefined &&
+      props.currentColumns !== undefined
+    ) {
+      const timestamp = Date.now();
+      let results: CurrentResults = {
+        name: `facebook_${timestamp}`,
+        columns: props.currentColumns,
+        results: props.currentResults,
+      };
+      let tableColumns: TableColumns = {
+        name: `facebook_${timestamp}`,
+        columns: props.currentColumns,
+      };
+      DefaultService.createNewTableQueryCreateNewTablePost(results).then(() => {
+        // need to get the tabIndex to parse the correct array
+        // then update the array with the new table name
+        // then push the new array to the tableNamesList state
+        const newTableNameList = props.tableNameList;
+        if (newTableNameList[props.tabIndex] === undefined) {
+          newTableNameList[props.tabIndex] = [];
+        }
+        newTableNameList[props.tabIndex].push(tableColumns.name);
+        props.setTableNameList(newTableNameList);
+        // props.setTableNameList((prev) => [
+        //   ...prev.slice(0, props.index + 1),
+        //   tableColumns.name,
+        // ]);
+        DefaultService.sqlQueryQuerySqlQueryPost(input, {
+          tabs: props.schema.tabs,
+        }).then((res: SqlQuery) => {
+          props.setQuery(res.query);
+          props.setQueryList((prev) => [
             ...prev.slice(0, props.index + 1),
-            res.results,
+            res.query,
           ]);
-          props.setIndex((prev) => prev + 1);
-        })
-        .catch((error) => {
-          console.error(error);
-          alert(
-            "This query is invalid. Please tweak your prompt and try again."
-          );
+          DefaultService.runQueryQueryRunQueryGet(res.query)
+            .then((res: QueryResults) => {
+              // props.setResults((results) => [...results, res.results]);
+              props.setResultsList((prev) => [
+                ...prev.slice(0, props.index + 1),
+                res.results,
+              ]);
+              props.setIndex((prev) => prev + 1);
+              const newData = props.tabData.data;
+              newData.splice(props.index, 1, tableColumns);
+              props.setTabData({
+                tabIndex: props.tabIndex,
+                data: newData,
+              } as TabData);
+            })
+            .catch((error) => {
+              console.error(error);
+              alert(
+                "This query is invalid. Please tweak your prompt and try again."
+              );
+            });
         });
-    });
+      });
+    }
   };
 
   return (
