@@ -4,8 +4,7 @@ import { TabData, TableColumns } from "../vizoApi";
 
 export const Toggle = (props: {
   index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
-  listLength: number;
+  setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   columns: string[];
   setColumns: React.Dispatch<React.SetStateAction<string[]>>;
   resultsList: object[];
@@ -31,7 +30,11 @@ export const Toggle = (props: {
       tabIndex: props.tabIndex,
       data: newData,
     } as TabData);
-    props.setIndex(props.index + 1);
+    props.setIndexList((prev) => {
+      const newArr = [...prev];
+      newArr[props.tabIndex] = props.index + 1;
+      return newArr;
+    });
   };
 
   const handleLeftArrowClick = () => {
@@ -51,8 +54,15 @@ export const Toggle = (props: {
       tabIndex: props.tabIndex,
       data: newData,
     } as TabData);
-    props.setIndex(props.index - 1);
+    props.setIndexList((prev) => {
+      const newArr = [...prev];
+      newArr[props.tabIndex] = props.index - 1;
+      return newArr;
+    });
   };
+
+  console.log(props.index);
+  console.log(props.resultsList);
 
   return (
     <div className="flex justify-center items-center w-fit my-4 border-2 rounded-md relative bg-white border-neutral-200">
@@ -68,7 +78,7 @@ export const Toggle = (props: {
         </>
       ) : null}
 
-      {props.index < props.listLength - 1 ? (
+      {props.index < props.resultsList.length - 1 ? (
         <button
           className="h-8 w-8 bg-teal-500 hover:bg-teal-700 rounded-md flex justify-center items-center m-1 p-2"
           onClick={handleRightArrowClick}

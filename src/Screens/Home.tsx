@@ -14,7 +14,8 @@ export const Home = () => {
     data: [],
   });
   const [tableNameList, setTableNameList] = useState<string[][]>([]);
-  // set schema to localstorage -- may need to move resultslist up to here as well?
+  const [indexList, setIndexList] = useState<number[]>([]);
+  const [queryList, setQueryList] = useState<string[][]>([]);
   const [schema, setSchema] = useState<Schema>({ tabs: [tabData] });
 
   const handleNewTabClick = () => {
@@ -26,9 +27,6 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    // issue is that I'm using the current tabIndex to match, need to setTabIndex
-    // to +1 in tabIndex connector
-
     const index = schema.tabs.findIndex((item) => item.tabIndex === tabIndex);
 
     if (index === -1) {
@@ -61,6 +59,8 @@ export const Home = () => {
             tabIndex={tabIndex}
             setTabIndex={setTabIndex}
             setTabData={setTabData}
+            setIndexList={setIndexList}
+            setQueryList={setQueryList}
           />
         </div>
         <div className="col-span-5">
@@ -100,6 +100,10 @@ export const Home = () => {
                     allResults={results}
                     tableNameList={tableNameList}
                     setTableNameList={setTableNameList}
+                    index={indexList[tabIndex]}
+                    setIndexList={setIndexList}
+                    queryList={queryList[tabIndex]}
+                    setQueryList={setQueryList}
                   />
                 </TabPanel>
               ))}

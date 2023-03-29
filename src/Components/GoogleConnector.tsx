@@ -22,6 +22,8 @@ export const GoogleConnector = (props: {
   tabIndex: number;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
+  setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
 }) => {
   const [modal, setModal] = useState(false);
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
@@ -128,12 +130,14 @@ export const GoogleConnector = (props: {
                   newTabIndex = props.tabIndex + 1;
                 }
                 props.setTableNameList(newTableNameList);
+                props.setQueryList((queryList) => [...queryList, [""]]);
                 props.setResults((results) => [...results, newResults]);
                 props.setTabIndex(newTabIndex);
                 props.setTabData({
                   tabIndex: newTabIndex,
                   data: [tableColumns],
                 } as TabData);
+                props.setIndexList((indexList) => [...indexList, 0]);
               }
             );
           })

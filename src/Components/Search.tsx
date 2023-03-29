@@ -12,11 +12,11 @@ import {
 
 export const Search = (props: {
   setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-  setQueryList: React.Dispatch<React.SetStateAction<string[]>>;
+  queryList: string[];
+  setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
   setResultsList: React.Dispatch<React.SetStateAction<object[][]>>;
   index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   schema: Schema;
   currentResults?: object[];
   currentColumns?: string[];
@@ -53,18 +53,25 @@ export const Search = (props: {
         DefaultService.sqlQueryQuerySqlQueryPost(input, {
           tabs: props.schema.tabs,
         }).then((res: SqlQuery) => {
-          props.setQuery(res.query);
+          //Update the query
+          const newQueryList = props.queryList;
+          newQueryList.push(res.query);
           props.setQueryList((prev) => [
             ...prev.slice(0, props.index + 1),
-            res.query,
+            newQueryList,
           ]);
+
           DefaultService.runQueryQueryRunQueryGet(res.query)
             .then((res: QueryResults) => {
               props.setResultsList((prev) => [
                 ...prev.slice(0, props.index + 1),
                 res.results,
               ]);
-              props.setIndex((prev) => prev + 1);
+              props.setIndexList((prev) => {
+                const newArr = [...prev];
+                newArr[props.tabIndex] = props.index + 1;
+                return newArr;
+              });
               const newData = props.tabData.data;
               newData.splice(props.index, 1, tableColumns);
               props.setTabData({

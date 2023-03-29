@@ -13,6 +13,8 @@ export const SideBar = (props: {
   tabIndex: number;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
+  setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
 }) => {
   const [currentUser, setCurrentUser] = useState<User>();
 
@@ -42,6 +44,8 @@ export const SideBar = (props: {
         tabIndex={props.tabIndex}
         setTabIndex={props.setTabIndex}
         setTabData={props.setTabData}
+        setIndexList={props.setIndexList}
+        setQueryList={props.setQueryList}
       />
       <FacebookConnector
         currentUser={currentUser}
@@ -51,6 +55,8 @@ export const SideBar = (props: {
         tabIndex={props.tabIndex}
         setTabIndex={props.setTabIndex}
         setTabData={props.setTabData}
+        setIndexList={props.setIndexList}
+        setQueryList={props.setQueryList}
       />
     </div>
   );
