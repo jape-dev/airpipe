@@ -28,7 +28,7 @@ export const Results = (props: {
   const [csvData, setCsvData] = useState<any[]>();
   const [queryList, setQueryList] = useState<string[]>([""]);
   const [resultsList, setResultsList] = useState<Object[][]>([props.results]);
-  const [index, setIndex] = useState<number>(0);
+  const [index, setIndex] = useState<number>(0); // need to make this retain state - gets refreshed everytime tab is changed.
   const isMount = useIsMount();
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const Results = (props: {
         <Toggle
           index={index}
           setIndex={setIndex}
-          listLength={resultsList.length}
+          listLength={resultsList[index].length}
           columns={columns}
           setColumns={setColumns}
           resultsList={resultsList[index]}

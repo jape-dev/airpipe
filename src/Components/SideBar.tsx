@@ -37,6 +37,11 @@ export const SideBar = (props: {
       <GoogleConnector
         currentUser={currentUser}
         setResults={props.setResults}
+        tableNameList={props.tableNameList}
+        setTableNameList={props.setTableNameList}
+        tabIndex={props.tabIndex}
+        setTabIndex={props.setTabIndex}
+        setTabData={props.setTabData}
       />
       <FacebookConnector
         currentUser={currentUser}

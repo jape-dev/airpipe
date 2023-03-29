@@ -14,6 +14,7 @@ export const Home = () => {
     data: [],
   });
   const [tableNameList, setTableNameList] = useState<string[][]>([]);
+  // set schema to localstorage -- may need to move resultslist up to here as well?
   const [schema, setSchema] = useState<Schema>({ tabs: [tabData] });
 
   const handleNewTabClick = () => {
@@ -47,10 +48,6 @@ export const Home = () => {
       } as Schema);
     }
   }, [tabData]);
-
-  useEffect(() => {
-    console.log("schema", schema);
-  }, [schema]);
 
   return (
     <>

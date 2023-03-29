@@ -35,28 +35,21 @@ export const Search = (props: {
     ) {
       const timestamp = Date.now();
       let results: CurrentResults = {
-        name: `facebook_${timestamp}`,
+        name: `airpipe_${timestamp}`,
         columns: props.currentColumns,
         results: props.currentResults,
       };
       let tableColumns: TableColumns = {
-        name: `facebook_${timestamp}`,
+        name: `airpipe_${timestamp}`,
         columns: props.currentColumns,
       };
       DefaultService.createNewTableQueryCreateNewTablePost(results).then(() => {
-        // need to get the tabIndex to parse the correct array
-        // then update the array with the new table name
-        // then push the new array to the tableNamesList state
         const newTableNameList = props.tableNameList;
         if (newTableNameList[props.tabIndex] === undefined) {
           newTableNameList[props.tabIndex] = [];
         }
         newTableNameList[props.tabIndex].push(tableColumns.name);
         props.setTableNameList(newTableNameList);
-        // props.setTableNameList((prev) => [
-        //   ...prev.slice(0, props.index + 1),
-        //   tableColumns.name,
-        // ]);
         DefaultService.sqlQueryQuerySqlQueryPost(input, {
           tabs: props.schema.tabs,
         }).then((res: SqlQuery) => {
@@ -67,7 +60,6 @@ export const Search = (props: {
           ]);
           DefaultService.runQueryQueryRunQueryGet(res.query)
             .then((res: QueryResults) => {
-              // props.setResults((results) => [...results, res.results]);
               props.setResultsList((prev) => [
                 ...prev.slice(0, props.index + 1),
                 res.results,
