@@ -61,9 +61,6 @@ export const Toggle = (props: {
     });
   };
 
-  console.log(props.index);
-  console.log(props.resultsList);
-
   return (
     <div className="flex justify-center items-center w-fit my-4 border-2 rounded-md relative bg-white border-neutral-200">
       {props.index > 0 ? (

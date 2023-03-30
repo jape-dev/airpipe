@@ -16,7 +16,6 @@ import { ConnectorForm } from "./ConnectorForm";
 
 export const GoogleConnector = (props: {
   currentUser: User | undefined;
-  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   tableNameList: string[][];
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   tabIndex: number;
@@ -24,6 +23,7 @@ export const GoogleConnector = (props: {
   setTabData: React.Dispatch<React.SetStateAction<TabData>>;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
+  setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
 }) => {
   const [modal, setModal] = useState(false);
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
@@ -131,8 +131,20 @@ export const GoogleConnector = (props: {
                 }
                 props.setTableNameList(newTableNameList);
                 props.setQueryList((queryList) => [...queryList, [""]]);
-                props.setResults((results) => [...results, newResults]);
                 props.setTabIndex(newTabIndex);
+                props.setResultsList((prev) => {
+                  const newArr = [...prev];
+                  if (props.tabIndex === 0) {
+                    if (newArr[props.tabIndex] === undefined) {
+                      newArr[props.tabIndex] = [newResults];
+                    } else {
+                      newArr[props.tabIndex + 1] = [newResults];
+                    }
+                  } else {
+                    newArr[props.tabIndex + 1] = [newResults];
+                  }
+                  return newArr;
+                });
                 props.setTabData({
                   tabIndex: newTabIndex,
                   data: [tableColumns],
@@ -157,7 +169,6 @@ export const GoogleConnector = (props: {
     <>
       <ConnectorForm
         accessToken={props.currentUser?.google_access_token}
-        setResults={props.setResults}
         handleAdAccountSubmit={handleAdAccountSubmit}
         handleSubmit={openSignInModal}
         handleQuerySubmit={handleQuerySubmit}

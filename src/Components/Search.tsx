@@ -11,10 +11,10 @@ import {
 } from "../vizoApi";
 
 export const Search = (props: {
-  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   queryList: string[];
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
-  setResultsList: React.Dispatch<React.SetStateAction<object[][]>>;
+  resultsList: Object[][];
+  setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
   index: number;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   schema: Schema;
@@ -63,10 +63,11 @@ export const Search = (props: {
 
           DefaultService.runQueryQueryRunQueryGet(res.query)
             .then((res: QueryResults) => {
-              props.setResultsList((prev) => [
-                ...prev.slice(0, props.index + 1),
-                res.results,
-              ]);
+              props.setResultsList((prev) => {
+                const newArr = [...prev];
+                newArr[props.tabIndex].push(res.results);
+                return newArr;
+              });
               props.setIndexList((prev) => {
                 const newArr = [...prev];
                 newArr[props.tabIndex] = props.index + 1;

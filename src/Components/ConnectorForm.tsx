@@ -11,7 +11,6 @@ import Select, { MultiValue } from "react-select";
 
 export const ConnectorForm = (props: {
   accessToken: string | undefined;
-  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   handleAdAccountSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   handleSubmit: (event: React.MouseEvent<HTMLElement>) => void;
   handleQuerySubmit: () => void;

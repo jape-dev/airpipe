@@ -7,7 +7,6 @@ import { GoogleConnector } from "./GoogleConnector";
 import { FacebookConnector } from "./FacebookConnector";
 
 export const SideBar = (props: {
-  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   tableNameList: string[][];
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   tabIndex: number;
@@ -15,6 +14,8 @@ export const SideBar = (props: {
   setTabData: React.Dispatch<React.SetStateAction<TabData>>;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
+  resultsList: Object[][];
+  setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
 }) => {
   const [currentUser, setCurrentUser] = useState<User>();
 
@@ -38,7 +39,6 @@ export const SideBar = (props: {
       <p className="text-lg pl-8 pr-8 font-semibold">Data Sources</p>
       <GoogleConnector
         currentUser={currentUser}
-        setResults={props.setResults}
         tableNameList={props.tableNameList}
         setTableNameList={props.setTableNameList}
         tabIndex={props.tabIndex}
@@ -46,10 +46,10 @@ export const SideBar = (props: {
         setTabData={props.setTabData}
         setIndexList={props.setIndexList}
         setQueryList={props.setQueryList}
+        setResultsList={props.setResultsList}
       />
       <FacebookConnector
         currentUser={currentUser}
-        setResults={props.setResults}
         tableNameList={props.tableNameList}
         setTableNameList={props.setTableNameList}
         tabIndex={props.tabIndex}
@@ -57,6 +57,7 @@ export const SideBar = (props: {
         setTabData={props.setTabData}
         setIndexList={props.setIndexList}
         setQueryList={props.setQueryList}
+        setResultsList={props.setResultsList}
       />
     </div>
   );

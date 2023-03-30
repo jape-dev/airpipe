@@ -7,7 +7,6 @@ import "react-tabs/style/react-tabs.css";
 import { Schema, TabData } from "../vizoApi";
 
 export const Home = () => {
-  const [results, setResults] = useState<Object[][]>([]);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [tabData, setTabData] = useState<TabData>({
     tabIndex: tabIndex,
@@ -17,13 +16,14 @@ export const Home = () => {
   const [indexList, setIndexList] = useState<number[]>([]);
   const [queryList, setQueryList] = useState<string[][]>([]);
   const [schema, setSchema] = useState<Schema>({ tabs: [tabData] });
+  const [resultsList, setResultsList] = useState<Object[][][]>([]);
 
   const handleNewTabClick = () => {
-    setResults([...results, []]);
+    setResultsList([...resultsList, []]);
   };
 
   const handleRemoveTabClick = () => {
-    setResults(results.filter((result, index) => index !== tabIndex));
+    setResultsList(resultsList.filter((result, index) => index !== tabIndex));
   };
 
   useEffect(() => {
@@ -47,13 +47,17 @@ export const Home = () => {
     }
   }, [tabData]);
 
+  useEffect(() => {
+    console.log("resultsList", resultsList);
+    console.log("tabIndex", tabIndex);
+  }, [resultsList, tabIndex]);
+
   return (
     <>
       <NavBar />
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
         <div className="col-span-2">
           <SideBar
-            setResults={setResults}
             tableNameList={tableNameList}
             setTableNameList={setTableNameList}
             tabIndex={tabIndex}
@@ -61,13 +65,15 @@ export const Home = () => {
             setTabData={setTabData}
             setIndexList={setIndexList}
             setQueryList={setQueryList}
+            resultsList={resultsList}
+            setResultsList={setResultsList}
           />
         </div>
         <div className="col-span-5">
-          {results ? (
+          {resultsList[tabIndex] ? (
             <Tabs>
               <TabList>
-                {results.map((tab, index) => (
+                {resultsList.map((tab, index) => (
                   <Tab
                     onClick={() => {
                       setTabIndex(index);
@@ -88,22 +94,21 @@ export const Home = () => {
               </TabList>
               <button onClick={handleNewTabClick}>Add new Tab</button>
               <button onClick={handleRemoveTabClick}>Remove tab</button>
-              {results.map((tab, index) => (
+              {resultsList.map((tab, index) => (
                 <TabPanel>
                   <Results
-                    results={results[index]}
-                    setResults={setResults}
                     schema={schema}
                     tabIndex={tabIndex}
                     tabData={tabData}
                     setTabData={setTabData}
-                    allResults={results}
                     tableNameList={tableNameList}
                     setTableNameList={setTableNameList}
                     index={indexList[tabIndex]}
                     setIndexList={setIndexList}
                     queryList={queryList[tabIndex]}
                     setQueryList={setQueryList}
+                    resultsList={resultsList[tabIndex]}
+                    setResultsList={setResultsList}
                   />
                 </TabPanel>
               ))}

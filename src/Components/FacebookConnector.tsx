@@ -19,7 +19,6 @@ const DOMAIN_URL =
 
 export const FacebookConnector = (props: {
   currentUser: User | undefined;
-  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   tableNameList: string[][];
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   tabIndex: number;
@@ -27,6 +26,7 @@ export const FacebookConnector = (props: {
   setTabData: React.Dispatch<React.SetStateAction<TabData>>;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
+  setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
 }) => {
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
@@ -133,7 +133,20 @@ export const FacebookConnector = (props: {
                 }
                 props.setTableNameList(newTableNameList);
                 props.setQueryList((queryList) => [...queryList, [""]]);
-                props.setResults((results) => [...results, newResults]);
+                // may need to do plus one here on tabIndex
+                props.setResultsList((prev) => {
+                  const newArr = [...prev];
+                  if (props.tabIndex === 0) {
+                    if (newArr[props.tabIndex] === undefined) {
+                      newArr[props.tabIndex] = [newResults];
+                    } else {
+                      newArr[props.tabIndex + 1] = [newResults];
+                    }
+                  } else {
+                    newArr[props.tabIndex + 1] = [newResults];
+                  }
+                  return newArr;
+                });
                 props.setTabIndex(newTabIndex);
                 props.setTabData({
                   tabIndex: newTabIndex,
@@ -157,7 +170,6 @@ export const FacebookConnector = (props: {
   return (
     <ConnectorForm
       accessToken={props.currentUser?.facebook_access_token}
-      setResults={props.setResults}
       handleAdAccountSubmit={handleAdAccountSubmit}
       handleSubmit={handleSubmit}
       handleQuerySubmit={handleQuerySubmit}

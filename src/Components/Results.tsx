@@ -6,46 +6,44 @@ import { StickyHeadTable } from "./Table";
 import { TabData, Schema } from "../vizoApi";
 
 export const Results = (props: {
-  results: Object[];
-  setResults: React.Dispatch<React.SetStateAction<Object[][]>>;
   schema: Schema;
   tabIndex: number;
   tabData: TabData;
   setTabData: React.Dispatch<React.SetStateAction<TabData>>;
-  allResults: Object[][];
   tableNameList: string[][];
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   index: number;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   queryList: string[];
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
+  resultsList: Object[][];
+  setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
 }) => {
   const [columns, setColumns] = useState<string[]>([]);
   const [csvData, setCsvData] = useState<any[]>();
-  const [resultsList, setResultsList] = useState<Object[][]>([props.results]);
 
   useEffect(() => {
-    if (resultsList[props.index] !== undefined) {
-      Object.entries(resultsList[props.index]).forEach(([key, value]) =>
+    if (props.resultsList[props.index] !== undefined) {
+      Object.entries(props.resultsList[props.index]).forEach(([key, value]) =>
         setColumns(Object.keys(value))
       );
     }
-  }, [resultsList[props.index]]);
+  }, [props.resultsList[props.index]]);
 
   return (
     <div className="grid grid-cols-8 gap-2 p-5">
       <div className="col-span-6">
         <Search
-          setResults={props.setResults}
           queryList={props.queryList}
           setQueryList={props.setQueryList}
           tableNameList={props.tableNameList}
           setTableNameList={props.setTableNameList}
-          setResultsList={setResultsList}
+          resultsList={props.resultsList}
+          setResultsList={props.setResultsList}
           index={props.index}
           setIndexList={props.setIndexList}
           schema={props.schema}
-          currentResults={resultsList[props.index]}
+          currentResults={props.resultsList[props.index]}
           currentColumns={columns}
           tabIndex={props.tabIndex}
           tabData={props.tabData}
@@ -58,7 +56,7 @@ export const Results = (props: {
           setIndexList={props.setIndexList}
           columns={columns}
           setColumns={setColumns}
-          resultsList={resultsList[props.index]}
+          resultsList={props.resultsList[props.index]}
           setTabData={props.setTabData}
           tableNameList={props.tableNameList[props.tabIndex]}
           tabData={props.tabData}
@@ -73,7 +71,7 @@ export const Results = (props: {
       <div className="col-span-8">
         {columns === undefined ? null : (
           <StickyHeadTable
-            results={resultsList[props.index]}
+            results={props.resultsList[props.index]}
             columns={columns}
           />
         )}
