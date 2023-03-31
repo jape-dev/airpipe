@@ -8,26 +8,31 @@ import { Schema, TabData } from "../vizoApi";
 
 export const Home = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
-  const [tabData, setTabData] = useState<TabData>({
-    tabIndex: tabIndex,
-    data: [],
-  });
   const [tableNameList, setTableNameList] = useState<string[][]>([]);
   const [indexList, setIndexList] = useState<number[]>([]);
   const [queryList, setQueryList] = useState<string[][]>([]);
-  const [schema, setSchema] = useState<Schema>({ tabs: [tabData] });
+  const [schema, setSchema] = useState<Schema>({
+    tabs: [
+      {
+        tabIndex: 0,
+        data: [],
+      } as TabData,
+    ],
+  });
   const [resultsList, setResultsList] = useState<Object[][][]>([]);
 
-  const handleNewTabClick = () => {
-    setResultsList([...resultsList, []]);
-  };
+  // const handleNewTabClick = () => {
+  //   setResultsList([...resultsList, []]);
+  // };
 
-  const handleRemoveTabClick = () => {
-    setResultsList(resultsList.filter((result, index) => index !== tabIndex));
-  };
+  // const handleRemoveTabClick = () => {
+  //   setResultsList(resultsList.filter((result, index) => index !== tabIndex));
+  // };
 
-  useEffect(() => {
-    const index = schema.tabs.findIndex((item) => item.tabIndex === tabIndex);
+  const updateSchema = (tabData: TabData) => {
+    const index = schema.tabs.findIndex(
+      (item) => item.tabIndex === tabData.tabIndex
+    );
 
     if (index === -1) {
       // no matching element found, add a new one
@@ -45,19 +50,23 @@ export const Home = () => {
         tabs: newTabs,
       } as Schema);
     }
-  }, [tabData]);
+  };
 
   useEffect(() => {
     console.log("schema", schema);
   }, [schema]);
 
   useEffect(() => {
-    console.log("tabData", tabData);
-  }, [tabData]);
+    console.log("useEffect tabIndex", tabIndex);
+  }, [tabIndex]);
 
   useEffect(() => {
-    console.log("resultsList", resultsList);
-  }, [resultsList]);
+    console.log("useEffect queryList", queryList);
+  }, [queryList]);
+
+  useEffect(() => {
+    console.log("useEffect indexList", indexList);
+  }, [indexList]);
 
   return (
     <>
@@ -69,7 +78,7 @@ export const Home = () => {
             setTableNameList={setTableNameList}
             tabIndex={tabIndex}
             setTabIndex={setTabIndex}
-            setTabData={setTabData}
+            updateSchema={updateSchema}
             setIndexList={setIndexList}
             setQueryList={setQueryList}
             resultsList={resultsList}
@@ -99,15 +108,14 @@ export const Home = () => {
                   </Tab>
                 ))}
               </TabList>
-              <button onClick={handleNewTabClick}>Add new Tab</button>
-              <button onClick={handleRemoveTabClick}>Remove tab</button>
+              {/* <button onClick={handleNewTabClick}>Add new Tab</button>
+              <button onClick={handleRemoveTabClick}>Remove tab</button> */}
               {resultsList.map((tab, index) => (
                 <TabPanel>
                   <Results
                     schema={schema}
                     tabIndex={tabIndex}
-                    tabData={tabData}
-                    setTabData={setTabData}
+                    updateSchema={updateSchema}
                     tableNameList={tableNameList}
                     setTableNameList={setTableNameList}
                     index={indexList[tabIndex]}

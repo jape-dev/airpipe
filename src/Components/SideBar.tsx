@@ -11,7 +11,7 @@ export const SideBar = (props: {
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   tabIndex: number;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
-  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  updateSchema: (tabData: TabData) => void;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
   resultsList: Object[][];
@@ -43,7 +43,7 @@ export const SideBar = (props: {
         setTableNameList={props.setTableNameList}
         tabIndex={props.tabIndex}
         setTabIndex={props.setTabIndex}
-        setTabData={props.setTabData}
+        updateSchema={props.updateSchema}
         setIndexList={props.setIndexList}
         setQueryList={props.setQueryList}
         setResultsList={props.setResultsList}
@@ -54,7 +54,7 @@ export const SideBar = (props: {
         setTableNameList={props.setTableNameList}
         tabIndex={props.tabIndex}
         setTabIndex={props.setTabIndex}
-        setTabData={props.setTabData}
+        updateSchema={props.updateSchema}
         setIndexList={props.setIndexList}
         setQueryList={props.setQueryList}
         setResultsList={props.setResultsList}

@@ -11,83 +11,79 @@ import {
 } from "../vizoApi";
 
 export const Search = (props: {
-  queryList: string[];
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
   resultsList: Object[][];
   setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
   index: number;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   schema: Schema;
-  currentResults?: object[];
-  currentColumns?: string[];
   tableNameList: string[][];
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   tabIndex: number;
-  tabData: TabData;
-  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  updateSchema: (tabData: TabData) => void;
 }) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = () => {
-    if (
-      props.currentResults !== undefined &&
-      props.currentColumns !== undefined
-    ) {
-      const timestamp = Date.now();
-      let results: CurrentResults = {
-        name: `airpipe_${timestamp}`,
-        columns: props.currentColumns,
-        results: props.currentResults,
-      };
-      let tableColumns: TableColumns = {
-        name: `airpipe_${timestamp}`,
-        columns: props.currentColumns,
-      };
-      DefaultService.createNewTableQueryCreateNewTablePost(results).then(() => {
-        const newTableNameList = props.tableNameList;
-        if (newTableNameList[props.tabIndex] === undefined) {
-          newTableNameList[props.tabIndex] = [];
-        }
-        newTableNameList[props.tabIndex].push(tableColumns.name);
-        props.setTableNameList(newTableNameList);
-        DefaultService.sqlQueryQuerySqlQueryPost(input, {
-          tabs: props.schema.tabs,
-        }).then((res: SqlQuery) => {
-          //Update the query
-          const newQueryList = props.queryList;
-          newQueryList.push(res.query);
-          props.setQueryList((prev) => [
-            ...prev.slice(0, props.index + 1),
-            newQueryList,
-          ]);
-          DefaultService.runQueryQueryRunQueryGet(res.query)
-            .then((res: QueryResults) => {
-              props.setResultsList((prev) => {
-                const newArr = [...prev];
-                newArr[props.tabIndex].push(res.results);
-                return newArr;
-              });
-              props.setIndexList((prev) => {
-                const newArr = [...prev];
-                newArr[props.tabIndex] = props.index + 1;
-                return newArr;
-              });
-              const newData = props.tabData.data;
-              newData.splice(props.index, 1, tableColumns);
-              props.setTabData({
-                tabIndex: props.tabIndex,
-                data: newData,
-              } as TabData);
-            })
-            .catch((error) => {
-              console.error(error);
-              alert(
-                "This query is invalid. Please tweak your prompt and try again."
-              );
-            });
-        });
+    DefaultService.sqlQueryQuerySqlQueryPost(input, {
+      tabs: props.schema.tabs,
+    }).then((res: SqlQuery) => {
+      props.setQueryList((prev) => {
+        const newArr = [...prev];
+        newArr[props.tabIndex].push(res.query);
+        return newArr;
       });
-    }
+      DefaultService.runQueryQueryRunQueryGet(res.query)
+        .then((res: QueryResults) => {
+          props.setResultsList((prev) => {
+            const newArr = [...prev];
+            newArr[props.tabIndex].push(res.results);
+            return newArr;
+          });
+          props.setIndexList((prev) => {
+            const newArr = [...prev];
+            newArr[props.tabIndex] = props.index + 1;
+            return newArr;
+          });
+
+          let columns: string[] = [];
+          Object.entries(res.results).forEach(
+            ([key, value]) => (columns = Object.keys(value))
+          );
+          const timestamp = Date.now();
+          let results: CurrentResults = {
+            name: `airpipe_${timestamp}`,
+            columns: columns,
+            results: res.results,
+          };
+          let tableColumns: TableColumns = {
+            name: `airpipe_${timestamp}`,
+            columns: columns,
+          };
+
+          const newTableNameList = props.tableNameList;
+          if (newTableNameList[props.tabIndex] === undefined) {
+            newTableNameList[props.tabIndex] = [];
+          }
+          newTableNameList[props.tabIndex].push(tableColumns.name);
+          props.setTableNameList(newTableNameList);
+
+          DefaultService.createNewTableQueryCreateNewTablePost(results).then(
+            () => {
+              props.updateSchema({
+                tabIndex: props.tabIndex,
+                data: [tableColumns],
+              } as TabData);
+            }
+          );
+        })
+        .catch((error) => {
+          console.error(error);
+          alert(
+            "This query is invalid. Please tweak your prompt and try again."
+          );
+        });
+    });
   };
 
   return (

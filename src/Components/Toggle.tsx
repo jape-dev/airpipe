@@ -7,28 +7,27 @@ export const Toggle = (props: {
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   columns: string[];
   setColumns: React.Dispatch<React.SetStateAction<string[]>>;
-  results: object[];
-  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  resultsList: object[][];
   tableNameList: string[];
-  tabData: TabData;
   tabIndex: number;
+  updateSchema: (tabData: TabData) => void;
 }) => {
   const handleRightArrowClick = () => {
-    if (props.results[props.index + 1] !== undefined) {
-      Object.entries(props.results[props.index + 1]).forEach(([key, value]) =>
-        props.setColumns(Object.keys(value))
+    let columns: string[] = [];
+    if (props.resultsList[props.index + 1] !== undefined) {
+      Object.entries(props.resultsList[props.index + 1]).forEach(
+        ([key, value]) => (columns = Object.keys(value))
       );
     }
+    props.setColumns(columns);
+
     let tableColumns: TableColumns = {
       name: props.tableNameList[props.index + 1],
-      columns: props.columns,
+      columns: columns,
     };
-    let newData = props.tabData.data;
-    newData = newData.slice(props.index + 1);
-    newData.push(tableColumns);
-    props.setTabData({
+    props.updateSchema({
       tabIndex: props.tabIndex,
-      data: newData,
+      data: [tableColumns],
     } as TabData);
     props.setIndexList((prev) => {
       const newArr = [...prev];
@@ -38,21 +37,21 @@ export const Toggle = (props: {
   };
 
   const handleLeftArrowClick = () => {
-    if (props.results[props.index - 1] !== undefined) {
-      Object.entries(props.results[props.index - 1]).forEach(([key, value]) =>
-        props.setColumns(Object.keys(value))
+    console.log(props.resultsList);
+    let columns: string[] = [];
+    if (props.resultsList[props.index - 1] !== undefined) {
+      Object.entries(props.resultsList[props.index - 1]).forEach(
+        ([key, value]) => (columns = Object.keys(value))
       );
     }
+    props.setColumns(columns);
     let tableColumns: TableColumns = {
       name: props.tableNameList[props.index - 1],
-      columns: props.columns,
+      columns: columns,
     };
-    let newData = props.tabData.data;
-    newData = newData.slice(props.index - 1);
-    newData.push(tableColumns);
-    props.setTabData({
+    props.updateSchema({
       tabIndex: props.tabIndex,
-      data: newData,
+      data: [tableColumns],
     } as TabData);
     props.setIndexList((prev) => {
       const newArr = [...prev];
@@ -75,7 +74,7 @@ export const Toggle = (props: {
         </>
       ) : null}
 
-      {props.index < props.results.length - 1 ? (
+      {props.index < props.resultsList.length - 1 ? (
         <button
           className="h-8 w-8 bg-teal-500 hover:bg-teal-700 rounded-md flex justify-center items-center m-1 p-2"
           onClick={handleRightArrowClick}

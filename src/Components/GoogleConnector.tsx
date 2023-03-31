@@ -20,7 +20,7 @@ export const GoogleConnector = (props: {
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   tabIndex: number;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
-  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  updateSchema: (tabData: TabData) => void;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
   setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
@@ -145,7 +145,7 @@ export const GoogleConnector = (props: {
                   }
                   return newArr;
                 });
-                props.setTabData({
+                props.updateSchema({
                   tabIndex: newTabIndex,
                   data: [tableColumns],
                 } as TabData);

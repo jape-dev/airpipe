@@ -23,7 +23,7 @@ export const FacebookConnector = (props: {
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   tabIndex: number;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
-  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  updateSchema: (tabData: TabData) => void;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
   setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
@@ -148,7 +148,8 @@ export const FacebookConnector = (props: {
                   return newArr;
                 });
                 props.setTabIndex(newTabIndex);
-                props.setTabData({
+                console.log(newTabIndex, tableColumns);
+                props.updateSchema({
                   tabIndex: newTabIndex,
                   data: [tableColumns],
                 } as TabData);

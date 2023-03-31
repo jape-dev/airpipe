@@ -8,8 +8,7 @@ import { TabData, Schema } from "../vizoApi";
 export const Results = (props: {
   schema: Schema;
   tabIndex: number;
-  tabData: TabData;
-  setTabData: React.Dispatch<React.SetStateAction<TabData>>;
+  updateSchema: (tabData: TabData) => void;
   tableNameList: string[][];
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
   index: number;
@@ -30,15 +29,10 @@ export const Results = (props: {
     }
   }, [props.resultsList[props.index]]);
 
-  useEffect(() => {
-    console.log("columns", columns);
-  }, [columns]);
-
   return (
     <div className="grid grid-cols-8 gap-2 p-5">
       <div className="col-span-6">
         <Search
-          queryList={props.queryList}
           setQueryList={props.setQueryList}
           tableNameList={props.tableNameList}
           setTableNameList={props.setTableNameList}
@@ -47,11 +41,8 @@ export const Results = (props: {
           index={props.index}
           setIndexList={props.setIndexList}
           schema={props.schema}
-          currentResults={props.resultsList[props.index]}
-          currentColumns={columns}
           tabIndex={props.tabIndex}
-          tabData={props.tabData}
-          setTabData={props.setTabData}
+          updateSchema={props.updateSchema}
         />
       </div>
       <div className="col-span-2">
@@ -60,10 +51,9 @@ export const Results = (props: {
           setIndexList={props.setIndexList}
           columns={columns}
           setColumns={setColumns}
-          results={props.resultsList[props.index]}
-          setTabData={props.setTabData}
+          resultsList={props.resultsList}
           tableNameList={props.tableNameList[props.tabIndex]}
-          tabData={props.tabData}
+          updateSchema={props.updateSchema}
           tabIndex={props.tabIndex}
         />
       </div>
