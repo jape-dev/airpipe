@@ -48,9 +48,16 @@ export const Home = () => {
   }, [tabData]);
 
   useEffect(() => {
+    console.log("schema", schema);
+  }, [schema]);
+
+  useEffect(() => {
+    console.log("tabData", tabData);
+  }, [tabData]);
+
+  useEffect(() => {
     console.log("resultsList", resultsList);
-    console.log("tabIndex", tabIndex);
-  }, [resultsList, tabIndex]);
+  }, [resultsList]);
 
   return (
     <>

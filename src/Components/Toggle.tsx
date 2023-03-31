@@ -1,22 +1,22 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-import { useEffect } from "react";
 import { TabData, TableColumns } from "../vizoApi";
+import { useEffect } from "react";
 
 export const Toggle = (props: {
   index: number;
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   columns: string[];
   setColumns: React.Dispatch<React.SetStateAction<string[]>>;
-  resultsList: object[];
+  results: object[];
   setTabData: React.Dispatch<React.SetStateAction<TabData>>;
   tableNameList: string[];
   tabData: TabData;
   tabIndex: number;
 }) => {
   const handleRightArrowClick = () => {
-    if (props.resultsList[props.index + 1] !== undefined) {
-      Object.entries(props.resultsList[props.index + 1]).forEach(
-        ([key, value]) => props.setColumns(Object.keys(value))
+    if (props.results[props.index + 1] !== undefined) {
+      Object.entries(props.results[props.index + 1]).forEach(([key, value]) =>
+        props.setColumns(Object.keys(value))
       );
     }
     let tableColumns: TableColumns = {
@@ -38,9 +38,9 @@ export const Toggle = (props: {
   };
 
   const handleLeftArrowClick = () => {
-    if (props.resultsList[props.index - 1] !== undefined) {
-      Object.entries(props.resultsList[props.index - 1]).forEach(
-        ([key, value]) => props.setColumns(Object.keys(value))
+    if (props.results[props.index - 1] !== undefined) {
+      Object.entries(props.results[props.index - 1]).forEach(([key, value]) =>
+        props.setColumns(Object.keys(value))
       );
     }
     let tableColumns: TableColumns = {
@@ -75,7 +75,7 @@ export const Toggle = (props: {
         </>
       ) : null}
 
-      {props.index < props.resultsList.length - 1 ? (
+      {props.index < props.results.length - 1 ? (
         <button
           className="h-8 w-8 bg-teal-500 hover:bg-teal-700 rounded-md flex justify-center items-center m-1 p-2"
           onClick={handleRightArrowClick}

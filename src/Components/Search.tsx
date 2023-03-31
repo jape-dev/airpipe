@@ -60,7 +60,6 @@ export const Search = (props: {
             ...prev.slice(0, props.index + 1),
             newQueryList,
           ]);
-
           DefaultService.runQueryQueryRunQueryGet(res.query)
             .then((res: QueryResults) => {
               props.setResultsList((prev) => {

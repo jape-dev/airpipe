@@ -30,6 +30,10 @@ export const Results = (props: {
     }
   }, [props.resultsList[props.index]]);
 
+  useEffect(() => {
+    console.log("columns", columns);
+  }, [columns]);
+
   return (
     <div className="grid grid-cols-8 gap-2 p-5">
       <div className="col-span-6">
@@ -56,7 +60,7 @@ export const Results = (props: {
           setIndexList={props.setIndexList}
           columns={columns}
           setColumns={setColumns}
-          resultsList={props.resultsList[props.index]}
+          results={props.resultsList[props.index]}
           setTabData={props.setTabData}
           tableNameList={props.tableNameList[props.tabIndex]}
           tabData={props.tabData}
