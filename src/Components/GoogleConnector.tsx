@@ -24,6 +24,8 @@ export const GoogleConnector = (props: {
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
   setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
+  tabCount: number;
+  setTabCount: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [modal, setModal] = useState(false);
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
@@ -64,48 +66,52 @@ export const GoogleConnector = (props: {
 
   const handleQuerySubmit = () => {
     // Check if the state variables are undefined
-    if (
-      selectedAdAccount === "" ||
-      metrics === undefined ||
-      dimensions === undefined
-    ) {
-      alert("Please select an ad account, metrics and dimensions");
-      return;
+    if (props.tabCount > 0) {
+      alert("Cannot have more than one Google tab open at a time");
     } else {
-      // Make a post request to the server
-      const query: GoogleQuery = {
-        account_id: selectedAdAccount,
-        metrics: metrics,
-        dimensions: dimensions,
-        start_date: startTimestamp,
-        end_date: endTimestamp,
-      };
-      const token = localStorage.getItem("token");
-      if (token === null) {
-        alert("Please login to continue");
+      if (
+        selectedAdAccount === "" ||
+        metrics === undefined ||
+        dimensions === undefined
+      ) {
+        alert("Please select an ad account, metrics and dimensions");
         return;
       } else {
-        // Change this to append to results instead of setting directly
-        DefaultService.runQueryConnectorGoogleRunQueryPost(token, query)
-          .then((response) => {
-            let newResults = response.results;
-            // use response results to get columns and the results and then
-            let columns: string[] = [];
-            Object.entries(newResults).forEach(
-              ([key, value]) => (columns = Object.keys(value))
-            );
-            const timestamp = Date.now();
-            let results: CurrentResults = {
-              name: `google_${timestamp}`,
-              columns: columns,
-              results: response.results,
-            };
-            let tableColumns: TableColumns = {
-              name: `google_${timestamp}`,
-              columns: columns,
-            };
-            DefaultService.createNewTableQueryCreateNewTablePost(results).then(
-              () => {
+        // Make a post request to the server
+        const query: GoogleQuery = {
+          account_id: selectedAdAccount,
+          metrics: metrics,
+          dimensions: dimensions,
+          start_date: startTimestamp,
+          end_date: endTimestamp,
+        };
+        const token = localStorage.getItem("token");
+        if (token === null) {
+          alert("Please login to continue");
+          return;
+        } else {
+          // Change this to append to results instead of setting directly
+          DefaultService.runQueryConnectorGoogleRunQueryPost(token, query)
+            .then((response) => {
+              let newResults = response.results;
+              // use response results to get columns and the results and then
+              let columns: string[] = [];
+              Object.entries(newResults).forEach(
+                ([key, value]) => (columns = Object.keys(value))
+              );
+              const timestamp = Date.now();
+              let results: CurrentResults = {
+                name: `google_${timestamp}`,
+                columns: columns,
+                results: response.results,
+              };
+              let tableColumns: TableColumns = {
+                name: `google_${timestamp}`,
+                columns: columns,
+              };
+              DefaultService.createNewTableQueryCreateNewTablePost(
+                results
+              ).then(() => {
                 const newTableNameList = props.tableNameList;
                 // if it's not zero need to do tabIndex plus 1
                 let newTabIndex = props.tabIndex;
@@ -131,7 +137,6 @@ export const GoogleConnector = (props: {
                 }
                 props.setTableNameList(newTableNameList);
                 props.setQueryList((queryList) => [...queryList, [""]]);
-                props.setTabIndex(newTabIndex);
                 props.setResultsList((prev) => {
                   const newArr = [...prev];
                   if (props.tabIndex === 0) {
@@ -150,17 +155,18 @@ export const GoogleConnector = (props: {
                   data: [tableColumns],
                 } as TabData);
                 props.setIndexList((indexList) => [...indexList, 0]);
+              });
+              props.setTabCount(props.tabCount + 1);
+            })
+            .catch((error) => {
+              if (error.status === 401) {
+                alert("Google access token expired. Please connect again");
+                window.location.reload();
+              } else {
+                console.log(error);
               }
-            );
-          })
-          .catch((error) => {
-            if (error.status === 401) {
-              alert("Google access token expired. Please connect again");
-              window.location.reload();
-            } else {
-              console.log(error);
-            }
-          });
+            });
+        }
       }
     }
   };

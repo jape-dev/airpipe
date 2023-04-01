@@ -37,7 +37,6 @@ export const Toggle = (props: {
   };
 
   const handleLeftArrowClick = () => {
-    console.log(props.resultsList);
     let columns: string[] = [];
     if (props.resultsList[props.index - 1] !== undefined) {
       Object.entries(props.resultsList[props.index - 1]).forEach(

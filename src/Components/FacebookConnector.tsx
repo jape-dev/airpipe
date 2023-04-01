@@ -27,6 +27,8 @@ export const FacebookConnector = (props: {
   setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
   setResultsList: React.Dispatch<React.SetStateAction<object[][][]>>;
+  tabCount: number;
+  setTabCount: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
@@ -38,6 +40,7 @@ export const FacebookConnector = (props: {
   const [endTimestamp, setEndTimestamp] = useState<number>(
     new Date().getTime() / 1000
   );
+  const [tabCount, setTabCount] = useState(0);
 
   const handleSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -67,47 +70,51 @@ export const FacebookConnector = (props: {
 
   const handleQuerySubmit = () => {
     // Check if the state variables are undefined
-    if (
-      selectedAdAccount === "" ||
-      metrics === undefined ||
-      dimensions === undefined
-    ) {
-      alert("Please select an ad account, metrics and dimensions");
-      return;
+    if (props.tabCount > 0) {
+      alert("Cannot have more than one Google tab open at a time");
     } else {
-      // Make a post request to the server
-      const query: FacebookQuery = {
-        account_id: selectedAdAccount,
-        metrics: metrics,
-        dimensions: dimensions,
-        start_date: startTimestamp,
-        end_date: endTimestamp,
-      };
-      const token = localStorage.getItem("token");
-      if (token === null) {
-        alert("Please login to continue");
+      if (
+        selectedAdAccount === "" ||
+        metrics === undefined ||
+        dimensions === undefined
+      ) {
+        alert("Please select an ad account, metrics and dimensions");
         return;
       } else {
-        DefaultService.runQueryConnectorFacebookRunQueryPost(token, query)
-          .then((response) => {
-            let newResults = response.results;
-            // use response results to get columns and the results and then
-            let columns: string[] = [];
-            Object.entries(newResults).forEach(
-              ([key, value]) => (columns = Object.keys(value))
-            );
-            const timestamp = Date.now();
-            let results: CurrentResults = {
-              name: `facebook_${timestamp}`,
-              columns: columns,
-              results: response.results,
-            };
-            let tableColumns: TableColumns = {
-              name: `facebook_${timestamp}`,
-              columns: columns,
-            };
-            DefaultService.createNewTableQueryCreateNewTablePost(results).then(
-              () => {
+        // Make a post request to the server
+        const query: FacebookQuery = {
+          account_id: selectedAdAccount,
+          metrics: metrics,
+          dimensions: dimensions,
+          start_date: startTimestamp,
+          end_date: endTimestamp,
+        };
+        const token = localStorage.getItem("token");
+        if (token === null) {
+          alert("Please login to continue");
+          return;
+        } else {
+          DefaultService.runQueryConnectorFacebookRunQueryPost(token, query)
+            .then((response) => {
+              let newResults = response.results;
+              // use response results to get columns and the results and then
+              let columns: string[] = [];
+              Object.entries(newResults).forEach(
+                ([key, value]) => (columns = Object.keys(value))
+              );
+              const timestamp = Date.now();
+              let results: CurrentResults = {
+                name: `facebook_${timestamp}`,
+                columns: columns,
+                results: response.results,
+              };
+              let tableColumns: TableColumns = {
+                name: `facebook_${timestamp}`,
+                columns: columns,
+              };
+              DefaultService.createNewTableQueryCreateNewTablePost(
+                results
+              ).then(() => {
                 const newTableNameList = props.tableNameList;
                 // if it's not zero need to do tabIndex plus 1
                 let newTabIndex = props.tabIndex;
@@ -147,23 +154,22 @@ export const FacebookConnector = (props: {
                   }
                   return newArr;
                 });
-                props.setTabIndex(newTabIndex);
-                console.log(newTabIndex, tableColumns);
                 props.updateSchema({
                   tabIndex: newTabIndex,
                   data: [tableColumns],
                 } as TabData);
                 props.setIndexList((indexList) => [...indexList, 0]);
+              });
+              setTabCount(props.tabCount + 1);
+            })
+            .catch((error) => {
+              if (error.status === 401) {
+                window.location.href = RouterPath.LOGIN;
+              } else {
+                console.log(error);
               }
-            );
-          })
-          .catch((error) => {
-            if (error.status === 401) {
-              window.location.href = RouterPath.LOGIN;
-            } else {
-              console.log(error);
-            }
-          });
+            });
+        }
       }
     }
   };

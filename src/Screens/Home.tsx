@@ -20,14 +20,29 @@ export const Home = () => {
     ],
   });
   const [resultsList, setResultsList] = useState<Object[][][]>([]);
+  const [facebookTabCount, setFacebookTabCount] = useState<number>(0);
+  const [googleTabCount, setGoogleTabCount] = useState<number>(0);
 
-  // const handleNewTabClick = () => {
-  //   setResultsList([...resultsList, []]);
-  // };
+  const handleRemoveTabClick = () => {
+    if (schema.tabs[tabIndex].data[0].name.includes("google")) {
+      setGoogleTabCount(0);
+    } else if (schema.tabs[tabIndex].data[0].name.includes("facebook")) {
+      setFacebookTabCount(0);
+    }
 
-  // const handleRemoveTabClick = () => {
-  //   setResultsList(resultsList.filter((result, index) => index !== tabIndex));
-  // };
+    setResultsList(resultsList.filter((result, index) => index !== tabIndex));
+    setTableNameList(
+      tableNameList.filter((result, index) => index !== tabIndex)
+    );
+    setIndexList(indexList.filter((result, index) => index !== tabIndex));
+    setQueryList(queryList.filter((result, index) => index !== tabIndex));
+    setIndexList(indexList.filter((result, index) => index !== tabIndex));
+    let newTabs = schema.tabs;
+    newTabs.splice(tabIndex, 1);
+    setSchema({
+      tabs: newTabs,
+    } as Schema);
+  };
 
   const updateSchema = (tabData: TabData) => {
     const index = schema.tabs.findIndex(
@@ -52,22 +67,6 @@ export const Home = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("schema", schema);
-  }, [schema]);
-
-  useEffect(() => {
-    console.log("useEffect tabIndex", tabIndex);
-  }, [tabIndex]);
-
-  useEffect(() => {
-    console.log("useEffect queryList", queryList);
-  }, [queryList]);
-
-  useEffect(() => {
-    console.log("useEffect indexList", indexList);
-  }, [indexList]);
-
   return (
     <>
       <NavBar />
@@ -83,6 +82,10 @@ export const Home = () => {
             setQueryList={setQueryList}
             resultsList={resultsList}
             setResultsList={setResultsList}
+            facebookTabCount={facebookTabCount}
+            setFacebookTabCount={setFacebookTabCount}
+            googleTabCount={googleTabCount}
+            setGoogleTabCount={setGoogleTabCount}
           />
         </div>
         <div className="col-span-5">
@@ -102,14 +105,14 @@ export const Home = () => {
                         ]
                         ? schema.tabs[index].data[
                             schema.tabs[index].data.length - 1
-                          ].name
+                          ].name.split("_")[0]
                         : "Loading"
                       : "Loading"}
                   </Tab>
                 ))}
               </TabList>
-              {/* <button onClick={handleNewTabClick}>Add new Tab</button>
-              <button onClick={handleRemoveTabClick}>Remove tab</button> */}
+              {/* <button onClick={handleNewTabClick}>Add new Tab</button> */}
+              <button onClick={handleRemoveTabClick}>Remove tab</button>
               {resultsList.map((tab, index) => (
                 <TabPanel>
                   <Results

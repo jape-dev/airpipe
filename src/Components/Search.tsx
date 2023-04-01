@@ -51,13 +51,18 @@ export const Search = (props: {
             ([key, value]) => (columns = Object.keys(value))
           );
           const timestamp = Date.now();
+
+          const name = `${
+            props.tableNameList[props.tabIndex][0].split("_")[0]
+          }_${timestamp}`;
+
           let results: CurrentResults = {
-            name: `airpipe_${timestamp}`,
+            name: name,
             columns: columns,
             results: res.results,
           };
           let tableColumns: TableColumns = {
-            name: `airpipe_${timestamp}`,
+            name: name,
             columns: columns,
           };
 
