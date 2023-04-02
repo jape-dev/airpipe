@@ -29,6 +29,12 @@ export const Results = (props: {
     }
   }, [props.resultsList[props.index]]);
 
+  useEffect(() => {
+    if (props.resultsList[props.index] !== undefined) {
+      setCsvData(props.resultsList[props.index]);
+    }
+  }, [props.resultsList[props.index]]);
+
   return (
     <div className="grid grid-cols-8 gap-2 p-5">
       <div className="col-span-6">
