@@ -42,7 +42,7 @@ export const Search = (props: {
           });
           props.setIndexList((prev) => {
             const newArr = [...prev];
-            newArr[props.tabIndex] = props.index + 1;
+            newArr[props.tabIndex] = props.resultsList.length;
             return newArr;
           });
 

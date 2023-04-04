@@ -69,11 +69,6 @@ export const Home = () => {
 
   useIsMount(() => {
     localStorage.setItem("schema", JSON.stringify(schema));
-    console.log("schema just got set");
-    const schemaSet = localStorage.getItem("schema");
-    if (schemaSet) {
-      console.log("schema after being set", JSON.parse(schemaSet));
-    }
   }, [schema]);
 
   useIsMount(() => {
@@ -101,12 +96,10 @@ export const Home = () => {
   }, [googleTabCount]);
 
   useEffect(() => {
-    console.log("useEffect running to get data from local storage");
     const schema = localStorage.getItem("schema");
     if (schema) {
       setSchema(JSON.parse(schema));
     }
-    console.log("schema", schema);
     const resultsList = localStorage.getItem("resultsList");
     if (resultsList) {
       setResultsList(JSON.parse(resultsList));
