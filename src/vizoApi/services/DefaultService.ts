@@ -7,7 +7,10 @@ import type { Completion } from '../models/Completion';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { FacebookQuery } from '../models/FacebookQuery';
 import type { FacebookQueryResults } from '../models/FacebookQueryResults';
+import type { GoogleQuery } from '../models/GoogleQuery';
+import type { GoogleQueryResults } from '../models/GoogleQueryResults';
 import type { QueryResults } from '../models/QueryResults';
+import type { Schema } from '../models/Schema';
 import type { SqlQuery } from '../models/SqlQuery';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
@@ -44,14 +47,48 @@ export class DefaultService {
     }
 
     /**
-     * Metrics
-     * @returns any Successful Response
+     * Ad Accounts
+     * @param token 
+     * @returns AdAccount Successful Response
      * @throws ApiError
      */
-    public static metricsConnectorGoogleMetricsGet(): CancelablePromise<any> {
+    public static adAccountsConnectorGoogleAdAccountsGet(
+token: string,
+): CancelablePromise<Array<AdAccount>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/connector/google/metrics',
+            url: '/connector/google/ad_accounts',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Run Query
+     * @param token 
+     * @param requestBody 
+     * @returns GoogleQueryResults Successful Response
+     * @throws ApiError
+     */
+    public static runQueryConnectorGoogleRunQueryPost(
+token: string,
+requestBody: GoogleQuery,
+): CancelablePromise<GoogleQueryResults> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/connector/google/run_query',
+            query: {
+                'token': token,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
         });
     }
 
@@ -208,7 +245,7 @@ completion?: string,
      */
     public static sqlQueryQuerySqlQueryPost(
 prompt: string,
-requestBody: TableColumns,
+requestBody: Schema,
 ): CancelablePromise<SqlQuery> {
         return __request(OpenAPI, {
             method: 'POST',

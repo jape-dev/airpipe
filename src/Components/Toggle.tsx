@@ -1,16 +1,62 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
+import { TabData, TableColumns } from "../vizoApi";
+import { useEffect } from "react";
 
 export const Toggle = (props: {
   index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
-  listLength: number;
+  setIndexList: React.Dispatch<React.SetStateAction<number[]>>;
+  columns: string[];
+  setColumns: React.Dispatch<React.SetStateAction<string[]>>;
+  resultsList: object[][];
+  tableNameList: string[];
+  tabIndex: number;
+  updateSchema: (tabData: TabData) => void;
 }) => {
   const handleRightArrowClick = () => {
-    props.setIndex(props.index + 1);
+    let columns: string[] = [];
+    if (props.resultsList[props.index + 1] !== undefined) {
+      Object.entries(props.resultsList[props.index + 1]).forEach(
+        ([key, value]) => (columns = Object.keys(value))
+      );
+    }
+    props.setColumns(columns);
+
+    let tableColumns: TableColumns = {
+      name: props.tableNameList[props.index + 1],
+      columns: columns,
+    };
+    props.updateSchema({
+      tabIndex: props.tabIndex,
+      data: [tableColumns],
+    } as TabData);
+    props.setIndexList((prev) => {
+      const newArr = [...prev];
+      newArr[props.tabIndex] = props.index + 1;
+      return newArr;
+    });
   };
 
   const handleLeftArrowClick = () => {
-    props.setIndex(props.index - 1);
+    let columns: string[] = [];
+    if (props.resultsList[props.index - 1] !== undefined) {
+      Object.entries(props.resultsList[props.index - 1]).forEach(
+        ([key, value]) => (columns = Object.keys(value))
+      );
+    }
+    props.setColumns(columns);
+    let tableColumns: TableColumns = {
+      name: props.tableNameList[props.index - 1],
+      columns: columns,
+    };
+    props.updateSchema({
+      tabIndex: props.tabIndex,
+      data: [tableColumns],
+    } as TabData);
+    props.setIndexList((prev) => {
+      const newArr = [...prev];
+      newArr[props.tabIndex] = props.index - 1;
+      return newArr;
+    });
   };
 
   return (
@@ -27,7 +73,7 @@ export const Toggle = (props: {
         </>
       ) : null}
 
-      {props.index < props.listLength - 1 ? (
+      {props.index < props.resultsList.length - 1 ? (
         <button
           className="h-8 w-8 bg-teal-500 hover:bg-teal-700 rounded-md flex justify-center items-center m-1 p-2"
           onClick={handleRightArrowClick}

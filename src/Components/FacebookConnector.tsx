@@ -1,20 +1,23 @@
-import { CustomModal } from "./CustomModal";
-import { useState } from "react";
-import GoogleSignIn from "./GoogleSignIn";
+import { useState, useEffect } from "react";
 import {
   DefaultService,
   User,
   AdAccount,
-  GoogleQuery,
+  FacebookQuery,
   CurrentResults,
-  TabData,
   TableColumns,
+  Schema,
+  TabData,
 } from "../vizoApi";
+import { RouterPath } from "../App";
 import "react-datepicker/dist/react-datepicker.css";
-import { googleMetricOptions, googleDimensionOptions } from "../Data/Options";
+import { metricOptions, dimensionOptions } from "../Data/Options";
 import { ConnectorForm } from "./ConnectorForm";
 
-export const GoogleConnector = (props: {
+const DOMAIN_URL =
+  process.env.REACT_APP_DOMAIN_URL || "https://airpipe-api.onrender.com";
+
+export const FacebookConnector = (props: {
   currentUser: User | undefined;
   tableNameList: string[][];
   setTableNameList: React.Dispatch<React.SetStateAction<string[][]>>;
@@ -27,7 +30,6 @@ export const GoogleConnector = (props: {
   tabCount: number;
   setTabCount: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const [modal, setModal] = useState(false);
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>();
   const [selectedAdAccount, setSelectedAdAccount] = useState<string>("");
   const [metrics, setMetrics] = useState<string[]>();
@@ -38,9 +40,12 @@ export const GoogleConnector = (props: {
   const [endTimestamp, setEndTimestamp] = useState<number>(
     new Date().getTime() / 1000
   );
+  const [tabCount, setTabCount] = useState(0);
 
-  const openSignInModal = () => {
-    setModal(true);
+  const handleSubmit = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=3796703967222950&redirect_uri=${DOMAIN_URL}/connector/facebook/login/&config_id=728465868571401&state=${token}`;
   };
 
   const handleAdAccountSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,14 +54,13 @@ export const GoogleConnector = (props: {
     if (token === null) {
       return;
     } else {
-      DefaultService.adAccountsConnectorGoogleAdAccountsGet(token)
-        .then((response: any) => {
+      DefaultService.adAccountsConnectorFacebookAdAccountsGet(token)
+        .then((response) => {
           setAdAccounts(response);
         })
-        .catch((error: any) => {
+        .catch((error) => {
           if (error.status === 401) {
-            alert("Google access token expired. Please connect again");
-            window.location.reload();
+            window.location.href = RouterPath.LOGIN;
           } else {
             console.log(error);
           }
@@ -78,7 +82,7 @@ export const GoogleConnector = (props: {
         return;
       } else {
         // Make a post request to the server
-        const query: GoogleQuery = {
+        const query: FacebookQuery = {
           account_id: selectedAdAccount,
           metrics: metrics,
           dimensions: dimensions,
@@ -90,8 +94,7 @@ export const GoogleConnector = (props: {
           alert("Please login to continue");
           return;
         } else {
-          // Change this to append to results instead of setting directly
-          DefaultService.runQueryConnectorGoogleRunQueryPost(token, query)
+          DefaultService.runQueryConnectorFacebookRunQueryPost(token, query)
             .then((response) => {
               let newResults = response.results;
               // use response results to get columns and the results and then
@@ -101,12 +104,12 @@ export const GoogleConnector = (props: {
               );
               const timestamp = Date.now();
               let results: CurrentResults = {
-                name: `google_${timestamp}`,
+                name: `facebook_${timestamp}`,
                 columns: columns,
                 results: response.results,
               };
               let tableColumns: TableColumns = {
-                name: `google_${timestamp}`,
+                name: `facebook_${timestamp}`,
                 columns: columns,
               };
               DefaultService.createNewTableQueryCreateNewTablePost(
@@ -137,6 +140,7 @@ export const GoogleConnector = (props: {
                 }
                 props.setTableNameList(newTableNameList);
                 props.setQueryList((queryList) => [...queryList, [""]]);
+                // may need to do plus one here on tabIndex
                 props.setResultsList((prev) => {
                   const newArr = [...prev];
                   if (props.tabIndex === 0) {
@@ -156,12 +160,11 @@ export const GoogleConnector = (props: {
                 } as TabData);
                 props.setIndexList((indexList) => [...indexList, 0]);
               });
-              props.setTabCount(props.tabCount + 1);
+              setTabCount(props.tabCount + 1);
             })
             .catch((error) => {
               if (error.status === 401) {
-                alert("Google access token expired. Please connect again");
-                window.location.reload();
+                window.location.href = RouterPath.LOGIN;
               } else {
                 console.log(error);
               }
@@ -172,29 +175,22 @@ export const GoogleConnector = (props: {
   };
 
   return (
-    <>
-      <ConnectorForm
-        accessToken={props.currentUser?.google_access_token}
-        handleAdAccountSubmit={handleAdAccountSubmit}
-        handleSubmit={openSignInModal}
-        handleQuerySubmit={handleQuerySubmit}
-        setMetrics={setMetrics}
-        setDimensions={setDimensions}
-        setStartTimestamp={setStartTimestamp}
-        setEndTimestamp={setEndTimestamp}
-        iconPath="google-ads-icon"
-        adAccounts={adAccounts}
-        name="Google"
-        selectedAdAccount={selectedAdAccount}
-        setSelectedAdAccount={setSelectedAdAccount}
-        metricOptions={googleMetricOptions}
-        dimensionOptions={googleDimensionOptions}
-      />
-      <CustomModal parentshow={modal} setParentShow={setModal}>
-        <>
-          <GoogleSignIn />
-        </>
-      </CustomModal>
-    </>
+    <ConnectorForm
+      accessToken={props.currentUser?.facebook_access_token}
+      handleAdAccountSubmit={handleAdAccountSubmit}
+      handleSubmit={handleSubmit}
+      handleQuerySubmit={handleQuerySubmit}
+      setMetrics={setMetrics}
+      setDimensions={setDimensions}
+      setStartTimestamp={setStartTimestamp}
+      setEndTimestamp={setEndTimestamp}
+      iconPath="facebook-icon"
+      adAccounts={adAccounts}
+      name="Facebook"
+      selectedAdAccount={selectedAdAccount}
+      setSelectedAdAccount={setSelectedAdAccount}
+      metricOptions={metricOptions}
+      dimensionOptions={dimensionOptions}
+    />
   );
 };
