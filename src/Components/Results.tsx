@@ -69,7 +69,10 @@ export const Results = (props: {
         </pre>
       </div>
       <div className="col-span-8">
-        {columns === undefined ? null : (
+        {columns === undefined ||
+        props.resultsList[props.index] === undefined ? (
+          <p> Something is undefined</p>
+        ) : (
           <StickyHeadTable
             results={props.resultsList[props.index]}
             columns={columns}
