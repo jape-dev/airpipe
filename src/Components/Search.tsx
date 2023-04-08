@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
   DefaultService,
@@ -8,7 +8,9 @@ import {
   CurrentResults,
   Schema,
   TabData,
+  DebugResponse,
 } from "../vizoApi";
+import { CustomModal } from "./CustomModal";
 
 export const Search = (props: {
   setQueryList: React.Dispatch<React.SetStateAction<string[][]>>;
@@ -23,6 +25,8 @@ export const Search = (props: {
   updateSchema: (tabData: TabData) => void;
 }) => {
   const [input, setInput] = useState("");
+  const [modal, setModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
 
   const handleSubmit = () => {
     DefaultService.sqlQueryQuerySqlQueryPost(input, {
@@ -42,7 +46,7 @@ export const Search = (props: {
           });
           props.setIndexList((prev) => {
             const newArr = [...prev];
-            newArr[props.tabIndex] = props.resultsList.length - 1;
+            newArr[props.tabIndex] = newArr[props.tabIndex] + 1;
             return newArr;
           });
 
@@ -83,29 +87,43 @@ export const Search = (props: {
           );
         })
         .catch((error) => {
-          console.error(error);
-          alert(
-            "This query is invalid. Please tweak your prompt and try again."
-          );
+          const errorMessage = error.body ? error.body.detail : "Unknown error";
+          DefaultService.debugPromptQueryDebugPromptPost(
+            res.query,
+            errorMessage,
+            props.schema,
+            input
+          ).then((res: DebugResponse) => {
+            setModalContent(res.completion);
+            setModal(true);
+          });
         });
     });
   };
 
   return (
-    <div className="flex items-center my-4 border-2 rounded-md relative w-full bg-white border-neutral-200">
-      <input
-        className="w-full h-5 p-4 m-0 focus:outline-none"
-        placeholder="Describe a data transformation here"
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      ></input>
-      <button
-        className="h-8 w-8 bg-teal-500 hover:bg-teal-700 rounded-md flex justify-center items-center m-1 p-2"
-        onClick={handleSubmit}
-      >
-        <MagnifyingGlassIcon className="h-4 w-4 fill-gray-100" />
-      </button>
-    </div>
+    <>
+      <div className="flex items-center my-4 border-2 rounded-md relative w-full bg-white border-neutral-200">
+        <input
+          className="w-full h-5 p-4 m-0 focus:outline-none"
+          placeholder="Describe a data transformation here"
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        ></input>
+        <button
+          className="h-8 w-8 bg-teal-500 hover:bg-teal-700 rounded-md flex justify-center items-center m-1 p-2"
+          onClick={handleSubmit}
+        >
+          <MagnifyingGlassIcon className="h-4 w-4 fill-gray-100" />
+        </button>
+      </div>
+      <CustomModal parentshow={modal} setParentShow={setModal}>
+        <>
+          <h2 className="mt-4 font-bold">There is an error in the query</h2>
+          <p>{modalContent}</p>
+        </>
+      </CustomModal>
+    </>
   );
 };

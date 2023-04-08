@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Results } from "../Components/Results";
 import { SideBar } from "../Components/SideBar";
 import { NavBar } from "../Components/NavBar";
+import { Overview } from "../Components/Overview";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import "react-tabs/style/react-tabs.css";
@@ -65,6 +66,13 @@ export const Home = () => {
     setSchema({
       tabs: newTabs,
     } as Schema);
+
+    // change the tabIndex to the other tab
+    if (tabIndex === 0) {
+      setTabIndex(1);
+    } else {
+      setTabIndex(0);
+    }
   };
 
   useIsMount(() => {
@@ -241,7 +249,7 @@ export const Home = () => {
               ))}
             </>
           ) : (
-            <p>Authenticate with a connector to get started.</p>
+            <Overview />
           )}
         </div>
       </div>

@@ -300,8 +300,8 @@ export const googleMetricOptions = [
 
 export const googleDimensionOptions = [
   { value: "segments.date", label: "Date" },
-  { value: "ad_group.name,", label: "Ad Group Name" },
-  { value: "ad_group.id,", label: "Ad Group Id" },
-  { value: "campaign.id,", label: "Campaign Id" },
-  { value: "campaign.name,", label: "Campaign Name" },
+  { value: "ad_group.name", label: "Ad Group Name" },
+  { value: "ad_group.id", label: "Ad Group Id" },
+  { value: "campaign.id", label: "Campaign Id" },
+  { value: "campaign.name", label: "Campaign Name" },
 ];

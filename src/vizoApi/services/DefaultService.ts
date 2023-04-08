@@ -5,6 +5,7 @@ import type { AdAccount } from '../models/AdAccount';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
 import type { Completion } from '../models/Completion';
 import type { CurrentResults } from '../models/CurrentResults';
+import type { DebugResponse } from '../models/DebugResponse';
 import type { FacebookQuery } from '../models/FacebookQuery';
 import type { FacebookQueryResults } from '../models/FacebookQueryResults';
 import type { GoogleQuery } from '../models/GoogleQuery';
@@ -251,6 +252,37 @@ requestBody: Schema,
             method: 'POST',
             url: '/query/sql_query',
             query: {
+                'prompt': prompt,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Debug Prompt
+     * @param query 
+     * @param error 
+     * @param requestBody 
+     * @param prompt 
+     * @returns DebugResponse Successful Response
+     * @throws ApiError
+     */
+    public static debugPromptQueryDebugPromptPost(
+query: string,
+error: string,
+requestBody: Schema,
+prompt?: string,
+): CancelablePromise<DebugResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/debug_prompt',
+            query: {
+                'query': query,
+                'error': error,
                 'prompt': prompt,
             },
             body: requestBody,

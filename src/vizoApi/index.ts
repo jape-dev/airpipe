@@ -10,6 +10,7 @@ export type { AdAccount } from './models/AdAccount';
 export type { Body_login_for_access_token_user_auth_token_post } from './models/Body_login_for_access_token_user_auth_token_post';
 export type { Completion } from './models/Completion';
 export type { CurrentResults } from './models/CurrentResults';
+export type { DebugResponse } from './models/DebugResponse';
 export type { FacebookQuery } from './models/FacebookQuery';
 export type { FacebookQueryResults } from './models/FacebookQueryResults';
 export type { GoogleQuery } from './models/GoogleQuery';
