@@ -225,7 +225,9 @@ export const Results = (props: {
             type="button"
             className="text-white bg-teal-500 hover:bg-teal-700  font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center"
           >
-            <CSVLink data={csvData}>Download CSV</CSVLink>
+            <CSVLink data={csvData} filename={"airpipe.csv"}>
+              Download CSV
+            </CSVLink>
           </button>
         )}
       </div>

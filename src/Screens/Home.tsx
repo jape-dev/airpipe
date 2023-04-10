@@ -68,9 +68,7 @@ export const Home = () => {
     } as Schema);
 
     // change the tabIndex to the other tab
-    if (tabIndex === 0) {
-      setTabIndex(1);
-    } else {
+    if (tabIndex === 1) {
       setTabIndex(0);
     }
   };

@@ -112,7 +112,7 @@ export const GoogleConnector = (props: {
               DefaultService.createNewTableQueryCreateNewTablePost(
                 results
               ).then(() => {
-                const newTableNameList = props.tableNameList;
+                let newTableNameList = props.tableNameList;
                 // if it's not zero need to do tabIndex plus 1
                 let newTabIndex = props.tabIndex;
                 if (props.tabIndex === 0) {
@@ -135,10 +135,13 @@ export const GoogleConnector = (props: {
                   newTableNameList[props.tabIndex + 1].push(tableColumns.name);
                   newTabIndex = props.tabIndex + 1;
                 }
+                newTableNameList = newTableNameList.filter(function (e) {
+                  return e;
+                });
                 props.setTableNameList(newTableNameList);
                 props.setQueryList((queryList) => [...queryList, [""]]);
                 props.setResultsList((prev) => {
-                  const newArr = [...prev];
+                  let newArr = [...prev];
                   if (props.tabIndex === 0) {
                     if (newArr[props.tabIndex] === undefined) {
                       newArr[props.tabIndex] = [newResults];
@@ -148,6 +151,9 @@ export const GoogleConnector = (props: {
                   } else {
                     newArr[props.tabIndex + 1] = [newResults];
                   }
+                  newArr = newArr.filter(function (e) {
+                    return e;
+                  });
                   return newArr;
                 });
                 props.updateSchema({
