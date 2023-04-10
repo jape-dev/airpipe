@@ -45,7 +45,25 @@ export const Overview = () => {
       </div>
       <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
         <div className="aspect-w-16 aspect-h-9">
-          {/* Placeholder for video embed */}
+          <div
+            style={{
+              position: "relative",
+              paddingBottom: "64.98194945848375%",
+              height: 0,
+            }}
+          >
+            <iframe
+              src="https://www.loom.com/embed/4afb42fc53544aa5a76dfca8d6d930a3"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            ></iframe>
+          </div>
         </div>
       </div>
     </div>
