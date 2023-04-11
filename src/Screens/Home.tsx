@@ -63,6 +63,12 @@ export const Home = () => {
     setIndexList(indexList.filter((result, index) => index !== tabIndex));
     let newTabs = schema.tabs;
     newTabs.splice(tabIndex, 1);
+    // need to adjust the tabIndex of the other tabs
+    newTabs.forEach((tab) => {
+      if (tab.tabIndex > tabIndex) {
+        tab.tabIndex = tab.tabIndex - 1;
+      }
+    });
     setSchema({
       tabs: newTabs,
     } as Schema);

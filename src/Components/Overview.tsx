@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 export const Overview = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <div className="bg-white shadow overflow-hidden rounded-lg">
       <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
@@ -44,27 +50,52 @@ export const Overview = () => {
         </div>
       </div>
       <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
-        <div className="aspect-w-16 aspect-h-9">
-          <div
-            style={{
-              position: "relative",
-              paddingBottom: "64.98194945848375%",
-              height: 0,
-            }}
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={toggleCollapse}
+        >
+          <h3 className="text-lg leading-6 mb-2 font-medium text-gray-900">
+            Tutorial
+          </h3>
+          <svg
+            className={`h-4 w-4 transform transition-transform ${
+              isCollapsed ? "" : "rotate-180"
+            } text-gray-500`}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
           >
-            <iframe
-              src="https://www.loom.com/embed/4afb42fc53544aa5a76dfca8d6d930a3"
-              allowFullScreen
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-              }}
-            ></iframe>
-          </div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
         </div>
+        {!isCollapsed && (
+          <div className="aspect-w-12 aspect-h-6">
+            <div
+              style={{
+                position: "relative",
+                paddingBottom: "64.98194945848375%",
+                height: 0,
+              }}
+            >
+              <iframe
+                src="https://www.loom.com/embed/4afb42fc53544aa5a76dfca8d6d930a3"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              ></iframe>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
