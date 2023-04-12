@@ -15,7 +15,7 @@ import { metricOptions, dimensionOptions } from "../Data/Options";
 import { ConnectorForm } from "./ConnectorForm";
 
 const DOMAIN_URL =
-  process.env.REACT_APP_DOMAIN_URL || "https://airpipe-api.onrender.com";
+  process.env.REACT_APP_DOMAIN_URL || "https://api-airpipe.com";
 
 export const FacebookConnector = (props: {
   currentUser: User | undefined;

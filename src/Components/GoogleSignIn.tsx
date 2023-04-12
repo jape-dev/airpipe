@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 declare const google: any;
 
 const DOMAIN_URL =
-  process.env.REACT_APP_DOMAIN_URL || "https://airpipe-api.onrender.com";
+  process.env.REACT_APP_DOMAIN_URL || "https://api-airpipe.com";
 
 const GoogleSignIn = () => {
   const g_sso = useRef(null);
