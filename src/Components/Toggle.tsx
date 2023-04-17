@@ -69,7 +69,7 @@ export const Toggle = (props: {
           >
             <ArrowLeftIcon className="h-4 w-4 fill-gray-100" />
           </button>
-          <p className="mr-2 ml-2">Toggle Results</p>
+          <p className="mr-2 ml-2">Pipeline</p>
         </>
       ) : null}
 
