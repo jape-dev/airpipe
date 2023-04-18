@@ -37,7 +37,7 @@ export const SignUp = () => {
             localStorage.setItem("token", response.access_token);
           })
           .then(() => {
-            navigate(RouterPath.HOME);
+            navigate(RouterPath.WELCOME);
           })
           .catch((error) => {
             console.log("Error");

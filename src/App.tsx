@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from "./Screens/Home";
 import { SignUp } from "./Screens/SignUp";
 import { Login } from "./Screens/Login";
+import { Welcome } from "./Screens/Welcome";
 import { OpenAPI } from "./vizoApi";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 
@@ -12,6 +13,7 @@ export const RouterPath = {
   SHARE: "/share/",
   LOGIN: "/login/",
   SIGNUP: "/signup/",
+  WELCOME: "/welcome/",
 };
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         />
         <Route path={RouterPath.LOGIN} element={<Login />} />
         <Route path={RouterPath.SIGNUP} element={<SignUp />} />
+        <Route path={RouterPath.WELCOME} element={<Welcome />} />
       </Routes>
     </Router>
   );
