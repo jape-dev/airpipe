@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 declare const google: any;
 
-const DOMAIN_URL = "https://api-airpipe.com";
+const DOMAIN_URL = "http://localhost:8000";
 
 const GoogleSignIn = () => {
   const g_sso = useRef(null);

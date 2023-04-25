@@ -5,6 +5,8 @@ import { Home } from "./Screens/Home";
 import { SignUp } from "./Screens/SignUp";
 import { Login } from "./Screens/Login";
 import { Welcome } from "./Screens/Welcome";
+import { Blender } from "./Screens/Blender";
+import { Connect } from "./Screens/Connect";
 import { OpenAPI } from "./vizoApi";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 
@@ -14,10 +16,12 @@ export const RouterPath = {
   LOGIN: "/login/",
   SIGNUP: "/signup/",
   WELCOME: "/welcome/",
+  BLENDER: "/blender/",
+  CONNECT: "/connect/",
 };
 
 function App() {
-  OpenAPI.BASE = process.env.REACT_APP_DOMAIN_URL || "https://api-airpipe.com";
+  OpenAPI.BASE = process.env.REACT_APP_DOMAIN_URL || "http://localhost:8000";
 
   return (
     <Router>
@@ -33,6 +37,8 @@ function App() {
         <Route path={RouterPath.LOGIN} element={<Login />} />
         <Route path={RouterPath.SIGNUP} element={<SignUp />} />
         <Route path={RouterPath.WELCOME} element={<Welcome />} />
+        <Route path={RouterPath.BLENDER} element={<Blender />} />
+        <Route path={RouterPath.CONNECT} element={<Connect />} />
       </Routes>
     </Router>
   );

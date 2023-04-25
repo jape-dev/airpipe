@@ -24,6 +24,7 @@ const CenteredModal = styled(Modal)`
   background-color: white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   padding: 20px;
+  text-align: center;
 `;
 
 export function CustomModal({

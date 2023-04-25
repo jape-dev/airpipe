@@ -354,4 +354,16 @@ requestBody: User,
         });
     }
 
+    /**
+     * Read Root
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static readRootGet(): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/',
+        });
+    }
+
 }

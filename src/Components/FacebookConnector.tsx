@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { metricOptions, dimensionOptions } from "../Data/Options";
 import { ConnectorForm } from "./ConnectorForm";
 
-const DOMAIN_URL = "https://api-airpipe.com";
+const DOMAIN_URL = "http://localhost:8000";
 
 export const FacebookConnector = (props: {
   currentUser: User | undefined;

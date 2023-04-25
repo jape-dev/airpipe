@@ -6,4 +6,5 @@ export type AdAccount = {
     id: string;
     account_id?: string;
     name?: string;
+    img?: string;
 };

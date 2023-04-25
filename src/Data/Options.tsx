@@ -304,4 +304,5 @@ export const googleDimensionOptions = [
   { value: "ad_group.id", label: "Ad Group Id" },
   { value: "campaign.id", label: "Campaign Id" },
   { value: "campaign.name", label: "Campaign Name" },
+  { value: "segments.keyword.info.text", label: "Keyword Text" },
 ];
