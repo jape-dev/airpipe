@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "../Components/DropDown";
 import { NavBar } from "../Components/NavBar";
+import { SideBar } from "../Components/SideBarV2";
 import { DefaultService, User, AdAccount } from "../vizoApi";
 import { RouterPath } from "../App";
+import { FieldList } from "../Components/FieldList";
 
 export const Blender: React.FC = () => {
   const options = ["Smoothie", "Milkshake", "Frozen Cocktail"];
   const [currentUser, setCurrentUser] = useState<User>();
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>([]);
+  const [selectedAdAccount, setSelectedAdAccount] = useState<AdAccount>();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -48,20 +51,31 @@ export const Blender: React.FC = () => {
     }
   }, []);
 
-  const handleSelectOption = (selectedOption: string) => {
-    console.log(`Selected option: ${selectedOption}`);
+  const handleSelectOption = (selectedOption: AdAccount) => {
+    setSelectedAdAccount(selectedOption);
   };
 
   return (
     <>
       <NavBar />
-      <div className="bg-gray-200 p-4 mx-auto w-3/4">
-        <h1 className="text-2xl font-bold mb-4">Add Data</h1>
-        {adAccounts.length === 0 ? (
-          <p>Loading</p>
-        ) : (
-          <Dropdown options={adAccounts} onSelectOption={handleSelectOption} />
-        )}
+      <div className="h-screen grid grid-cols-7 gap-2 p-0">
+        <div className="col-span-1">
+          <SideBar />
+        </div>
+        <div className="col-span-6 justify-center">
+          <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
+            <h1 className="text-2xl font-bold mb-4">Data Sources</h1>
+            {adAccounts.length === 0 ? (
+              <p>Loading</p>
+            ) : (
+              <Dropdown
+                options={adAccounts}
+                onSelectOption={handleSelectOption}
+              />
+            )}
+            {selectedAdAccount && <FieldList adAccount={selectedAdAccount} />}
+          </div>
+        </div>
       </div>
     </>
   );

@@ -11,7 +11,10 @@ import {
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import "react-datepicker/dist/react-datepicker.css";
-import { metricOptions, dimensionOptions } from "../Data/Options";
+import {
+  facebookDimensionOptions,
+  facebookMetricOptions,
+} from "../Data/Options";
 import { ConnectorForm } from "./ConnectorForm";
 
 const DOMAIN_URL = "http://localhost:8000";
@@ -188,8 +191,8 @@ export const FacebookConnector = (props: {
       name="Facebook"
       selectedAdAccount={selectedAdAccount}
       setSelectedAdAccount={setSelectedAdAccount}
-      metricOptions={metricOptions}
-      dimensionOptions={dimensionOptions}
+      metricOptions={facebookMetricOptions}
+      dimensionOptions={facebookDimensionOptions}
     />
   );
 };

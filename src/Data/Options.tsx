@@ -1,4 +1,4 @@
-export const metricOptions = [
+export const facebookMetricOptions = [
   { value: "clicks", label: "Clicks" },
   { value: "conversions", label: "Conversions" },
   { value: "cost_per_conversion", label: "Cost Per Conversion" },
@@ -117,7 +117,7 @@ export const metricOptions = [
   { value: "website_purchase_roas", label: "Website Purchase ROAS" },
 ];
 
-export const dimensionOptions = [
+export const facebookDimensionOptions = [
   { value: "account_id", label: "Account Id" },
   { value: "account_name", label: "Account Name" },
   { value: "adset_id", label: "Adset Id" },

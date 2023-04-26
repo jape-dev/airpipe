@@ -11,7 +11,7 @@ export const BaseConnector = (props: {
   };
 
   return (
-    <div className="bg-gray-200 rounded-lg border border-gray-300 p-4 mb-4 flex items-center justify-between">
+    <div className=" bg-white rounded-lg border border-gray-300 p-4 mb-4 flex items-center justify-between">
       <div className="flex items-center">
         <img className="h-8 w-8 mr-4" src={getIconUrl()} alt="icon" />
         <h1 className="text-lg font-medium">{props.title}</h1>

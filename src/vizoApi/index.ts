@@ -8,6 +8,7 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AdAccount } from './models/AdAccount';
 export type { Body_login_for_access_token_user_auth_token_post } from './models/Body_login_for_access_token_user_auth_token_post';
+export { ChannelType } from './models/ChannelType';
 export type { Completion } from './models/Completion';
 export type { CurrentResults } from './models/CurrentResults';
 export type { DebugResponse } from './models/DebugResponse';
