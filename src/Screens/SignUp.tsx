@@ -100,6 +100,10 @@ export const SignUp = () => {
                 Create an account
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                By signing up, you agree to be contacted via email. You may
+                unsubscribe at anytime.
+              </p>
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
                 <Link
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
