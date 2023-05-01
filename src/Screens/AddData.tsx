@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown } from "../Components/DropDown";
+import { Dropdown, DropDownOption } from "../Components/DropDown";
 import { AddDataButton } from "../Components/AddDataButton";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
@@ -20,6 +20,7 @@ export const AddData: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<FieldOption[]>([]);
   const [tableName, setTableName] = useState<string>("");
   const [tableId, setTableId] = useState<string>("");
+  const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -60,8 +61,25 @@ export const AddData: React.FC = () => {
     }
   }, []);
 
-  const handleSelectOption = (selectedOption: AdAccount) => {
-    setSelectedAdAccount(selectedOption);
+  useEffect(() => {
+    // produce a list of DropDownOptions from the list of AdAccounts
+    let options: DropDownOption[] = [];
+    adAccounts.map((account) => {
+      const option: DropDownOption = {
+        id: account.id,
+        name: account.name,
+        img: account.img,
+      };
+      options.push(option);
+    });
+    setDropDownOptions(options);
+  }, [adAccounts]);
+
+  const handleSelectOption = (selectedOption: DropDownOption) => {
+    const adAccount = adAccounts.find(
+      (account) => account.id === selectedOption.id
+    );
+    setSelectedAdAccount(adAccount);
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +98,14 @@ export const AddData: React.FC = () => {
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
         (response: CurrentResults) => {
-          window.location.href = RouterPath.DATA_SOURCES;
+          DefaultService.createNewTableQueryCreateNewTablePost(response)
+            .then(() => {
+              window.location.href = RouterPath.DATA_SOURCES;
+            })
+            .catch((error) => {
+              console.log(error);
+              alert("Could not add data to the database. Please try again");
+            });
         }
       );
     }
@@ -100,7 +125,7 @@ export const AddData: React.FC = () => {
               <p>Loading</p>
             ) : (
               <Dropdown
-                options={adAccounts}
+                options={dropDownOptions}
                 onSelectOption={handleSelectOption}
               />
             )}

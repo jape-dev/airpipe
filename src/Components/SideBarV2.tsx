@@ -33,7 +33,7 @@ export const SideBar = (props: {}) => {
           Data Sources
         </Link>
         <Link
-          to={RouterPath.CONNECT}
+          to={RouterPath.ASK}
           className="flex items-center my-9 font-bold text-gray-700"
         >
           <ChatBubbleLeftIcon className="w-5 h-5 mr-2 text-gray-700" />

@@ -8,6 +8,7 @@ import { Welcome } from "./Screens/Welcome";
 import { AddData } from "./Screens/AddData";
 import { Connect } from "./Screens/Connect";
 import { DataSources } from "./Screens/DataSources";
+import { Ask } from "./Screens/Ask";
 import { OpenAPI } from "./vizoApi";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 
@@ -20,6 +21,7 @@ export const RouterPath = {
   ADD_DATA: "/add-data/",
   CONNECT: "/connect/",
   DATA_SOURCES: "/data-sources/",
+  ASK: "/ask/",
 };
 
 function App() {
@@ -42,6 +44,7 @@ function App() {
         <Route path={RouterPath.ADD_DATA} element={<AddData />} />
         <Route path={RouterPath.CONNECT} element={<Connect />} />
         <Route path={RouterPath.DATA_SOURCES} element={<DataSources />} />
+        <Route path={RouterPath.ASK} element={<Ask />} />
       </Routes>
     </Router>
   );

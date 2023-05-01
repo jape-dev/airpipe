@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { AdAccount } from "../vizoApi";
 
+export interface DropDownOption {
+  id: string;
+  name?: string;
+  img?: string;
+}
+
 interface DropdownProps {
-  options: AdAccount[];
-  onSelectOption: (selectedOption: AdAccount) => void;
+  options: DropDownOption[];
+  onSelectOption: (selectedOption: DropDownOption) => void;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -11,9 +17,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
   onSelectOption,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<AdAccount>();
+  const [selectedOption, setSelectedOption] = useState<DropDownOption>();
 
-  const handleOptionClick = (option: AdAccount) => {
+  const handleOptionClick = (option: DropDownOption) => {
     setSelectedOption(option);
     setIsOpen(false);
     onSelectOption(option);
