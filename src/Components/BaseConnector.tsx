@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 export const BaseConnector = (props: {
   title: string;
   imgPath: string;

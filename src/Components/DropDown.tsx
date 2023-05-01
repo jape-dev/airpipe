@@ -24,7 +24,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative mb-5">
       <button
         className="block w-full bg-white border border-gray-400 shadow-sm py-2 px-4 rounded-md text-left cursor-pointer focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}

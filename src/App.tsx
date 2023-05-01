@@ -5,8 +5,9 @@ import { Home } from "./Screens/Home";
 import { SignUp } from "./Screens/SignUp";
 import { Login } from "./Screens/Login";
 import { Welcome } from "./Screens/Welcome";
-import { Blender } from "./Screens/Blender";
+import { AddData } from "./Screens/AddData";
 import { Connect } from "./Screens/Connect";
+import { DataSources } from "./Screens/DataSources";
 import { OpenAPI } from "./vizoApi";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 
@@ -16,8 +17,9 @@ export const RouterPath = {
   LOGIN: "/login/",
   SIGNUP: "/signup/",
   WELCOME: "/welcome/",
-  BLENDER: "/blender/",
+  ADD_DATA: "/add-data/",
   CONNECT: "/connect/",
+  DATA_SOURCES: "/data-sources/",
 };
 
 function App() {
@@ -37,8 +39,9 @@ function App() {
         <Route path={RouterPath.LOGIN} element={<Login />} />
         <Route path={RouterPath.SIGNUP} element={<SignUp />} />
         <Route path={RouterPath.WELCOME} element={<Welcome />} />
-        <Route path={RouterPath.BLENDER} element={<Blender />} />
+        <Route path={RouterPath.ADD_DATA} element={<AddData />} />
         <Route path={RouterPath.CONNECT} element={<Connect />} />
+        <Route path={RouterPath.DATA_SOURCES} element={<DataSources />} />
       </Routes>
     </Router>
   );

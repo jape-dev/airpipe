@@ -10,7 +10,7 @@ const Backdrop = styled("div")`
   left: 0;
   right: 0;
   background-color: #000;
-  opacity: 0.5;
+  opacity: 0.3;
 `;
 
 const CenteredModal = styled(Modal)`
@@ -22,9 +22,10 @@ const CenteredModal = styled(Modal)`
   transform: translate(-50%, -50%);
   border: 1px solid #e5e5e5;
   background-color: white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
   padding: 20px;
   text-align: center;
+  border-radius: 5px;
 `;
 
 export function CustomModal({

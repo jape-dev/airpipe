@@ -5,7 +5,7 @@
 /**
  * An enumeration.
  */
-export enum ChannelType {
-    GOOGLE = 'google',
-    FACEBOOK = 'facebook',
+export enum FieldType {
+    METRIC = 'metric',
+    DIMENSION = 'dimension',
 }

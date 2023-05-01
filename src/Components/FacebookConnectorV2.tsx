@@ -1,4 +1,3 @@
-import { CustomModal } from "./CustomModal";
 import { useState, useEffect } from "react";
 import { BaseConnector } from "./BaseConnector";
 import { User } from "../vizoApi";
