@@ -5,3 +5,4 @@
 export type FacebookQueryResults = {
     results: Array<any>;
 };
+

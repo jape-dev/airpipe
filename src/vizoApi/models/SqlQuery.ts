@@ -5,3 +5,4 @@
 export type SqlQuery = {
     query: string;
 };
+

@@ -21,7 +21,6 @@ export const Ask: React.FC = () => {
         .then((response: User) => {
           DefaultService.getDataSourcesQueryDataSourcesGet(response.email).then(
             (response) => {
-              console.log(response);
               setDataSources(response);
             }
           );
@@ -69,7 +68,7 @@ export const Ask: React.FC = () => {
               options={dropDownOptions}
               onSelectOption={handleSelectOption}
             ></Dropdown>
-            <ChatInterface />
+            {selectedDataSource && <ChatInterface />}
           </div>
         </div>
       </div>

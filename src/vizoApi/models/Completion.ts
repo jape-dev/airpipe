@@ -5,3 +5,4 @@
 export type Completion = {
     completion: string;
 };
+

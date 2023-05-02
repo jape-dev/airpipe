@@ -7,3 +7,4 @@ export type CurrentResults = {
     columns: Array<string>;
     results: Array<any>;
 };
+

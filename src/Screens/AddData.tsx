@@ -38,8 +38,8 @@ export const AddData: React.FC = () => {
         })
         .catch((error: any) => {
           if (error.status === 401) {
-            alert("Google access token expired. Please connect again");
-            window.location.href = RouterPath.CONNECT;
+            // alert("Google access token expired. Please connect again");
+            // window.location.href = RouterPath.CONNECT;
           } else {
             console.log(error);
           }

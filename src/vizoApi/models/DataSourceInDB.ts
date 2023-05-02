@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 export type DataSourceInDB = {
+    id: number;
     user_id: string;
     name: string;
     fields: string;
@@ -10,3 +11,4 @@ export type DataSourceInDB = {
     channel_img: string;
     ad_account_id: string;
 };
+
