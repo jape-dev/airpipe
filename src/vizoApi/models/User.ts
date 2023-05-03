@@ -8,4 +8,3 @@ export type User = {
     facebook_access_token?: string;
     google_access_token?: string;
 };
-

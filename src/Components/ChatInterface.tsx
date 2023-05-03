@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
+import { DefaultService, Prompt } from "../vizoApi";
+
+export interface ChatInterfaceProps {
+  tableName: string;
+}
 
 interface Message {
   text: string;
   isUserMessage: boolean;
 }
 
-export const ChatInterface: React.FC = () => {
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       text: "Hello! How can I assist you today?",
@@ -29,6 +34,13 @@ export const ChatInterface: React.FC = () => {
       },
     ]);
     setInputValue("");
+    const prompt: Prompt = {
+      prompt: inputValue,
+      table: tableName,
+    };
+    DefaultService.askQuestionQueryAskQuestionPost(prompt).catch((err) =>
+      console.log(err)
+    );
   };
 
   return (

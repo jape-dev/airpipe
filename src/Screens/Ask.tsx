@@ -68,7 +68,9 @@ export const Ask: React.FC = () => {
               options={dropDownOptions}
               onSelectOption={handleSelectOption}
             ></Dropdown>
-            {selectedDataSource && <ChatInterface />}
+            {selectedDataSource && (
+              <ChatInterface tableName={selectedDataSource.table_name} />
+            )}
           </div>
         </div>
       </div>

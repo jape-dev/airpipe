@@ -21,6 +21,7 @@ export { FieldType } from './models/FieldType';
 export type { GoogleQuery } from './models/GoogleQuery';
 export type { GoogleQueryResults } from './models/GoogleQueryResults';
 export type { HTTPValidationError } from './models/HTTPValidationError';
+export type { Prompt } from './models/Prompt';
 export type { QueryResults } from './models/QueryResults';
 export type { Schema } from './models/Schema';
 export type { SqlQuery } from './models/SqlQuery';
