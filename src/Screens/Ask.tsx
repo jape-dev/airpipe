@@ -37,7 +37,7 @@ export const Ask: React.FC = () => {
     let options: DropDownOption[] = [];
     dataSources.map((source) => {
       const option: DropDownOption = {
-        id: source.ad_account_id,
+        id: source.id.toString(),
         name: source.name,
         img: source.channel_img,
       };
@@ -49,7 +49,7 @@ export const Ask: React.FC = () => {
   const handleSelectOption = (selectedOption: DropDownOption) => {
     const dataSource = dataSources.find(
       // Need to use an actual id field instead of ad_account_id
-      (dataSource) => dataSource.ad_account_id === selectedOption.id
+      (dataSource) => dataSource.id.toString() === selectedOption.id
     );
     setSelectedDataSource(dataSource);
   };

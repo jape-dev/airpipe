@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
 import { DefaultService, Prompt } from "../vizoApi";
 
