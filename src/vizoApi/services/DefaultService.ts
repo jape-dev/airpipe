@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
+import type { ChainResult } from '../models/ChainResult';
 import type { Completion } from '../models/Completion';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
@@ -340,17 +341,38 @@ prompt?: string,
     /**
      * Ask Question
      * @param requestBody 
-     * @returns any Successful Response
+     * @returns ChainResult Successful Response
      * @throws ApiError
      */
     public static askQuestionQueryAskQuestionPost(
 requestBody: Prompt,
-): CancelablePromise<any> {
+): CancelablePromise<ChainResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/ask_question',
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Chart Type
+     * @param input 
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static chartTypeQueryChartTypePost(
+input: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/chart_type',
+            query: {
+                'input': input,
+            },
             errors: {
                 422: `Validation Error`,
             },
