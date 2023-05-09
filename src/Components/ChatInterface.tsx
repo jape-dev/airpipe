@@ -3,6 +3,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
 import { DefaultService, Prompt, ChainResult } from "../vizoApi";
 import { Chart } from "./ChartComponent";
 import { ChartSelector } from "./ChartSelector";
+import { Message } from "./Message";
 
 export interface ChatInterfaceProps {
   tableName: string;
@@ -12,6 +13,8 @@ interface Message {
   isUserMessage: boolean;
   text: string;
   data?: any;
+  chartType?: string;
+  chartSelectOpen?: boolean;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
@@ -22,8 +25,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
     },
   ]);
   const [inputValue, setInputValue] = useState("");
-  const [chartOption, setChartOption] = useState<string>("");
-  const [chartSelectOpen, setChartSelectOpen] = useState(false);
 
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,38 +69,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
     <div className="flex flex-col h-full w-full">
       <div className="flex-1 overflow-y-auto">
         {messages.map((message, index) => (
-          <>
-            <div
-              key={index}
-              className={`flex ${
-                message.isUserMessage ? "justify-end" : "justify-start"
-              } mt-4`}
-            >
-              <div
-                className={`bg-teal-500 rounded-lg p-2 max-w-md ${
-                  message.isUserMessage
-                    ? "bg-gray-500 text-white"
-                    : "bg-teal-500 text-white"
-                }`}
-              >
-                <p className="text-sm">{message.text}</p>
-              </div>
-            </div>
-
-            {message.data && message.data.length > 0 && (
-              <ChartSelector
-                chartOption={chartOption}
-                setChartOption={setChartOption}
-                isOpen={chartSelectOpen}
-                setIsOpen={setChartSelectOpen}
-              />
-            )}
-            {chartOption && message.data && chartSelectOpen === false && (
-              <div key={index} className="flex justify-start mt-4">
-                <Chart data={message.data} chartType={chartOption} />
-              </div>
-            )}
-          </>
+          <Message index={index} {...message} />
         ))}
       </div>
       <form className="flex mt-4 " onSubmit={handleInputSubmit}>
