@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
 import { DefaultService, Prompt, ChainResult } from "../vizoApi";
-import { Chart } from "./ChartComponent";
-import { ChartSelector } from "./ChartSelector";
 import { Message } from "./Message";
 
 export interface ChatInterfaceProps {
@@ -13,8 +11,7 @@ interface Message {
   isUserMessage: boolean;
   text: string;
   data?: any;
-  chartType?: string;
-  chartSelectOpen?: boolean;
+  loading?: boolean;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
@@ -36,10 +33,16 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
       prompt: inputValue,
       table: tableName,
     };
-    setMessages([...messages, { text: inputValue, isUserMessage: true }]);
+    setMessages([
+      ...messages,
+      { text: inputValue, isUserMessage: true },
+      { text: "Loading...", isUserMessage: false, loading: true },
+    ]);
     DefaultService.askQuestionQueryAskQuestionPost(prompt)
       .then((result: ChainResult) => {
-        console.log(result);
+        if (messages[messages.length - 1].loading) {
+          messages.pop();
+        }
         setMessages([
           ...messages,
           {
@@ -67,7 +70,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
 
   return (
     <div className="flex flex-col h-full w-full">
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1">
         {messages.map((message, index) => (
           <Message index={index} {...message} />
         ))}
