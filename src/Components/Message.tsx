@@ -32,7 +32,7 @@ export const Message: React.FC<MessageProps> = ({
         />
       ) : (
         <div className="flex flex-col h-full w-full">
-          <div className="flex-1 overflow-y-auto">
+          <div className="h-full">
             <div
               key={index}
               className={`flex ${

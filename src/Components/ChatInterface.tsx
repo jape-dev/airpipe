@@ -69,7 +69,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col flex-grow">
       <div className="flex-1">
         {messages.map((message, index) => (
           <Message index={index} {...message} />
