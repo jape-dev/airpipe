@@ -73,7 +73,7 @@ export const Overview = () => {
             />
           </svg>
         </div>
-        {!isCollapsed && (
+        {/* {!isCollapsed && (
           <div className="aspect-w-12 aspect-h-6">
             <div
               style={{
@@ -95,7 +95,7 @@ export const Overview = () => {
               ></iframe>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type DebugResponse = {
-    prompt: string;
+    prompt?: string;
     query: string;
     error: string;
     completion: string;

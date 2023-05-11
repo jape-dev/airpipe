@@ -3,13 +3,17 @@
 /* eslint-disable */
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
+import type { ChainResult } from '../models/ChainResult';
 import type { Completion } from '../models/Completion';
 import type { CurrentResults } from '../models/CurrentResults';
+import type { DataSource } from '../models/DataSource';
+import type { DataSourceInDB } from '../models/DataSourceInDB';
 import type { DebugResponse } from '../models/DebugResponse';
 import type { FacebookQuery } from '../models/FacebookQuery';
 import type { FacebookQueryResults } from '../models/FacebookQueryResults';
 import type { GoogleQuery } from '../models/GoogleQuery';
 import type { GoogleQueryResults } from '../models/GoogleQueryResults';
+import type { Prompt } from '../models/Prompt';
 import type { QueryResults } from '../models/QueryResults';
 import type { Schema } from '../models/Schema';
 import type { SqlQuery } from '../models/SqlQuery';
@@ -214,6 +218,47 @@ requestBody: CurrentResults,
     }
 
     /**
+     * Add Data Source
+     * @param requestBody 
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static addDataSourceQueryAddDataSourcePost(
+requestBody: DataSource,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/add_data_source',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Data Sources
+     * @param email 
+     * @returns DataSourceInDB Successful Response
+     * @throws ApiError
+     */
+    public static getDataSourcesQueryDataSourcesGet(
+email: string,
+): CancelablePromise<Array<DataSourceInDB>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/data_sources',
+            query: {
+                'email': email,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Codex
      * @param prompt 
      * @param completion 
@@ -294,6 +339,47 @@ prompt?: string,
     }
 
     /**
+     * Ask Question
+     * @param requestBody 
+     * @returns ChainResult Successful Response
+     * @throws ApiError
+     */
+    public static askQuestionQueryAskQuestionPost(
+requestBody: Prompt,
+): CancelablePromise<ChainResult> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/ask_question',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Chart Type
+     * @param input 
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static chartTypeQueryChartTypePost(
+input: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/chart_type',
+            query: {
+                'input': input,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Login For Access Token
      * @param formData 
      * @returns Token Successful Response
@@ -351,6 +437,18 @@ requestBody: User,
             errors: {
                 422: `Validation Error`,
             },
+        });
+    }
+
+    /**
+     * Read Root
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static readRootGet(): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/',
         });
     }
 
