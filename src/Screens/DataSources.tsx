@@ -19,7 +19,6 @@ export const DataSources: React.FC = () => {
         .then((response: User) => {
           DefaultService.getDataSourcesQueryDataSourcesGet(response.email).then(
             (response) => {
-              console.log(response);
               setDataSources(response);
             }
           );

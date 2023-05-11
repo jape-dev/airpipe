@@ -6,3 +6,4 @@ export type Prompt = {
     prompt: string;
     table: string;
 };
+

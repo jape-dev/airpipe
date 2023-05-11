@@ -5,3 +5,4 @@
 export type GoogleQueryResults = {
     results: Array<any>;
 };
+

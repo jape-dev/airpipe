@@ -12,3 +12,4 @@ export type DataSource = {
     fields: Array<FieldOption>;
     adAccount: AdAccount;
 };
+

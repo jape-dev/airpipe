@@ -8,3 +8,4 @@ export type TabData = {
     tabIndex: number;
     data: Array<TableColumns>;
 };
+

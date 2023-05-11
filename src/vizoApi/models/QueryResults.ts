@@ -5,3 +5,4 @@
 export type QueryResults = {
     results: Array<any>;
 };
+

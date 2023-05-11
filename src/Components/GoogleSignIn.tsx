@@ -12,6 +12,7 @@ const GoogleSignIn = () => {
         client_id:
           "666024859022-rq09jru86c64amvrlqhkom354jtmg2k8.apps.googleusercontent.com",
         callback: (res: any) => {
+          console.log("setting google access token");
           localStorage.setItem("googleToken", res.credential);
           const token = localStorage.getItem("token");
           window.location.href = `${DOMAIN_URL}/connector/google/auth?token=${token}&googleToken=${res.credential}`;

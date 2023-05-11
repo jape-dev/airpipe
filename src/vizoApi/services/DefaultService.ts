@@ -53,13 +53,13 @@ export class DefaultService {
 
     /**
      * Ad Accounts
-     * @param token 
+     * @param token
      * @returns AdAccount Successful Response
      * @throws ApiError
      */
     public static adAccountsConnectorGoogleAdAccountsGet(
-token: string,
-): CancelablePromise<Array<AdAccount>> {
+        token: string,
+    ): CancelablePromise<Array<AdAccount>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/connector/google/ad_accounts',
@@ -74,15 +74,15 @@ token: string,
 
     /**
      * Run Query
-     * @param token 
-     * @param requestBody 
+     * @param token
+     * @param requestBody
      * @returns GoogleQueryResults Successful Response
      * @throws ApiError
      */
     public static runQueryConnectorGoogleRunQueryPost(
-token: string,
-requestBody: GoogleQuery,
-): CancelablePromise<GoogleQueryResults> {
+        token: string,
+        requestBody: GoogleQuery,
+    ): CancelablePromise<GoogleQueryResults> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/connector/google/run_query',
@@ -111,13 +111,13 @@ requestBody: GoogleQuery,
 
     /**
      * Ad Accounts
-     * @param token 
+     * @param token
      * @returns AdAccount Successful Response
      * @throws ApiError
      */
     public static adAccountsConnectorFacebookAdAccountsGet(
-token: string,
-): CancelablePromise<Array<AdAccount>> {
+        token: string,
+    ): CancelablePromise<Array<AdAccount>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/connector/facebook/ad_accounts',
@@ -132,15 +132,15 @@ token: string,
 
     /**
      * Run Query
-     * @param token 
-     * @param requestBody 
+     * @param token
+     * @param requestBody
      * @returns FacebookQueryResults Successful Response
      * @throws ApiError
      */
     public static runQueryConnectorFacebookRunQueryPost(
-token: string,
-requestBody: FacebookQuery,
-): CancelablePromise<FacebookQueryResults> {
+        token: string,
+        requestBody: FacebookQuery,
+    ): CancelablePromise<FacebookQueryResults> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/connector/facebook/run_query',
@@ -157,13 +157,13 @@ requestBody: FacebookQuery,
 
     /**
      * Get Table Columns
-     * @param tableName 
+     * @param tableName
      * @returns TableColumns Successful Response
      * @throws ApiError
      */
     public static getTableColumnsQueryTableColumnsGet(
-tableName: string,
-): CancelablePromise<TableColumns> {
+        tableName: string,
+    ): CancelablePromise<TableColumns> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/table_columns',
@@ -178,13 +178,13 @@ tableName: string,
 
     /**
      * Run Query
-     * @param query 
+     * @param query
      * @returns QueryResults Successful Response
      * @throws ApiError
      */
     public static runQueryQueryRunQueryGet(
-query: string,
-): CancelablePromise<QueryResults> {
+        query: string,
+    ): CancelablePromise<QueryResults> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/run_query',
@@ -199,13 +199,13 @@ query: string,
 
     /**
      * Create New Table
-     * @param requestBody 
+     * @param requestBody
      * @returns any Successful Response
      * @throws ApiError
      */
     public static createNewTableQueryCreateNewTablePost(
-requestBody: CurrentResults,
-): CancelablePromise<any> {
+        requestBody: CurrentResults,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/create_new_table',
@@ -219,13 +219,13 @@ requestBody: CurrentResults,
 
     /**
      * Add Data Source
-     * @param requestBody 
+     * @param requestBody
      * @returns any Successful Response
      * @throws ApiError
      */
     public static addDataSourceQueryAddDataSourcePost(
-requestBody: DataSource,
-): CancelablePromise<any> {
+        requestBody: DataSource,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/add_data_source',
@@ -239,13 +239,13 @@ requestBody: DataSource,
 
     /**
      * Get Data Sources
-     * @param email 
+     * @param email
      * @returns DataSourceInDB Successful Response
      * @throws ApiError
      */
     public static getDataSourcesQueryDataSourcesGet(
-email: string,
-): CancelablePromise<Array<DataSourceInDB>> {
+        email: string,
+    ): CancelablePromise<Array<DataSourceInDB>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/data_sources',
@@ -260,15 +260,15 @@ email: string,
 
     /**
      * Codex
-     * @param prompt 
-     * @param completion 
+     * @param prompt
+     * @param completion
      * @returns Completion Code completion response from codex
      * @throws ApiError
      */
     public static codexQueryCodexGet(
-prompt: string,
-completion?: string,
-): CancelablePromise<Completion> {
+        prompt: string,
+        completion?: string,
+    ): CancelablePromise<Completion> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/codex',
@@ -284,15 +284,15 @@ completion?: string,
 
     /**
      * Sql Query
-     * @param prompt 
-     * @param requestBody 
+     * @param prompt
+     * @param requestBody
      * @returns SqlQuery Successful Response
      * @throws ApiError
      */
     public static sqlQueryQuerySqlQueryPost(
-prompt: string,
-requestBody: Schema,
-): CancelablePromise<SqlQuery> {
+        prompt: string,
+        requestBody: Schema,
+    ): CancelablePromise<SqlQuery> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/sql_query',
@@ -309,19 +309,19 @@ requestBody: Schema,
 
     /**
      * Debug Prompt
-     * @param query 
-     * @param error 
-     * @param requestBody 
-     * @param prompt 
+     * @param query
+     * @param error
+     * @param requestBody
+     * @param prompt
      * @returns DebugResponse Successful Response
      * @throws ApiError
      */
     public static debugPromptQueryDebugPromptPost(
-query: string,
-error: string,
-requestBody: Schema,
-prompt?: string,
-): CancelablePromise<DebugResponse> {
+        query: string,
+        error: string,
+        requestBody: Schema,
+        prompt?: string,
+    ): CancelablePromise<DebugResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/debug_prompt',
@@ -340,13 +340,13 @@ prompt?: string,
 
     /**
      * Ask Question
-     * @param requestBody 
+     * @param requestBody
      * @returns ChainResult Successful Response
      * @throws ApiError
      */
     public static askQuestionQueryAskQuestionPost(
-requestBody: Prompt,
-): CancelablePromise<ChainResult> {
+        requestBody: Prompt,
+    ): CancelablePromise<ChainResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/ask_question',
@@ -360,13 +360,13 @@ requestBody: Prompt,
 
     /**
      * Chart Type
-     * @param input 
+     * @param input
      * @returns any Successful Response
      * @throws ApiError
      */
     public static chartTypeQueryChartTypePost(
-input: string,
-): CancelablePromise<any> {
+        input: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/chart_type',
@@ -381,13 +381,13 @@ input: string,
 
     /**
      * Login For Access Token
-     * @param formData 
+     * @param formData
      * @returns Token Successful Response
      * @throws ApiError
      */
     public static loginForAccessTokenUserAuthTokenPost(
-formData: Body_login_for_access_token_user_auth_token_post,
-): CancelablePromise<Token> {
+        formData: Body_login_for_access_token_user_auth_token_post,
+    ): CancelablePromise<Token> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/user/auth/token',
@@ -401,13 +401,13 @@ formData: Body_login_for_access_token_user_auth_token_post,
 
     /**
      * Current User
-     * @param token 
+     * @param token
      * @returns User Successful Response
      * @throws ApiError
      */
     public static currentUserUserAuthCurrentUserGet(
-token: string,
-): CancelablePromise<User> {
+        token: string,
+    ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/user/auth/current_user',
@@ -422,13 +422,13 @@ token: string,
 
     /**
      * Create Customer
-     * @param requestBody 
+     * @param requestBody
      * @returns User Successful Response
      * @throws ApiError
      */
     public static createCustomerUserCreateCustomerPost(
-requestBody: User,
-): CancelablePromise<User> {
+        requestBody: User,
+    ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/user/create_customer',
