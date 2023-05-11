@@ -2,7 +2,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
   DefaultService,
-  Body_login_for_access_token_token_post,
+  Body_login_for_access_token_user_auth_token_post,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 
@@ -21,11 +21,11 @@ export const Login = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const body: Body_login_for_access_token_token_post = {
+    const body: Body_login_for_access_token_user_auth_token_post = {
       username: email,
       password: password,
     };
-    DefaultService.loginForAccessTokenTokenPost(body)
+    DefaultService.loginForAccessTokenUserAuthTokenPost(body)
       .then((response) => {
         localStorage.setItem("token", response.access_token);
         navigate(RouterPath.HOME);

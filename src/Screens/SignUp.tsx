@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import {
   User,
   DefaultService,
-  Body_login_for_access_token_token_post,
+  Body_login_for_access_token_user_auth_token_post,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 
@@ -26,25 +26,28 @@ export const SignUp = () => {
       email: email,
       hashed_password: password,
     };
-    DefaultService.createCustomerCreateCustomerPost(newUser)
+    DefaultService.createCustomerUserCreateCustomerPost(newUser)
       .then((response) => {
-        const body: Body_login_for_access_token_token_post = {
+        const body: Body_login_for_access_token_user_auth_token_post = {
           username: email,
           password: password,
         };
-        DefaultService.loginForAccessTokenTokenPost(body)
+        DefaultService.loginForAccessTokenUserAuthTokenPost(body)
           .then((response) => {
-            console.log("response to set token", response);
             localStorage.setItem("token", response.access_token);
           })
+          .then(() => {
+            navigate(RouterPath.WELCOME);
+          })
           .catch((error) => {
-            console.log(error);
+            console.log("Error");
           });
-        navigate(RouterPath.HOME);
       })
       .catch((error) => {
         if (error.status === 400) {
           alert("Email already exists");
+        } else {
+          console.log("Error");
         }
       });
   };
@@ -96,6 +99,10 @@ export const SignUp = () => {
               >
                 Create an account
               </button>
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                By signing up, you agree to be contacted via email. You may
+                unsubscribe at anytime.
+              </p>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
                 <Link

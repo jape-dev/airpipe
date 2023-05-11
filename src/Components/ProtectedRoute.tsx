@@ -1,33 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import jwt from "jsonwebtoken";
-
-const SECRET_KEY =
-  "be5f1733cab0f10fe2b6ad7484cc00f3da94ea1272d3ef83f045f62a41aecf39";
+import { useJwt } from "react-jwt";
 
 type Props = {
-  children: string | JSX.Element | JSX.Element[] | (() => JSX.Element);
+  children: JSX.Element;
 };
 
 export const ProtectedRoute = ({ children }: Props) => {
-  const [isTokenValid, setIsTokenValid] = useState(false);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  var jwt_token = token === null ? "token" : token;
+  const { decodedToken, isExpired } = useJwt(jwt_token);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token === null) {
-      navigate("/login");
-      return;
-    } else {
-      try {
-        jwt.verify(token, SECRET_KEY);
-        setIsTokenValid(true);
-      } catch (error) {
-        setIsTokenValid(false);
-        navigate("/login");
-      }
-    }
-  }, []);
+  if (isExpired) {
+    navigate("/login");
+  }
 
-  return isTokenValid ? <h1>Welcome to the protected route</h1> : null;
+  return children;
 };

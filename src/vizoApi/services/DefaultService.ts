@@ -2,13 +2,20 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AdAccount } from '../models/AdAccount';
-import type { Body_login_for_access_token_token_post } from '../models/Body_login_for_access_token_token_post';
+import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
+import type { ChainResult } from '../models/ChainResult';
 import type { Completion } from '../models/Completion';
 import type { CurrentResults } from '../models/CurrentResults';
+import type { DataSource } from '../models/DataSource';
+import type { DataSourceInDB } from '../models/DataSourceInDB';
+import type { DebugResponse } from '../models/DebugResponse';
 import type { FacebookQuery } from '../models/FacebookQuery';
 import type { FacebookQueryResults } from '../models/FacebookQueryResults';
-import type { GoogleAd } from '../models/GoogleAd';
+import type { GoogleQuery } from '../models/GoogleQuery';
+import type { GoogleQueryResults } from '../models/GoogleQueryResults';
+import type { Prompt } from '../models/Prompt';
 import type { QueryResults } from '../models/QueryResults';
+import type { Schema } from '../models/Schema';
 import type { SqlQuery } from '../models/SqlQuery';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
@@ -21,19 +28,44 @@ import { request as __request } from '../core/request';
 export class DefaultService {
 
     /**
-     * Login For Access Token
-     * @param formData 
-     * @returns Token Successful Response
+     * Auth
+     * @returns any Successful Response
      * @throws ApiError
      */
-    public static loginForAccessTokenTokenPost(
-formData: Body_login_for_access_token_token_post,
-): CancelablePromise<Token> {
+    public static authConnectorGoogleAuthGet(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'POST',
-            url: '/token',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            method: 'GET',
+            url: '/connector/google/auth',
+        });
+    }
+
+    /**
+     * Oauth2 Callback
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static oauth2CallbackConnectorGoogleOauth2CallbackGet(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/google/oauth2_callback',
+        });
+    }
+
+    /**
+     * Ad Accounts
+     * @param token 
+     * @returns AdAccount Successful Response
+     * @throws ApiError
+     */
+    public static adAccountsConnectorGoogleAdAccountsGet(
+token: string,
+): CancelablePromise<Array<AdAccount>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/google/ad_accounts',
+            query: {
+                'token': token,
+            },
             errors: {
                 422: `Validation Error`,
             },
@@ -41,14 +73,188 @@ formData: Body_login_for_access_token_token_post,
     }
 
     /**
-     * Hello World
+     * Run Query
+     * @param token 
+     * @param requestBody 
+     * @returns GoogleQueryResults Successful Response
+     * @throws ApiError
+     */
+    public static runQueryConnectorGoogleRunQueryPost(
+token: string,
+requestBody: GoogleQuery,
+): CancelablePromise<GoogleQueryResults> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/connector/google/run_query',
+            query: {
+                'token': token,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Login
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static helloWorldGet(): CancelablePromise<any> {
+    public static loginConnectorFacebookLoginGet(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/',
+            url: '/connector/facebook/login',
+        });
+    }
+
+    /**
+     * Ad Accounts
+     * @param token 
+     * @returns AdAccount Successful Response
+     * @throws ApiError
+     */
+    public static adAccountsConnectorFacebookAdAccountsGet(
+token: string,
+): CancelablePromise<Array<AdAccount>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/facebook/ad_accounts',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Run Query
+     * @param token 
+     * @param requestBody 
+     * @returns FacebookQueryResults Successful Response
+     * @throws ApiError
+     */
+    public static runQueryConnectorFacebookRunQueryPost(
+token: string,
+requestBody: FacebookQuery,
+): CancelablePromise<FacebookQueryResults> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/connector/facebook/run_query',
+            query: {
+                'token': token,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Table Columns
+     * @param tableName 
+     * @returns TableColumns Successful Response
+     * @throws ApiError
+     */
+    public static getTableColumnsQueryTableColumnsGet(
+tableName: string,
+): CancelablePromise<TableColumns> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/table_columns',
+            query: {
+                'table_name': tableName,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Run Query
+     * @param query 
+     * @returns QueryResults Successful Response
+     * @throws ApiError
+     */
+    public static runQueryQueryRunQueryGet(
+query: string,
+): CancelablePromise<QueryResults> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/run_query',
+            query: {
+                'query': query,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Create New Table
+     * @param requestBody 
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static createNewTableQueryCreateNewTablePost(
+requestBody: CurrentResults,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/create_new_table',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Add Data Source
+     * @param requestBody 
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static addDataSourceQueryAddDataSourcePost(
+requestBody: DataSource,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/add_data_source',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Get Data Sources
+     * @param email 
+     * @returns DataSourceInDB Successful Response
+     * @throws ApiError
+     */
+    public static getDataSourcesQueryDataSourcesGet(
+email: string,
+): CancelablePromise<Array<DataSourceInDB>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/data_sources',
+            query: {
+                'email': email,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
         });
     }
 
@@ -59,49 +265,16 @@ formData: Body_login_for_access_token_token_post,
      * @returns Completion Code completion response from codex
      * @throws ApiError
      */
-    public static codexCodexGet(
+    public static codexQueryCodexGet(
 prompt: string,
 completion?: string,
 ): CancelablePromise<Completion> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/codex',
+            url: '/query/codex',
             query: {
                 'prompt': prompt,
                 'completion': completion,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Get All Google Ads
-     * @returns GoogleAd Successful Response
-     * @throws ApiError
-     */
-    public static getAllGoogleAdsAdsGet(): CancelablePromise<Array<GoogleAd>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/ads',
-        });
-    }
-
-    /**
-     * Get Table Columns
-     * @param tableName 
-     * @returns TableColumns Successful Response
-     * @throws ApiError
-     */
-    public static getTableColumnsTableColumnsGet(
-tableName: string,
-): CancelablePromise<TableColumns> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/table_columns',
-            query: {
-                'table_name': tableName,
             },
             errors: {
                 422: `Validation Error`,
@@ -116,13 +289,13 @@ tableName: string,
      * @returns SqlQuery Successful Response
      * @throws ApiError
      */
-    public static sqlQuerySqlQueryPost(
+    public static sqlQueryQuerySqlQueryPost(
 prompt: string,
-requestBody: TableColumns,
+requestBody: Schema,
 ): CancelablePromise<SqlQuery> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/sql_query',
+            url: '/query/sql_query',
             query: {
                 'prompt': prompt,
             },
@@ -135,95 +308,27 @@ requestBody: TableColumns,
     }
 
     /**
-     * Run Query
+     * Debug Prompt
      * @param query 
-     * @returns QueryResults Successful Response
+     * @param error 
+     * @param requestBody 
+     * @param prompt 
+     * @returns DebugResponse Successful Response
      * @throws ApiError
      */
-    public static runQueryRunQueryGet(
+    public static debugPromptQueryDebugPromptPost(
 query: string,
-): CancelablePromise<QueryResults> {
+error: string,
+requestBody: Schema,
+prompt?: string,
+): CancelablePromise<DebugResponse> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/run_query',
+            method: 'POST',
+            url: '/query/debug_prompt',
             query: {
                 'query': query,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Facebook Login
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static facebookLoginFacebookLoginGet(): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/facebook_login',
-        });
-    }
-
-    /**
-     * Create Customer
-     * @param requestBody 
-     * @returns User Successful Response
-     * @throws ApiError
-     */
-    public static createCustomerCreateCustomerPost(
-requestBody: User,
-): CancelablePromise<User> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/create_customer',
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Ad Accounts
-     * @param token 
-     * @returns AdAccount Successful Response
-     * @throws ApiError
-     */
-    public static adAccountsAdAccountsGet(
-token: string,
-): CancelablePromise<Array<AdAccount>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/ad_accounts',
-            query: {
-                'token': token,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Run Facebook Query
-     * @param token 
-     * @param requestBody 
-     * @returns FacebookQueryResults Successful Response
-     * @throws ApiError
-     */
-    public static runFacebookQueryRunFacebookQueryPost(
-token: string,
-requestBody: FacebookQuery,
-): CancelablePromise<FacebookQueryResults> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/run_facebook_query',
-            query: {
-                'token': token,
+                'error': error,
+                'prompt': prompt,
             },
             body: requestBody,
             mediaType: 'application/json',
@@ -234,19 +339,60 @@ requestBody: FacebookQuery,
     }
 
     /**
-     * Create New Table
+     * Ask Question
      * @param requestBody 
+     * @returns ChainResult Successful Response
+     * @throws ApiError
+     */
+    public static askQuestionQueryAskQuestionPost(
+requestBody: Prompt,
+): CancelablePromise<ChainResult> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/ask_question',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Chart Type
+     * @param input 
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static createNewTableCreateNewTablePost(
-requestBody: CurrentResults,
+    public static chartTypeQueryChartTypePost(
+input: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/create_new_table',
-            body: requestBody,
-            mediaType: 'application/json',
+            url: '/query/chart_type',
+            query: {
+                'input': input,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Login For Access Token
+     * @param formData 
+     * @returns Token Successful Response
+     * @throws ApiError
+     */
+    public static loginForAccessTokenUserAuthTokenPost(
+formData: Body_login_for_access_token_user_auth_token_post,
+): CancelablePromise<Token> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/user/auth/token',
+            formData: formData,
+            mediaType: 'application/x-www-form-urlencoded',
             errors: {
                 422: `Validation Error`,
             },
@@ -259,18 +405,50 @@ requestBody: CurrentResults,
      * @returns User Successful Response
      * @throws ApiError
      */
-    public static currentUserCurrentUserGet(
+    public static currentUserUserAuthCurrentUserGet(
 token: string,
 ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/current_user',
+            url: '/user/auth/current_user',
             query: {
                 'token': token,
             },
             errors: {
                 422: `Validation Error`,
             },
+        });
+    }
+
+    /**
+     * Create Customer
+     * @param requestBody 
+     * @returns User Successful Response
+     * @throws ApiError
+     */
+    public static createCustomerUserCreateCustomerPost(
+requestBody: User,
+): CancelablePromise<User> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/user/create_customer',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Read Root
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static readRootGet(): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/',
         });
     }
 

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type FacebookQuery = {
+export type GoogleQuery = {
     account_id: string;
     metrics: Array<string>;
     dimensions: Array<string>;
