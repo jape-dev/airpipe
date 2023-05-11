@@ -59,6 +59,8 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
       function handleGoogleLogin(response) {
+        console.log(response);
+        console.log("handle google login");
         localStorage.setItem("googleToken", response.credential);
       }
     </script>
