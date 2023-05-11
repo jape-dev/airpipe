@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BaseConnector } from "./BaseConnector";
 import { User } from "../vizoApi";
 
-const DOMAIN_URL = "http://localhost:8000";
+const DOMAIN_URL = process.env.REACT_APP_DOMAIN_URL || "http://localhost:8000";
 
 export const FacebookConnectorV2 = (props: { currentUser?: User }) => {
   const [connected, setConnected] = useState(false);
