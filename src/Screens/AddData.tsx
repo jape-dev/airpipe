@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, DropDownOption } from "../Components/DropDown";
 import { AddDataButton } from "../Components/AddDataButton";
+import { DateSelector } from "../Components/DateSelector";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
 import {
@@ -12,6 +13,7 @@ import {
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { FieldList } from "../Components/FieldList";
+import { DateToString } from "../Utils/DateFormat";
 
 export const AddData: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
@@ -19,8 +21,15 @@ export const AddData: React.FC = () => {
   const [selectedAdAccount, setSelectedAdAccount] = useState<AdAccount>();
   const [selectedOptions, setSelectedOptions] = useState<FieldOption[]>([]);
   const [tableName, setTableName] = useState<string>("");
-  const [tableId, setTableId] = useState<string>("");
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() - 1,
+      new Date().getDate()
+    )
+  );
+  const [endDate, setEndDate] = useState<Date>(new Date());
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -88,16 +97,22 @@ export const AddData: React.FC = () => {
   };
 
   const handleNameSubmit = () => {
+    const startDateString = DateToString(startDate);
+    const endDateString = DateToString(endDate);
+
     if (currentUser && selectedAdAccount) {
       const dataSource = {
         name: tableName,
         user: currentUser,
         fields: selectedOptions,
         adAccount: selectedAdAccount,
+        start_date: startDateString,
+        end_date: endDateString,
       };
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
         (response: CurrentResults) => {
+          console.log(response);
           DefaultService.createNewTableQueryCreateNewTablePost(response)
             .then(() => {
               window.location.href = RouterPath.DATA_SOURCES;
@@ -108,6 +123,22 @@ export const AddData: React.FC = () => {
             });
         }
       );
+    }
+  };
+
+  const handleStartDateClick = (date: Date | null) => {
+    if (date === null) {
+      return;
+    } else {
+      setStartDate(date);
+    }
+  };
+
+  const handleEndDateClick = (date: Date | null) => {
+    if (date === null) {
+      return;
+    } else {
+      setEndDate(date);
     }
   };
 
@@ -130,19 +161,29 @@ export const AddData: React.FC = () => {
               />
             )}
             {selectedAdAccount && (
-              <FieldList
-                adAccount={selectedAdAccount}
-                selectedOptions={selectedOptions}
-                setSelectedOptions={setSelectedOptions}
-              />
-            )}
-            {selectedOptions.length > 0 && (
-              <div className="">
-                <AddDataButton
-                  handleNameSubmit={handleNameSubmit}
-                  handleNameChange={handleNameChange}
+              <>
+                <FieldList
+                  adAccount={selectedAdAccount}
+                  selectedOptions={selectedOptions}
+                  setSelectedOptions={setSelectedOptions}
                 />
-              </div>
+                <div className="flex justify-start items-center">
+                  {selectedOptions.length > 0 && (
+                    <>
+                      <DateSelector
+                        startDate={startDate}
+                        endDate={endDate}
+                        handleStartDateClick={handleStartDateClick}
+                        handleEndDateClick={handleEndDateClick}
+                      />
+                      <AddDataButton
+                        handleNameSubmit={handleNameSubmit}
+                        handleNameChange={handleNameChange}
+                      />
+                    </>
+                  )}
+                </div>
+              </>
             )}
           </div>
         </div>

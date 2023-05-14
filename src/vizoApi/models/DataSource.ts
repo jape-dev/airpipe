@@ -11,5 +11,7 @@ export type DataSource = {
     user: User;
     fields: Array<FieldOption>;
     adAccount: AdAccount;
+    start_date: string;
+    end_date: string;
 };
 

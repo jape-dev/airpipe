@@ -259,12 +259,12 @@ export class DefaultService {
     }
 
     /**
-     * Get Data Sources
+     * Data Sources
      * @param email
      * @returns DataSourceInDB Successful Response
      * @throws ApiError
      */
-    public static getDataSourcesQueryDataSourcesGet(
+    public static dataSourcesQueryDataSourcesGet(
         email: string,
     ): CancelablePromise<Array<DataSourceInDB>> {
         return __request(OpenAPI, {
