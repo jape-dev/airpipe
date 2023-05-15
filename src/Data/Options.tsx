@@ -209,76 +209,76 @@ export const facebookDimensionOptions = [
 ];
 
 export const googleMetricOptions = [
-  {
-    value: "metrics.absolute_top_impression_percentage",
-    label: "Absolute Top Impressions Percentage",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.active_view_cpm",
-    label: "Active View CPM",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.active_view_ctr",
-    label: "Active View CTR",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.active_view_impressions",
-    label: "Active View Impressions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.active_view_measurability",
-    label: "Active View Measurability",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.active_view_measurable_cost_micros",
-    label: "Active View Measurable Cost Micros",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.active_view_measurable_impressions",
-    label: "Active View Measurable Impressions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.active_view_viewability",
-    label: "Active View Viewability",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.absolute_top_impression_percentage",
+  //   label: "Absolute Top Impressions Percentage",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.active_view_cpm",
+  //   label: "Active View CPM",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.active_view_ctr",
+  //   label: "Active View CTR",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.active_view_impressions",
+  //   label: "Active View Impressions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.active_view_measurability",
+  //   label: "Active View Measurability",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.active_view_measurable_cost_micros",
+  //   label: "Active View Measurable Cost Micros",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.active_view_measurable_impressions",
+  //   label: "Active View Measurable Impressions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.active_view_viewability",
+  //   label: "Active View Viewability",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.all_conversions",
     label: "All Conversions",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.all_conversions_by_conversion_date",
-    label: "All Conversions By Conversion Date",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.all_conversions_from_interactions_rate",
-    label: "All Conversions From Interactions Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.all_conversions_from_interactions_value_per_interaction",
-    label: "All Conversions From Interactions Value Per Interaction",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.all_conversions_by_conversion_date",
+  //   label: "All Conversions By Conversion Date",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.all_conversions_from_interactions_rate",
+  //   label: "All Conversions From Interactions Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.all_conversions_from_interactions_value_per_interaction",
+  //   label: "All Conversions From Interactions Value Per Interaction",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.metrics.all_conversions_value",
     label: "All Conversions Value",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.all_conversions_value_by_conversion_date",
-    label: "All Conversions Value By Conversion Date",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.all_conversions_value_by_conversion_date",
+  //   label: "All Conversions Value By Conversion Date",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.all_conversions_value_per_cost",
     label: "All Conversions Value Per Cost",
@@ -330,36 +330,36 @@ export const googleMetricOptions = [
     label: "Conversions",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.conversions_by_conversion_date",
-    label: "Conversions By Conversion Date",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.conversions_from_interactions_rate",
-    label: "Conversions From Interactions Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.conversions_from_interactions_value_per_interaction",
-    label: "Conversions From Interactions Value Per Interaction",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.conversions_value",
-    label: "Conversions Value",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.conversions_value_by_conversion_date",
-    label: "Conversions Value By Conversion Date",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.conversions_value_per_cost",
-    label: "Conversions Value Per Cost",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.conversions_by_conversion_date",
+  //   label: "Conversions By Conversion Date",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.conversions_from_interactions_rate",
+  //   label: "Conversions From Interactions Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.conversions_from_interactions_value_per_interaction",
+  //   label: "Conversions From Interactions Value Per Interaction",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.conversions_value",
+  //   label: "Conversions Value",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.conversions_value_by_conversion_date",
+  //   label: "Conversions Value By Conversion Date",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.conversions_value_per_cost",
+  //   label: "Conversions Value Per Cost",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.cost_micros",
     label: "Cost Micros",
@@ -375,45 +375,45 @@ export const googleMetricOptions = [
     label: "Cost Per Conversion",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.cost_per_current_model_attributed_conversion",
-    label: "Cost Per Current Model Attributed Conversion",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.cross_device_conversions",
-    label: "Cross Device Conversions",
-    type: FieldType.METRIC,
-  },
-  { value: "metrics.ctr", label: "CTR", type: FieldType.METRIC },
-  {
-    value: "metrics.current_model_attributed_conversions",
-    label: "Current Model Attributed Conversions",
-    type: FieldType.METRIC,
-  },
-  {
-    value:
-      "metrics.current_model_attributed_conversions_from_interactions_rate",
-    label: "Current Model Attributed Conversions From Interactions Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value:
-      "metrics.current_model_attributed_conversions_from_interactions_value_per_interaction",
-    label:
-      "Current Model Attributed Conversions From Interactions Value Per Interaction",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.current_model_attributed_conversions_value",
-    label: "Current Model Attributed Conversions Value",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.current_model_attributed_conversions_value_per_cost",
-    label: "Current Model Attributed Conversions Value Per Cost",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.cost_per_current_model_attributed_conversion",
+  //   label: "Cost Per Current Model Attributed Conversion",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.cross_device_conversions",
+  //   label: "Cross Device Conversions",
+  //   type: FieldType.METRIC,
+  // },
+  // { value: "metrics.ctr", label: "CTR", type: FieldType.METRIC },
+  // {
+  //   value: "metrics.current_model_attributed_conversions",
+  //   label: "Current Model Attributed Conversions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value:
+  //     "metrics.current_model_attributed_conversions_from_interactions_rate",
+  //   label: "Current Model Attributed Conversions From Interactions Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value:
+  //     "metrics.current_model_attributed_conversions_from_interactions_value_per_interaction",
+  //   label:
+  //     "Current Model Attributed Conversions From Interactions Value Per Interaction",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.current_model_attributed_conversions_value",
+  //   label: "Current Model Attributed Conversions Value",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.current_model_attributed_conversions_value_per_cost",
+  //   label: "Current Model Attributed Conversions Value Per Cost",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.engagement_rate",
     label: "Engagement Rate",
@@ -424,31 +424,31 @@ export const googleMetricOptions = [
     label: "Engagements",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.gmail_forwards",
-    label: "Gmail Forwards",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.gmail_saves",
-    label: "Gmail Saves",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.gmail_secondary_clicks",
-    label: "Gmail Secondary Clicks",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.gmail_forwards",
+  //   label: "Gmail Forwards",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.gmail_saves",
+  //   label: "Gmail Saves",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.gmail_secondary_clicks",
+  //   label: "Gmail Secondary Clicks",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.impressions",
     label: "Impressions",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.interaction_event_types",
-    label: "Interaction Event Types",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.interaction_event_types",
+  //   label: "Interaction Event Types",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.interaction_rate",
     label: "Interaction Rate",
@@ -459,86 +459,86 @@ export const googleMetricOptions = [
     label: "Interactions",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.percent_new_visitors",
-    label: "Percent New Visitors",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.phone_calls",
-    label: "Phone Calls",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.phone_impressions",
-    label: "Phone Impressions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.phone_through_rate",
-    label: "Phone Through Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.top_impression_percentage",
-    label: "Top Impressions Percentage",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.value_per_all_conversions",
-    label: "Value Per All Conversions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.value_per_all_conversions_by_conversion_date",
-    label: "Value Per Conversion By Date",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.percent_new_visitors",
+  //   label: "Percent New Visitors",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.phone_calls",
+  //   label: "Phone Calls",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.phone_impressions",
+  //   label: "Phone Impressions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.phone_through_rate",
+  //   label: "Phone Through Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.top_impression_percentage",
+  //   label: "Top Impressions Percentage",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.value_per_all_conversions",
+  //   label: "Value Per All Conversions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.value_per_all_conversions_by_conversion_date",
+  //   label: "Value Per Conversion By Date",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.value_per_conversion",
     label: "Value Per Conversion",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.value_per_current_model_attributed_conversion",
-    label: "Value Per Current Model Attributed Conversion",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.video_quartile_100_rate",
-    label: "Video Quartile 100 Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.video_quartile_25_rate",
-    label: "Video Quartile 25 Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.video_quartile_50_rate",
-    label: "Video Quartile 50 Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.video_quartile_75_rate",
-    label: "Video Quartile 75 Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.video_view_rate",
-    label: "Video View Rate",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.video_views",
-    label: "Video Views",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.view_through_conversions",
-    label: "View Through Conversions",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.value_per_current_model_attributed_conversion",
+  //   label: "Value Per Current Model Attributed Conversion",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.video_quartile_100_rate",
+  //   label: "Video Quartile 100 Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.video_quartile_25_rate",
+  //   label: "Video Quartile 25 Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.video_quartile_50_rate",
+  //   label: "Video Quartile 50 Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.video_quartile_75_rate",
+  //   label: "Video Quartile 75 Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.video_view_rate",
+  //   label: "Video View Rate",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.video_views",
+  //   label: "Video Views",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.view_through_conversions",
+  //   label: "View Through Conversions",
+  //   type: FieldType.METRIC,
+  // },
 ];
 
 export const googleDimensionOptions = [

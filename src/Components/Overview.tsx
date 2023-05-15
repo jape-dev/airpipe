@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export const Overview = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -14,42 +14,49 @@ export const Overview = () => {
           Overview
         </h3>
         <p className="mt-1 max-w text-sm leading-5 text-gray-500">
-          AirPipe lets you import data from a variety of sources, transform it
-          without using any code, and export it to a variety of destinations.
+          AirPipe lets you import data from a variety of sources and ask
+          questions like a marketer.
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-4 py-5 px-4 sm:px-6">
+      <div className="grid grid-cols-2 gap-4 py-5 px-4 sm:px-6">
         <div className="bg-gray-100 rounded-lg px-4 py-5">
           <h3 className="text-md leading-6 font-medium text-gray-900">
-            Import
+            1) Connect
           </h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">
-            Get started by connecting to your data sources and selecting which
-            data points you want to import.
+            Get started by securely authenticating and connecting to your
+            marketing channels.
           </p>
         </div>
         <div className="bg-gray-100 rounded-lg px-4 py-5">
           <h3 className="text-md leading-6 font-medium text-gray-900">
-            Transform
+            2) Add data
           </h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">
-            Use natural language prompts to describe how you want to combine,
-            slice and dice your data. Our GPT powered AI will convert your
-            prompt into SQL for you, which you can also edit as you wish. You
-            can chain multiple prompts together to create a pipeline.
+            Select your ad account and choose the fields you want to import.
+            Create as many data sources as you need.
           </p>
         </div>
         <div className="bg-gray-100 rounded-lg px-4 py-5">
           <h3 className="text-md leading-6 font-medium text-gray-900">
-            Export
+            3) Data sources
           </h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">
-            Once you are happy with your data, export it as a csv file which you
-            can then use to load into your destination of choice.
+            View your data sources and export them to a variety of destinations.
+          </p>
+        </div>
+        <div className="bg-gray-100 rounded-lg px-4 py-5">
+          <h3 className="text-md leading-6 font-medium text-gray-900">
+            4) Ask
+          </h3>
+          <p className="mt-2 text-sm leading-5 text-gray-500">
+            Use plain english to ask questions about your data. Our GPT powered
+            AI will get the results to answer your question, and let you
+            visualise them using a chart of your choice.
           </p>
         </div>
       </div>
-      <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
+      {/* <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
         <div
           className="flex items-center cursor-pointer"
           onClick={toggleCollapse}
@@ -73,7 +80,7 @@ export const Overview = () => {
             />
           </svg>
         </div>
-        {/* {!isCollapsed && (
+        {!isCollapsed && (
           <div className="aspect-w-12 aspect-h-6">
             <div
               style={{
@@ -95,8 +102,8 @@ export const Overview = () => {
               ></iframe>
             </div>
           </div>
-        )} */}
-      </div>
+        )}
+      </div> */}
     </div>
   );
 };

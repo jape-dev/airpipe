@@ -11,5 +11,7 @@ export type DataSourceInDB = {
     channel: string;
     channel_img: string;
     ad_account_id: string;
+    start_date: string;
+    end_date: string;
 };
 

@@ -17,9 +17,9 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
     <>
       <button
         onClick={() => setModal(true)}
-        className="bg-teal-500 text-white rounded-md px-4 py-2 h-10 flex items-center justify-center mt-2 mx-auto"
+        className="bg-teal-500 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
       >
-        <span className="text-sm">Add data</span>
+        <span className="text-lg">Add Data Source</span>
       </button>
       <CustomModal parentshow={modal} setParentShow={setModal}>
         <>

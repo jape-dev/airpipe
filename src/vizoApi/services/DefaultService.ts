@@ -198,6 +198,27 @@ export class DefaultService {
     }
 
     /**
+     * Table Results
+     * @param tableName
+     * @returns CurrentResults Successful Response
+     * @throws ApiError
+     */
+    public static tableResultsQueryTableResultsGet(
+        tableName: string,
+    ): CancelablePromise<CurrentResults> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/table_results',
+            query: {
+                'table_name': tableName,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Create New Table
      * @param requestBody
      * @returns any Successful Response
@@ -238,12 +259,12 @@ export class DefaultService {
     }
 
     /**
-     * Get Data Sources
+     * Data Sources
      * @param email
      * @returns DataSourceInDB Successful Response
      * @throws ApiError
      */
-    public static getDataSourcesQueryDataSourcesGet(
+    public static dataSourcesQueryDataSourcesGet(
         email: string,
     ): CancelablePromise<Array<DataSourceInDB>> {
         return __request(OpenAPI, {
