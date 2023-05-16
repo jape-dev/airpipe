@@ -28,7 +28,7 @@ export const Login = () => {
     DefaultService.loginForAccessTokenUserAuthTokenPost(body)
       .then((response) => {
         localStorage.setItem("token", response.access_token);
-        // navigate(RouterPath.HOME);
+        navigate(RouterPath.HOME);
       })
       .catch((error) => {
         alert("Invalid email or password");
