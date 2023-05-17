@@ -8,5 +8,6 @@ export type FieldOption = {
     value: string;
     label: string;
     type: FieldType;
+    alt_value?: string;
 };
 

@@ -108,7 +108,6 @@ export const AddData: React.FC = () => {
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
         (response: CurrentResults) => {
-          console.log(response);
           DefaultService.createNewTableQueryCreateNewTablePost(response)
             .then(() => {
               window.location.href = RouterPath.DATA_SOURCES;

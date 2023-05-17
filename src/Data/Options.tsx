@@ -551,5 +551,6 @@ export const googleDimensionOptions = [
     value: "segments.keyword.info.text",
     label: "Keyword Text",
     type: FieldType.DIMENSION,
+    alt_value: "keyword_text",
   },
 ];
