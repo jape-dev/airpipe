@@ -23,11 +23,7 @@ export const AddData: React.FC = () => {
   const [tableName, setTableName] = useState<string>("");
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
   const [startDate, setStartDate] = useState<Date>(
-    new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() - 1,
-      new Date().getDate()
-    )
+    new Date(new Date().getFullYear(), 0, 1)
   );
   const [endDate, setEndDate] = useState<Date>(new Date());
 
