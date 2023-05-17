@@ -62,7 +62,7 @@ export const Ask: React.FC = () => {
           <SideBar />
         </div>
         <div className="col-span-6 justify-center">
-          <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-7xl">
+          <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
             <h1 className="text-2xl font-bold mb-4">Ask</h1>
             <Dropdown
               options={dropDownOptions}
