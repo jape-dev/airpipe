@@ -3,7 +3,7 @@ import { BaseConnector } from "./BaseConnector";
 import { User } from "../vizoApi";
 
 // const DOMAIN_URL = process.env.REACT_APP_DOMAIN_URL || "http://localhost:8000";
-const DOMAIN_URL = "https://api-airpipe.com/connector/facebook/login/";
+const DOMAIN_URL = "https://api-airpipe.com";
 
 export const FacebookConnectorV2 = (props: { currentUser?: User }) => {
   const [connected, setConnected] = useState(false);
