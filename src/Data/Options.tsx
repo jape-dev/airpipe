@@ -543,13 +543,22 @@ export const googleMetricOptions = [
 
 export const googleDimensionOptions = [
   { value: "segments.date", label: "Date", type: FieldType.DIMENSION },
-  { value: "ad_group_ad.ad.id", label: "Ad Id", type: FieldType.DIMENSION },
-  { value: "ad_group_ad.ad.name", label: "Ad Name", type: FieldType.DIMENSION },
+  {
+    value: "ad_group_ad.ad.id",
+    label: "Ad Id",
+    type: FieldType.DIMENSION,
+    alt_value: "id",
+  },
+  {
+    value: "ad_group_ad.ad.name",
+    label: "Ad Name",
+    type: FieldType.DIMENSION,
+    alt_value: "name",
+  },
   { value: "ad_group.name", label: "Ad Group Name", type: FieldType.DIMENSION },
   { value: "ad_group.id", label: "Ad Group Id", type: FieldType.DIMENSION },
   { value: "campaign.id", label: "Campaign Id", type: FieldType.DIMENSION },
   { value: "campaign.name", label: "Campaign Name", type: FieldType.DIMENSION },
-
   {
     value: "segments.keyword.info.text",
     label: "Keyword Text",
