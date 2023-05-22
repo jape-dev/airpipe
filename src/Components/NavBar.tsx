@@ -10,7 +10,7 @@ export const NavBar = () => {
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link to={RouterPath.HOME}>
               <p className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
-                AirPipe
+                AirPipe BETA
               </p>
             </Link>
           </div>

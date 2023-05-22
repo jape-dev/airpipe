@@ -56,7 +56,7 @@ export const Overview = () => {
           </p>
         </div>
       </div>
-      {/* <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
+      <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
         <div
           className="flex items-center cursor-pointer"
           onClick={toggleCollapse}
@@ -90,7 +90,7 @@ export const Overview = () => {
               }}
             >
               <iframe
-                src="https://www.loom.com/embed/4afb42fc53544aa5a76dfca8d6d930a3"
+                src="https://www.loom.com/embed/8f41ac2f51c14a1cb67dc6878db27a1f"
                 allowFullScreen
                 style={{
                   position: "absolute",
@@ -103,7 +103,7 @@ export const Overview = () => {
             </div>
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };
