@@ -12,7 +12,7 @@ export const Welcome = () => {
     <div className="flex justify-center items-center h-screen bg-gray-50">
       <div className="bg-white shadow overflow-hidden rounded-lg w-1/2 px-4 py-5 border-b border-gray-200 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900 text-center mb-4">
-          Thank you for signing up with AirPipe!
+          Thanks for signing up for AirPipe and welcome to the Free Beta!
         </h3>
         <p className="max-w text-sm leading-5 text-gray-500 text-center mb-4">
           I am excited to have you on board and look forward to helping you

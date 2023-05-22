@@ -14,8 +14,15 @@ export const Overview = () => {
           Overview
         </h3>
         <p className="mt-1 max-w text-sm leading-5 text-gray-500">
-          AirPipe lets you import data from a variety of sources and ask
-          questions like a marketer.
+          Whilst AirPipe is in Beta, I want to make sure I build a great product
+          that really makes a difference to marketers. I would love to hear more
+          about why you signed up to AirPipe and how I can help you get the most
+          out of it. Please feel free to schedule some time for us to catch-up
+          on this if you wish to: https://cal.com/airpipe/15min
+        </p>
+        <p className="mt-1 max-w text-sm leading-5 text-gray-500">
+          Otherwise, if you have any issues or questions - feel free to email me
+          directly: james@useairpipe.com
         </p>
       </div>
       <div className="grid grid-cols-2 gap-4 py-5 px-4 sm:px-6">
