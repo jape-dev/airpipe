@@ -6,6 +6,7 @@ import {
   Body_login_for_access_token_user_auth_token_post,
 } from "../vizoApi";
 import { RouterPath } from "../App";
+import validator from "validator";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -26,6 +27,13 @@ export const SignUp = () => {
       email: email,
       hashed_password: password,
     };
+
+    const isValid = validator.isEmail(email);
+
+    if (isValid === false) {
+      alert("Please enter a valid email address.");
+    }
+
     DefaultService.createCustomerUserCreateCustomerPost(newUser)
       .then((response) => {
         const body: Body_login_for_access_token_user_auth_token_post = {
