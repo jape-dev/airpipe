@@ -10,4 +10,3 @@ export type FieldOption = {
     type: FieldType;
     alt_value?: string;
 };
-

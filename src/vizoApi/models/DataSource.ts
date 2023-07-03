@@ -14,4 +14,3 @@ export type DataSource = {
     start_date: string;
     end_date: string;
 };
-

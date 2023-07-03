@@ -8,4 +8,3 @@ export type ChainResult = {
     json_result: Array<any>;
     answer: string;
 };
-

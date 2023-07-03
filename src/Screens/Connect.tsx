@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
 import { GoogleConnectorV2 } from "../Components/GoogleConnectorV2";
+import { GoogleAnalyticsConnector } from "../Components/GoogleAnalyticsConnector";
 import { FacebookConnectorV2 } from "../Components/FacebookConnectorV2";
 
 import { DefaultService } from "../vizoApi";
@@ -38,6 +39,7 @@ export const Connect: React.FC = () => {
             <h1 className="text-2xl font-bold mb-4">Connectors</h1>
             <GoogleConnectorV2 currentUser={currentUser} />
             <FacebookConnectorV2 currentUser={currentUser} />
+            <GoogleAnalyticsConnector currentUser={currentUser} />
           </div>
         </div>
       </div>

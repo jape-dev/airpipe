@@ -9,4 +9,3 @@ export type GoogleQuery = {
     start_date: string;
     end_date: string;
 };
-
