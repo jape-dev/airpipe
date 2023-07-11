@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AdAccount } from "../vizoApi";
 
 export interface DropDownOption {
   id: string;

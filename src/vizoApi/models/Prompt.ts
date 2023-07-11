@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type Prompt = {
-    prompt: string;
-    table: string;
+    input: string;
+    tables: Array<string>;
 };
 
