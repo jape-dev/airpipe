@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AdAccount } from '../models/AdAccount';
+import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
 import type { ChainResult } from '../models/ChainResult';
 import type { CurrentResults } from '../models/CurrentResults';
@@ -332,6 +333,84 @@ export class DefaultService {
             url: '/query/din_sql',
             query: {
                 'question': question,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Schema Links
+     * @param question
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static schemaLinksQuerySchemaLinksPost(
+        question: string,
+        requestBody: Array<DataSourceInDB>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/schema_links',
+            query: {
+                'question': question,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Ambiguity Checker
+     * @param input
+     * @param sessionId
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static ambiguityCheckerQueryHandleAmbiguityPost(
+        input: string,
+        sessionId: string,
+        requestBody: Array<DataSourceInDB>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/handle_ambiguity',
+            query: {
+                'input': input,
+                'session_id': sessionId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Check Ambiguous Columns
+     * @param input
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static checkAmbiguousColumnsQueryCheckAmbiguousColumnsPost(
+        input: string,
+        requestBody: Body_check_ambiguous_columns_query_check_ambiguous_columns_post,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/check_ambiguous_columns',
+            query: {
+                'input': input,
             },
             body: requestBody,
             mediaType: 'application/json',

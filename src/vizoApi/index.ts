@@ -7,6 +7,9 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AdAccount } from './models/AdAccount';
+export type { AmbiguousColumns } from './models/AmbiguousColumns';
+export type { BaseAmbiguities } from './models/BaseAmbiguities';
+export type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from './models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 export type { Body_login_for_access_token_user_auth_token_post } from './models/Body_login_for_access_token_user_auth_token_post';
 export type { ChainResult } from './models/ChainResult';
 export { ChannelType } from './models/ChannelType';
