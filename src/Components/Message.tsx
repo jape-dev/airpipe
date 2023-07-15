@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Chart } from "./ChartComponent";
 import { ChartSelector } from "./ChartSelector";
 import { LoadingMessage } from "./LoadingMessage";
+import { StickyHeadTable } from "./Table";
 
 export interface MessageProps {
   index: number;
   isUserMessage: boolean;
   text: string;
   data?: any;
+  columns?: string[];
   chartType?: string;
   loading?: boolean;
 }
@@ -17,6 +19,8 @@ export const Message: React.FC<MessageProps> = ({
   isUserMessage,
   text,
   data,
+  columns,
+  chartType,
   loading,
 }) => {
   const [chartOption, setChartOption] = useState<string>("");
@@ -50,13 +54,16 @@ export const Message: React.FC<MessageProps> = ({
               </div>
             </div>
 
-            {data && data.length > 0 && (
-              <ChartSelector
-                chartOption={chartOption}
-                setChartOption={setChartOption}
-                isOpen={chartSelectOpen || false}
-                setIsOpen={setChartSelectOpen}
-              />
+            {columns && data && data.length > 0 && (
+              <>
+                <ChartSelector
+                  chartOption={chartOption}
+                  setChartOption={setChartOption}
+                  isOpen={chartSelectOpen || false}
+                  setIsOpen={setChartSelectOpen}
+                />
+                <StickyHeadTable columns={columns} results={data} />
+              </>
             )}
             {chartOption && data && chartSelectOpen === false && (
               <div key={index} className="flex justify-start mt-4 mr-0">

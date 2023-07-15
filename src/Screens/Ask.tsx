@@ -2,15 +2,20 @@ import { useState, useEffect } from "react";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
 import { ChatInterface } from "../Components/ChatInterface";
-import { Dropdown, DropDownOption } from "../Components/DropDown";
+import { Dropdown } from "../Components/DropDown";
+import {
+  MultiSelectDropDown,
+  DropDownOption,
+} from "../Components/MultiSelectDropDown";
 import { DefaultService, DataSourceInDB, User } from "../vizoApi";
 import { RouterPath } from "../App";
 
 export const Ask: React.FC = () => {
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
-  const [selectedDataSource, setSelectedDataSource] =
-    useState<DataSourceInDB>();
+  const [selectedDataSources, setSelectedDataSources] = useState<
+    DataSourceInDB[]
+  >([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,12 +51,11 @@ export const Ask: React.FC = () => {
     setDropDownOptions(options);
   }, [dataSources]);
 
-  const handleSelectOption = (selectedOption: DropDownOption) => {
-    const dataSource = dataSources.find(
-      // Need to use an actual id field instead of ad_account_id
-      (dataSource) => dataSource.id.toString() === selectedOption.id
+  const handleMultiSelectOption = (selectedOptions: DropDownOption[]) => {
+    const selected = dataSources.filter((dataSource) =>
+      selectedOptions.some((option) => dataSource.id.toString() === option.id)
     );
-    setSelectedDataSource(dataSource);
+    setSelectedDataSources(selected);
   };
 
   return (
@@ -64,12 +68,12 @@ export const Ask: React.FC = () => {
         <div className="col-span-6 justify-center">
           <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
             <h1 className="text-2xl font-bold mb-4">Ask</h1>
-            <Dropdown
+            <MultiSelectDropDown
               options={dropDownOptions}
-              onSelectOption={handleSelectOption}
-            ></Dropdown>
-            {selectedDataSource && (
-              <ChatInterface tableName={selectedDataSource.table_name} />
+              onSelectOptions={handleMultiSelectOption}
+            />
+            {selectedDataSources && (
+              <ChatInterface dataSources={selectedDataSources} />
             )}
           </div>
         </div>

@@ -2,21 +2,18 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AdAccount } from '../models/AdAccount';
+import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
 import type { ChainResult } from '../models/ChainResult';
-import type { Completion } from '../models/Completion';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
 import type { DataSourceInDB } from '../models/DataSourceInDB';
-import type { DebugResponse } from '../models/DebugResponse';
 import type { FacebookQuery } from '../models/FacebookQuery';
 import type { FacebookQueryResults } from '../models/FacebookQueryResults';
 import type { GoogleQuery } from '../models/GoogleQuery';
 import type { GoogleQueryResults } from '../models/GoogleQueryResults';
 import type { Prompt } from '../models/Prompt';
 import type { QueryResults } from '../models/QueryResults';
-import type { Schema } from '../models/Schema';
-import type { SqlQuery } from '../models/SqlQuery';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
 import type { User } from '../models/User';
@@ -280,86 +277,6 @@ export class DefaultService {
     }
 
     /**
-     * Codex
-     * @param prompt
-     * @param completion
-     * @returns Completion Code completion response from codex
-     * @throws ApiError
-     */
-    public static codexQueryCodexGet(
-        prompt: string,
-        completion?: string,
-    ): CancelablePromise<Completion> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/query/codex',
-            query: {
-                'prompt': prompt,
-                'completion': completion,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Sql Query
-     * @param prompt
-     * @param requestBody
-     * @returns SqlQuery Successful Response
-     * @throws ApiError
-     */
-    public static sqlQueryQuerySqlQueryPost(
-        prompt: string,
-        requestBody: Schema,
-    ): CancelablePromise<SqlQuery> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/query/sql_query',
-            query: {
-                'prompt': prompt,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Debug Prompt
-     * @param query
-     * @param error
-     * @param requestBody
-     * @param prompt
-     * @returns DebugResponse Successful Response
-     * @throws ApiError
-     */
-    public static debugPromptQueryDebugPromptPost(
-        query: string,
-        error: string,
-        requestBody: Schema,
-        prompt?: string,
-    ): CancelablePromise<DebugResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/query/debug_prompt',
-            query: {
-                'query': query,
-                'error': error,
-                'prompt': prompt,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
      * Ask Question
      * @param requestBody
      * @returns ChainResult Successful Response
@@ -394,6 +311,109 @@ export class DefaultService {
             query: {
                 'input': input,
             },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Din Sql
+     * @param question
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static dinSqlQueryDinSqlPost(
+        question: string,
+        requestBody: Array<DataSourceInDB>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/din_sql',
+            query: {
+                'question': question,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Schema Links
+     * @param question
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static schemaLinksQuerySchemaLinksPost(
+        question: string,
+        requestBody: Array<DataSourceInDB>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/schema_links',
+            query: {
+                'question': question,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Ambiguity Checker
+     * @param input
+     * @param sessionId
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static ambiguityCheckerQueryHandleAmbiguityPost(
+        input: string,
+        sessionId: string,
+        requestBody: Array<DataSourceInDB>,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/handle_ambiguity',
+            query: {
+                'input': input,
+                'session_id': sessionId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Check Ambiguous Columns
+     * @param input
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static checkAmbiguousColumnsQueryCheckAmbiguousColumnsPost(
+        input: string,
+        requestBody: Body_check_ambiguous_columns_query_check_ambiguous_columns_post,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/check_ambiguous_columns',
+            query: {
+                'input': input,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },

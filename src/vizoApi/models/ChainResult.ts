@@ -3,9 +3,8 @@
 /* eslint-disable */
 
 export type ChainResult = {
-    sql_result: Array<any>;
-    string_result: string;
-    json_result: Array<any>;
+    result?: Array<any>;
     answer: string;
+    column_options?: Array<string>;
 };
 
