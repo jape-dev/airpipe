@@ -217,16 +217,21 @@ export class DefaultService {
 
     /**
      * Create New Table
+     * @param email
      * @param requestBody
      * @returns any Successful Response
      * @throws ApiError
      */
     public static createNewTableQueryCreateNewTablePost(
+        email: string,
         requestBody: CurrentResults,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/create_new_table',
+            query: {
+                'email': email,
+            },
             body: requestBody,
             mediaType: 'application/json',
             errors: {

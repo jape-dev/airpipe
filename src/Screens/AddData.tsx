@@ -33,7 +33,7 @@ export const AddData: React.FC = () => {
       window.location.href = RouterPath.LOGIN;
     } else {
       DefaultService.currentUserUserAuthCurrentUserGet(token).then(
-        (response) => {
+        (response: User) => {
           setCurrentUser(response);
         }
       );
@@ -108,7 +108,10 @@ export const AddData: React.FC = () => {
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
         (response: CurrentResults) => {
-          DefaultService.createNewTableQueryCreateNewTablePost(response)
+          DefaultService.createNewTableQueryCreateNewTablePost(
+            currentUser.email,
+            response
+          )
             .then(() => {
               window.location.href = RouterPath.DATA_SOURCES;
             })
