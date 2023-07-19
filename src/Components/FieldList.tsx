@@ -5,6 +5,8 @@ import {
   googleDimensionOptions,
   facebookMetricOptions,
   facebookDimensionOptions,
+  googleAnalyticsMetricsOptions,
+  googleAnalyticsDimensionOptions,
 } from "../Data/Options";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
@@ -30,12 +32,16 @@ export const FieldList: React.FC<FieldListProps> = ({
         options = googleMetricOptions;
       } else if (adAccount.channel === ChannelType.FACEBOOK) {
         options = facebookMetricOptions;
+      } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
+        options = googleAnalyticsMetricsOptions;
       }
     } else if (fieldType === FieldType.DIMENSION) {
       if (adAccount.channel === ChannelType.GOOGLE) {
         options = googleDimensionOptions;
       } else if (adAccount.channel === ChannelType.FACEBOOK) {
         options = facebookDimensionOptions;
+      } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
+        options = googleAnalyticsDimensionOptions;
       }
     }
     // Filter out any options that have already been selected

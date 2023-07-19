@@ -566,3 +566,19 @@ export const googleDimensionOptions = [
     alt_value: "keyword_text",
   },
 ];
+
+export const googleAnalyticsDimensionOptions = [
+  {
+    value: "date",
+    label: "date",
+    type: FieldType.DIMENSION,
+  },
+];
+
+export const googleAnalyticsMetricsOptions = [
+  {
+    value: "totalUsers",
+    label: "totalUsers",
+    type: FieldType.METRIC,
+  },
+];
