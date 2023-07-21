@@ -1,12 +1,23 @@
 import { FieldType } from "../vizoApi";
 
 export const facebookMetricOptions = [
-  { value: "clicks", label: "Clicks", type: FieldType.METRIC },
-  { value: "conversions", label: "Conversions", type: FieldType.METRIC },
+  {
+    value: "clicks",
+    label: "Clicks",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
+  {
+    value: "conversions",
+    label: "Conversions",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
   {
     value: "cost_per_conversion",
     label: "Cost Per Conversion",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "cost_per_inline_link_click",
@@ -48,12 +59,42 @@ export const facebookMetricOptions = [
   //   label: "Cost Per Unique Outbound Click",
   //   type: FieldType.METRIC,
   // },
-  { value: "cpc", label: "CPC", type: FieldType.METRIC },
-  { value: "cpm", label: "CPM", type: FieldType.METRIC },
-  { value: "cpp", label: "CPP", type: FieldType.METRIC },
-  { value: "ctr", label: "CTR", type: FieldType.METRIC },
-  { value: "frequency", label: "Frequency", type: FieldType.METRIC },
-  { value: "impressions", label: "Impressions", type: FieldType.METRIC },
+  {
+    value: "cpc",
+    label: "CPC",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
+  {
+    value: "cpm",
+    label: "CPM",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
+  {
+    value: "cpp",
+    label: "CPP",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
+  {
+    value: "ctr",
+    label: "CTR",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
+  {
+    value: "frequency",
+    label: "Frequency",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
+  {
+    value: "impressions",
+    label: "Impressions",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
   // {
   //   value: "inline_link_click_ctr",
   //   label: "Inline Link Click CTR",
@@ -79,8 +120,18 @@ export const facebookMetricOptions = [
   //   label: "Outbound Clicks CTR",
   //   type: FieldType.METRIC,
   // },
-  { value: "reach", label: "Reach", type: FieldType.METRIC },
-  { value: "spend", label: "Spend", type: FieldType.METRIC },
+  {
+    value: "reach",
+    label: "Reach",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
+  {
+    value: "spend",
+    label: "Spend",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
   // { value: "unique_actions", label: "Unique Actions", type: FieldType.METRIC },
   // { value: "unique_clicks", label: "Unique Clicks", type: FieldType.METRIC },
   // { value: "unique_ctr", label: "Unique CTR", type: FieldType.METRIC },
@@ -197,15 +248,60 @@ export const facebookMetricOptions = [
 ];
 
 export const facebookDimensionOptions = [
-  { value: "account_id", label: "Account Id", type: FieldType.DIMENSION },
-  { value: "account_name", label: "Account Name", type: FieldType.DIMENSION },
-  { value: "adset_id", label: "Adset Id", type: FieldType.DIMENSION },
-  { value: "adset_name", label: "Adset Name", type: FieldType.DIMENSION },
-  { value: "campaign_id", label: "Campaign Id", type: FieldType.DIMENSION },
-  { value: "campaign_name", label: "Campaign Name", type: FieldType.DIMENSION },
-  { value: "ad_id", label: "Ad Id", type: FieldType.DIMENSION },
-  { value: "ad_name", label: "Ad Name", type: FieldType.DIMENSION },
-  { value: "date", label: "Date", type: FieldType.DIMENSION },
+  {
+    value: "account_id",
+    label: "Account Id",
+    type: FieldType.DIMENSION,
+    img: "facebook-icon",
+  },
+  {
+    value: "account_name",
+    label: "Account Name",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "adset_id",
+    label: "Adset Id",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "adset_name",
+    label: "Adset Name",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "campaign_id",
+    label: "Campaign Id",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "campaign_name",
+    label: "Campaign Name",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "ad_id",
+    label: "Ad Id",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "ad_name",
+    label: "Ad Name",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "date",
+    label: "Date",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
 ];
 
 export const googleMetricOptions = [
@@ -288,26 +384,31 @@ export const googleMetricOptions = [
     value: "metrics.average_cost",
     label: "Average Cost",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpc",
     label: "Average CPC",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpe",
     label: "Average CPE",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpm",
     label: "Average CPM",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpv",
     label: "Average CPV",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.average_page_views",
@@ -324,11 +425,17 @@ export const googleMetricOptions = [
   //   label: "Bounce Rate",
   //   type: FieldType.METRIC,
   // },
-  { value: "metrics.clicks", label: "Clicks", type: FieldType.METRIC },
+  {
+    value: "metrics.clicks",
+    label: "Clicks",
+    type: FieldType.METRIC,
+    img: "google-ads-icon",
+  },
   {
     value: "metrics.conversions",
     label: "Conversions",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.conversions_by_conversion_date",
@@ -364,6 +471,7 @@ export const googleMetricOptions = [
     value: "metrics.cost_micros",
     label: "Cost Micros",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.cost_per_all_conversions",
@@ -374,6 +482,7 @@ export const googleMetricOptions = [
     value: "metrics.cost_per_conversion",
     label: "Cost Per Conversion",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.cost_per_current_model_attributed_conversion",
@@ -423,6 +532,7 @@ export const googleMetricOptions = [
     value: "metrics.engagements",
     label: "Engagements",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.gmail_forwards",
@@ -443,6 +553,7 @@ export const googleMetricOptions = [
     value: "metrics.impressions",
     label: "Impressions",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.interaction_event_types",
@@ -458,6 +569,7 @@ export const googleMetricOptions = [
     value: "metrics.interactions",
     label: "Interactions",
     type: FieldType.METRIC,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.percent_new_visitors",
@@ -548,21 +660,44 @@ export const googleDimensionOptions = [
     label: "Ad Id",
     type: FieldType.DIMENSION,
     alt_value: "id",
+    img: "google-ads-icon",
   },
   {
     value: "ad_group_ad.ad.name",
     label: "Ad Name",
     type: FieldType.DIMENSION,
     alt_value: "name",
+    img: "google-ads-icon",
   },
-  { value: "ad_group.name", label: "Ad Group Name", type: FieldType.DIMENSION },
-  { value: "ad_group.id", label: "Ad Group Id", type: FieldType.DIMENSION },
-  { value: "campaign.id", label: "Campaign Id", type: FieldType.DIMENSION },
-  { value: "campaign.name", label: "Campaign Name", type: FieldType.DIMENSION },
+  {
+    value: "ad_group.name",
+    label: "Ad Group Name",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "ad_group.id",
+    label: "Ad Group Id",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "campaign.id",
+    label: "Campaign Id",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
+  {
+    value: "campaign.name",
+    label: "Campaign Name",
+    type: FieldType.DIMENSION,
+    img: "google-ads-icon",
+  },
   {
     value: "segments.keyword.info.text",
     label: "Keyword Text",
     type: FieldType.DIMENSION,
     alt_value: "keyword_text",
+    img: "google-ads-icon",
   },
 ];
