@@ -8,10 +8,6 @@ import type { ChainResult } from '../models/ChainResult';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
 import type { DataSourceInDB } from '../models/DataSourceInDB';
-import type { FacebookQuery } from '../models/FacebookQuery';
-import type { FacebookQueryResults } from '../models/FacebookQueryResults';
-import type { GoogleQuery } from '../models/GoogleQuery';
-import type { GoogleQueryResults } from '../models/GoogleQueryResults';
 import type { Prompt } from '../models/Prompt';
 import type { QueryResults } from '../models/QueryResults';
 import type { TableColumns } from '../models/TableColumns';
@@ -70,31 +66,6 @@ export class DefaultService {
     }
 
     /**
-     * Run Query
-     * @param token
-     * @param requestBody
-     * @returns GoogleQueryResults Successful Response
-     * @throws ApiError
-     */
-    public static runQueryConnectorGoogleRunQueryPost(
-        token: string,
-        requestBody: GoogleQuery,
-    ): CancelablePromise<GoogleQueryResults> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/connector/google/run_query',
-            query: {
-                'token': token,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
      * Login
      * @returns any Successful Response
      * @throws ApiError
@@ -121,31 +92,6 @@ export class DefaultService {
             query: {
                 'token': token,
             },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Run Query
-     * @param token
-     * @param requestBody
-     * @returns FacebookQueryResults Successful Response
-     * @throws ApiError
-     */
-    public static runQueryConnectorFacebookRunQueryPost(
-        token: string,
-        requestBody: FacebookQuery,
-    ): CancelablePromise<FacebookQueryResults> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/connector/facebook/run_query',
-            query: {
-                'token': token,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },

@@ -99,32 +99,32 @@ export const AddData: React.FC = () => {
     const startDateString = DateToString(startDate);
     const endDateString = DateToString(endDate);
 
-    // if (currentUser && selectedAdAccount) {
-    //   const dataSource = {
-    //     name: tableName,
-    //     user: currentUser,
-    //     fields: selectedOptions,
-    //     adAccount: selectedAdAccount,
-    //     start_date: startDateString,
-    //     end_date: endDateString,
-    //   };
+    if (currentUser && selectedAdAccounts) {
+      const dataSource = {
+        name: tableName,
+        user: currentUser,
+        fields: selectedOptions,
+        adAccounts: selectedAdAccounts,
+        start_date: startDateString,
+        end_date: endDateString,
+      };
 
-    //   DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
-    //     (response: CurrentResults) => {
-    //       DefaultService.createNewTableQueryCreateNewTablePost(
-    //         currentUser.email,
-    //         response
-    //       )
-    //         .then(() => {
-    //           window.location.href = RouterPath.DATA_SOURCES;
-    //         })
-    //         .catch((error) => {
-    //           console.log(error);
-    //           alert("Could not add data to the database. Please try again");
-    //         });
-    //     }
-    //   );
-    // }
+      DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
+        (response: CurrentResults) => {
+          DefaultService.createNewTableQueryCreateNewTablePost(
+            currentUser.email,
+            response
+          )
+            .then(() => {
+              window.location.href = RouterPath.DATA_SOURCES;
+            })
+            .catch((error) => {
+              console.log(error);
+              alert("Could not add data to the database. Please try again");
+            });
+        }
+      );
+    }
   };
 
   const handleStartDateClick = (date: Date | null) => {

@@ -14,6 +14,15 @@ interface FieldListProps {
   setSelectedOptions: React.Dispatch<React.SetStateAction<FieldOption[]>>;
 }
 
+const optionStyle = {
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "left center",
+  backgroundSize: "contain",
+  paddingLeft: "25px", // Add extra padding to the left if there's an image
+  marginRight: "5px",
+  marginBottom: "5px",
+};
+
 export const FieldList: React.FC<FieldListProps> = ({
   adAccounts,
   selectedOptions,
@@ -72,8 +81,6 @@ export const FieldList: React.FC<FieldListProps> = ({
       );
     }
   };
-
-  console.log(selectedOptions);
 
   const handleRemove = (option: FieldOption) => {
     setSelectedOptions(selectedOptions.filter((o) => o.value !== option.value));
@@ -151,30 +158,43 @@ export const FieldList: React.FC<FieldListProps> = ({
                   option.label.toLowerCase().includes(searchText.toLowerCase())
                 )
                 .map((option) => (
-                  <>
-                    {option.img && (
-                      <img
-                        src={getIconUrl(option.img)}
-                        className="w-6 h-6 mr-2 flex-shrink-0"
-                      />
-                    )}
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  </>
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    style={{
+                      ...optionStyle,
+                      backgroundImage: option.img
+                        ? `url(${getIconUrl(option.img)})`
+                        : undefined,
+                    }}
+                  >
+                    {option.label}
+                  </option>
                 ))}
             </>
           )}
         </select>
       </div>
+
       <div className="col-span-1">
         <ul
           className="border border-gray-400 bg-white rounded-md p-4 h-80 max-h-80 overflow-y-auto"
           placeholder="selected fields"
         >
           {selectedOptions.map((option) => (
-            <li key={option.value} className="flex justify-between py-1">
-              <span>{option.label}</span>
+            <li
+              key={option.value}
+              className="flex items-center justify-between py-1"
+            >
+              <div className="flex items-center">
+                {option.img && (
+                  <img
+                    src={getIconUrl(option.img)}
+                    className="w-6 h-6 mr-2 flex-shrink-0"
+                  />
+                )}
+                <span>{option.label}</span>
+              </div>
               <button
                 className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700"
                 onClick={() => handleRemove(option)}

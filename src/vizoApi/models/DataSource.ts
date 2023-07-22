@@ -10,7 +10,7 @@ export type DataSource = {
     name: string;
     user: User;
     fields: Array<FieldOption>;
-    adAccount: AdAccount;
+    adAccounts: Array<AdAccount>;
     start_date: string;
     end_date: string;
 };
