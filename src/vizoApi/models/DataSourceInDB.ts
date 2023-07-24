@@ -5,6 +5,7 @@
 export type DataSourceInDB = {
     id: number;
     user_id: string;
+    db_schema: string;
     name: string;
     table_name: string;
     fields: string;

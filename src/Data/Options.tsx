@@ -8,192 +8,192 @@ export const facebookMetricOptions = [
     label: "Cost Per Conversion",
     type: FieldType.METRIC,
   },
-  {
-    value: "cost_per_inline_link_click",
-    label: "Cost Per Inline Link Click",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "cost_per_inline_post_engagement",
-    label: "Cost Per Inline Post Engagement",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "cost_per_outbound_click",
-    label: "Cost Per Outbound Click",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "cost_per_thruplay",
-    label: "Cost Per Thruplay",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "cost_per_unique_action_type",
-    label: "Cost Per Unique Action Type",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "cost_per_unique_click",
-    label: "Cost Per Unique Click",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "cost_per_unique_inline_link_click",
-    label: "Cost Per Unique Inline Link Click",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "cost_per_unique_outbound_click",
-    label: "Cost Per Unique Outbound Click",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "cost_per_inline_link_click",
+  //   label: "Cost Per Inline Link Click",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "cost_per_inline_post_engagement",
+  //   label: "Cost Per Inline Post Engagement",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "cost_per_outbound_click",
+  //   label: "Cost Per Outbound Click",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "cost_per_thruplay",
+  //   label: "Cost Per Thruplay",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "cost_per_unique_action_type",
+  //   label: "Cost Per Unique Action Type",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "cost_per_unique_click",
+  //   label: "Cost Per Unique Click",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "cost_per_unique_inline_link_click",
+  //   label: "Cost Per Unique Inline Link Click",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "cost_per_unique_outbound_click",
+  //   label: "Cost Per Unique Outbound Click",
+  //   type: FieldType.METRIC,
+  // },
   { value: "cpc", label: "CPC", type: FieldType.METRIC },
   { value: "cpm", label: "CPM", type: FieldType.METRIC },
   { value: "cpp", label: "CPP", type: FieldType.METRIC },
   { value: "ctr", label: "CTR", type: FieldType.METRIC },
   { value: "frequency", label: "Frequency", type: FieldType.METRIC },
   { value: "impressions", label: "Impressions", type: FieldType.METRIC },
-  {
-    value: "inline_link_click_ctr",
-    label: "Inline Link Click CTR",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "inline_link_clicks",
-    label: "Inline Link Clicks",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "inline_post_engagement",
-    label: "Inline Post Engagement",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "outbound_clicks",
-    label: "Outbound Clicks",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "outbound_clicks_ctr",
-    label: "Outbound Clicks CTR",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "inline_link_click_ctr",
+  //   label: "Inline Link Click CTR",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "inline_link_clicks",
+  //   label: "Inline Link Clicks",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "inline_post_engagement",
+  //   label: "Inline Post Engagement",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "outbound_clicks",
+  //   label: "Outbound Clicks",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "outbound_clicks_ctr",
+  //   label: "Outbound Clicks CTR",
+  //   type: FieldType.METRIC,
+  // },
   { value: "reach", label: "Reach", type: FieldType.METRIC },
   { value: "spend", label: "Spend", type: FieldType.METRIC },
-  { value: "unique_actions", label: "Unique Actions", type: FieldType.METRIC },
-  { value: "unique_clicks", label: "Unique Clicks", type: FieldType.METRIC },
-  { value: "unique_ctr", label: "Unique CTR", type: FieldType.METRIC },
-  {
-    value: "unique_inline_link_click_ctr",
-    label: "Unique Inline Link Click CTR",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "unique_inline_link_clicks",
-    label: "Unique Inline Link Clicks",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "unique_link_clicks_ctr",
-    label: "Unique Link Clicks CTR",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "unique_outbound_clicks_ctr",
-    label: "Unique Outbound Clicks CTR",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "unique_video_continuous_2_sec_watched_actions",
-    label: "Unique Video Continuous 2 Sec Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "unique_video_view_15_sec",
-    label: "Unique Video View 15 Sec",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_15_sec_watched_actions",
-    label: "Video 15 Sec Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_30_sec_watched_actions",
-    label: "Video 30 Sec Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_continuous_2_sec_watched_actions",
-    label: "Video Continuous 2 Sec Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_p100_watched_actions",
-    label: "Video P100 Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_p25_watched_actions",
-    label: "Video P25 Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_p50_watched_actions",
-    label: "Video P50 Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_p75_watched_actions",
-    label: "Video P75 Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_p95_watched_actions",
-    label: "Video P95 Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_play_actions",
-    label: "Video Play Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_play_retention_0_to_15s_actions",
-    label: "Video Play Retention 0 To 15s Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_play_retention_20_to_60s_actions",
-    label: "Video Play Retention 20 To 60s Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_play_retention_graph_actions",
-    label: "Video Play Retention Graph Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_thruplay_watched_actions",
-    label: "Video Thruplay Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "video_time_watched_actions",
-    label: "Video Time Watched Actions",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "website_ctr",
-    label: "Website CTR",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "website_purchase_roas",
-    label: "Website Purchase ROAS",
-    type: FieldType.METRIC,
-  },
+  // { value: "unique_actions", label: "Unique Actions", type: FieldType.METRIC },
+  // { value: "unique_clicks", label: "Unique Clicks", type: FieldType.METRIC },
+  // { value: "unique_ctr", label: "Unique CTR", type: FieldType.METRIC },
+  // {
+  //   value: "unique_inline_link_click_ctr",
+  //   label: "Unique Inline Link Click CTR",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "unique_inline_link_clicks",
+  //   label: "Unique Inline Link Clicks",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "unique_link_clicks_ctr",
+  //   label: "Unique Link Clicks CTR",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "unique_outbound_clicks_ctr",
+  //   label: "Unique Outbound Clicks CTR",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "unique_video_continuous_2_sec_watched_actions",
+  //   label: "Unique Video Continuous 2 Sec Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "unique_video_view_15_sec",
+  //   label: "Unique Video View 15 Sec",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_15_sec_watched_actions",
+  //   label: "Video 15 Sec Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_30_sec_watched_actions",
+  //   label: "Video 30 Sec Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_continuous_2_sec_watched_actions",
+  //   label: "Video Continuous 2 Sec Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_p100_watched_actions",
+  //   label: "Video P100 Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_p25_watched_actions",
+  //   label: "Video P25 Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_p50_watched_actions",
+  //   label: "Video P50 Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_p75_watched_actions",
+  //   label: "Video P75 Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_p95_watched_actions",
+  //   label: "Video P95 Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_play_actions",
+  //   label: "Video Play Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_play_retention_0_to_15s_actions",
+  //   label: "Video Play Retention 0 To 15s Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_play_retention_20_to_60s_actions",
+  //   label: "Video Play Retention 20 To 60s Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_play_retention_graph_actions",
+  //   label: "Video Play Retention Graph Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_thruplay_watched_actions",
+  //   label: "Video Thruplay Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "video_time_watched_actions",
+  //   label: "Video Time Watched Actions",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "website_ctr",
+  //   label: "Website CTR",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "website_purchase_roas",
+  //   label: "Website Purchase ROAS",
+  //   type: FieldType.METRIC,
+  // },
 ];
 
 export const facebookDimensionOptions = [
@@ -249,11 +249,11 @@ export const googleMetricOptions = [
   //   label: "Active View Viewability",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.all_conversions",
-    label: "All Conversions",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.all_conversions",
+  //   label: "All Conversions",
+  //   type: FieldType.METRIC,
+  // },
   // {
   //   value: "metrics.all_conversions_by_conversion_date",
   //   label: "All Conversions By Conversion Date",
@@ -269,21 +269,21 @@ export const googleMetricOptions = [
   //   label: "All Conversions From Interactions Value Per Interaction",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.metrics.all_conversions_value",
-    label: "All Conversions Value",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.metrics.all_conversions_value",
+  //   label: "All Conversions Value",
+  //   type: FieldType.METRIC,
+  // },
   // {
   //   value: "metrics.all_conversions_value_by_conversion_date",
   //   label: "All Conversions Value By Conversion Date",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.all_conversions_value_per_cost",
-    label: "All Conversions Value Per Cost",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.all_conversions_value_per_cost",
+  //   label: "All Conversions Value Per Cost",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.average_cost",
     label: "Average Cost",
@@ -309,21 +309,21 @@ export const googleMetricOptions = [
     label: "Average CPV",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.average_page_views",
-    label: "Average Page Views",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.average_time_on_site",
-    label: "Average Time On Site",
-    type: FieldType.METRIC,
-  },
-  {
-    value: "metrics.bounce_rate",
-    label: "Bounce Rate",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.average_page_views",
+  //   label: "Average Page Views",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.average_time_on_site",
+  //   label: "Average Time On Site",
+  //   type: FieldType.METRIC,
+  // },
+  // {
+  //   value: "metrics.bounce_rate",
+  //   label: "Bounce Rate",
+  //   type: FieldType.METRIC,
+  // },
   { value: "metrics.clicks", label: "Clicks", type: FieldType.METRIC },
   {
     value: "metrics.conversions",
@@ -365,11 +365,11 @@ export const googleMetricOptions = [
     label: "Cost Micros",
     type: FieldType.METRIC,
   },
-  {
-    value: "metrics.cost_per_all_conversions",
-    label: "Cost Per All Conversions",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.cost_per_all_conversions",
+  //   label: "Cost Per All Conversions",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.cost_per_conversion",
     label: "Cost Per Conversion",
@@ -414,11 +414,11 @@ export const googleMetricOptions = [
   //   label: "Current Model Attributed Conversions Value Per Cost",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.engagement_rate",
-    label: "Engagement Rate",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.engagement_rate",
+  //   label: "Engagement Rate",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.engagements",
     label: "Engagements",
@@ -449,11 +449,11 @@ export const googleMetricOptions = [
   //   label: "Interaction Event Types",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.interaction_rate",
-    label: "Interaction Rate",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.interaction_rate",
+  //   label: "Interaction Rate",
+  //   type: FieldType.METRIC,
+  // },
   {
     value: "metrics.interactions",
     label: "Interactions",
@@ -494,11 +494,11 @@ export const googleMetricOptions = [
   //   label: "Value Per Conversion By Date",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.value_per_conversion",
-    label: "Value Per Conversion",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.value_per_conversion",
+  //   label: "Value Per Conversion",
+  //   type: FieldType.METRIC,
+  // },
   // {
   //   value: "metrics.value_per_current_model_attributed_conversion",
   //   label: "Value Per Current Model Attributed Conversion",

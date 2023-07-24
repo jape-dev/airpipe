@@ -1,20 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
-import { DefaultService, Prompt, ChainResult } from "../vizoApi";
+import {
+  DefaultService,
+  DataSourceInDB,
+  QueryResults,
+  AmbiguousColumns,
+  BaseAmbiguities,
+  Body_check_ambiguous_columns_query_check_ambiguous_columns_post,
+} from "../vizoApi";
 import { Message } from "./Message";
 
 export interface ChatInterfaceProps {
-  tableName: string;
+  dataSources: DataSourceInDB[];
 }
 
 interface Message {
   isUserMessage: boolean;
   text: string;
   data?: any;
+  columns?: string[];
   loading?: boolean;
 }
 
-export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({
+  dataSources,
+}) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       text: "Ask a question about your data...",
@@ -22,6 +32,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
     },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [ambiguities, setAmbiguities] = useState<
+    AmbiguousColumns | BaseAmbiguities | undefined
+  >(undefined);
 
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,43 +42,87 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ tableName }) => {
       return;
     }
     setInputValue("");
-    const prompt: Prompt = {
-      prompt: inputValue,
-      table: tableName,
-    };
     setMessages([
       ...messages,
       { text: inputValue, isUserMessage: true },
       { text: "Loading...", isUserMessage: false, loading: true },
     ]);
-    DefaultService.askQuestionQueryAskQuestionPost(prompt)
-      .then((result: ChainResult) => {
-        if (messages[messages.length - 1].loading) {
-          messages.pop();
-        }
+
+    let ambiguitiesBody: Body_check_ambiguous_columns_query_check_ambiguous_columns_post =
+      {
+        data_sources: dataSources,
+        ambiguities: ambiguities,
+      };
+
+    DefaultService.checkAmbiguousColumnsQueryCheckAmbiguousColumnsPost(
+      inputValue,
+      ambiguitiesBody
+    ).then((response: AmbiguousColumns | BaseAmbiguities | string) => {
+      console.log("response", response);
+      if (typeof response === "object" && response !== null) {
+        setAmbiguities(response);
         setMessages([
           ...messages,
           {
-            text: inputValue,
-            isUserMessage: true,
-          },
-          {
-            text: result.answer,
-            data: result.json_result,
+            text: response.statement,
             isUserMessage: false,
           },
         ]);
-      })
-      .catch((err) =>
-        setMessages([
-          ...messages,
-          { text: inputValue, isUserMessage: true },
-          {
-            text: "I'm sorry, I don't understand. Please try again.",
-            isUserMessage: false,
-          },
-        ])
-      );
+      } else {
+        // No more ambiguities.
+        DefaultService.dinSqlQueryDinSqlPost(response, dataSources)
+          .then((sql: string) => {
+            if (messages[messages.length - 1].loading) {
+              messages.pop();
+            }
+            setMessages([
+              ...messages,
+              {
+                text: inputValue,
+                isUserMessage: true,
+              },
+            ]);
+            DefaultService.runQueryQueryRunQueryGet(sql)
+              .then((result: QueryResults) => {
+                console.log(result.results);
+                setMessages([
+                  ...messages,
+                  {
+                    text: inputValue,
+                    isUserMessage: true,
+                  },
+                  {
+                    text: "text",
+                    data: result.results,
+                    columns: result.columns,
+                    isUserMessage: false,
+                  },
+                ]);
+              })
+              .catch((err) => {
+                console.log(err);
+                setMessages([
+                  ...messages,
+                  { text: inputValue, isUserMessage: true },
+                  {
+                    text: "I'm sorry, I don't understand. Please try again.",
+                    isUserMessage: false,
+                  },
+                ]);
+              });
+          })
+          .catch((err) =>
+            setMessages([
+              ...messages,
+              { text: inputValue, isUserMessage: true },
+              {
+                text: "I'm sorry, I don't understand. Please try again.",
+                isUserMessage: false,
+              },
+            ])
+          );
+      }
+    });
   };
 
   return (
