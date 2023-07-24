@@ -6,4 +6,3 @@ export type TableColumns = {
     name: string;
     columns: Array<string>;
 };
-

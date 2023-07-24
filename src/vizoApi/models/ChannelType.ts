@@ -8,4 +8,5 @@
 export enum ChannelType {
     GOOGLE = 'google',
     FACEBOOK = 'facebook',
+    GOOGLE_ANALYTICS = 'google_analytics',
 }

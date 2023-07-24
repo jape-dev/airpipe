@@ -9,4 +9,3 @@ export type FacebookQuery = {
     start_date?: number;
     end_date?: number;
 };
-

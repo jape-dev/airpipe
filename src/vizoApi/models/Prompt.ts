@@ -6,4 +6,3 @@ export type Prompt = {
     input: string;
     tables: Array<string>;
 };
-

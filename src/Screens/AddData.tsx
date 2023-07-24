@@ -63,6 +63,20 @@ export const AddData: React.FC = () => {
         .catch((error) => {
           console.log(error);
         });
+      DefaultService.adAccountsConnectorGoogleAnalyticsAdAccountGet(token)
+        .then((response: AdAccount[]) => {
+          setAdAccounts((prev) => [...prev, ...response]);
+        })
+        .catch((error) => {
+          if (error.status === 401) {
+            window.location.href = RouterPath.LOGIN;
+          } else {
+            console.log(error);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, []);
 

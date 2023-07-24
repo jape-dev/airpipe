@@ -5,6 +5,5 @@
 export type CurrentResults = {
     name: string;
     columns: Array<string>;
-    results: Array<any>;
+    results: Array<Record<string, any>>;
 };
-

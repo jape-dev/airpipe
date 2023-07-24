@@ -11,4 +11,3 @@ export type AdAccount = {
     name?: string;
     img?: string;
 };
-

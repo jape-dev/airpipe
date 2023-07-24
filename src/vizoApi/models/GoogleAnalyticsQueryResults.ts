@@ -2,7 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Token = {
-    access_token: string;
-    token_type: string;
+export type GoogleQueryResults = {
+  results: Array<any>;
 };
