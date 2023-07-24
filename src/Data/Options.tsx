@@ -4,6 +4,7 @@ export const facebookMetricOptions = [
   {
     value: "clicks",
     label: "Clicks",
+    alt_value: "facebook_clicks",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -11,6 +12,7 @@ export const facebookMetricOptions = [
   {
     value: "conversions",
     label: "Conversions",
+    alt_value: "facebook_conversions",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -18,6 +20,7 @@ export const facebookMetricOptions = [
   {
     value: "cost_per_conversion",
     label: "Cost Per Conversion",
+    alt_value: "facebook_cost_per_conversion",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -65,6 +68,7 @@ export const facebookMetricOptions = [
   {
     value: "cpc",
     label: "CPC",
+    alt_value: "facebook_cpc",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -72,6 +76,7 @@ export const facebookMetricOptions = [
   {
     value: "cpm",
     label: "CPM",
+    alt_value: "facebook_cpm",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -79,6 +84,7 @@ export const facebookMetricOptions = [
   {
     value: "cpp",
     label: "CPP",
+    alt_value: "facebook_cpp",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -86,6 +92,7 @@ export const facebookMetricOptions = [
   {
     value: "ctr",
     label: "CTR",
+    alt_value: "facebook_ctr",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -93,6 +100,7 @@ export const facebookMetricOptions = [
   {
     value: "frequency",
     label: "Frequency",
+    alt_value: "facebook_frequency",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -100,6 +108,7 @@ export const facebookMetricOptions = [
   {
     value: "impressions",
     label: "Impressions",
+    alt_value: "facebook_impressions",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -132,6 +141,7 @@ export const facebookMetricOptions = [
   {
     value: "reach",
     label: "Reach",
+    alt_value: "facebook_reach",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -139,6 +149,7 @@ export const facebookMetricOptions = [
   {
     value: "spend",
     label: "Spend",
+    alt_value: "facebook_spend",
     type: FieldType.METRIC,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -258,10 +269,20 @@ export const facebookMetricOptions = [
   // },
 ];
 
+export const facebookDateOption = {
+  value: "date",
+  label: "Date",
+  alt_value: "date",
+  type: FieldType.DIMENSION,
+  channel: ChannelType.FACEBOOK,
+  img: "facebook-icon",
+};
+
 export const facebookDimensionOptions = [
   {
     value: "account_id",
     label: "Account Id",
+    alt_value: "facebook_account_id",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -269,6 +290,7 @@ export const facebookDimensionOptions = [
   {
     value: "account_name",
     label: "Account Name",
+    alt_value: "facebook_account_name",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -276,6 +298,7 @@ export const facebookDimensionOptions = [
   {
     value: "adset_id",
     label: "Adset Id",
+    alt_value: "facebook_adset_id",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -283,6 +306,7 @@ export const facebookDimensionOptions = [
   {
     value: "adset_name",
     label: "Adset Name",
+    alt_value: "facebook_adset_name",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -290,6 +314,7 @@ export const facebookDimensionOptions = [
   {
     value: "campaign_id",
     label: "Campaign Id",
+    alt_value: "facebook_campaign_id",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -297,6 +322,7 @@ export const facebookDimensionOptions = [
   {
     value: "campaign_name",
     label: "Campaign Name",
+    alt_value: "facebook_campaign_name",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -304,6 +330,7 @@ export const facebookDimensionOptions = [
   {
     value: "ad_id",
     label: "Ad Id",
+    alt_value: "facebook_ad_id",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -311,13 +338,7 @@ export const facebookDimensionOptions = [
   {
     value: "ad_name",
     label: "Ad Name",
-    type: FieldType.DIMENSION,
-    channel: ChannelType.FACEBOOK,
-    img: "facebook-icon",
-  },
-  {
-    value: "date",
-    label: "Date",
+    alt_value: "facebook_ad_name",
     type: FieldType.DIMENSION,
     channel: ChannelType.FACEBOOK,
     img: "facebook-icon",
@@ -400,37 +421,42 @@ export const googleMetricOptions = [
   //   label: "All Conversions Value Per Cost",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.average_cost",
-    label: "Average Cost",
-    type: FieldType.METRIC,
-    channel: ChannelType.GOOGLE,
-    img: "google-ads-icon",
-  },
+  // {
+  //   value: "metrics.average_cost",
+  //   label: "Average Cost",
+  //   alt_value: "google_average_cost",
+  //   type: FieldType.METRIC,
+  //   channel: ChannelType.GOOGLE,
+  //   img: "google-ads-icon",
+  // },
   {
     value: "metrics.average_cpc",
-    label: "Average CPC",
+    label: "CPC",
+    alt_value: "google_cpc",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpe",
-    label: "Average CPE",
+    label: "CPE",
+    alt_value: "google_cpe",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpm",
-    label: "Average CPM",
+    label: "CPM",
+    alt_value: "google_cpm",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpv",
-    label: "Average CPV",
+    label: "CPV",
+    alt_value: "google_cpv",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -453,6 +479,7 @@ export const googleMetricOptions = [
   {
     value: "metrics.clicks",
     label: "Clicks",
+    alt_value: "google_clicks",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -460,6 +487,7 @@ export const googleMetricOptions = [
   {
     value: "metrics.conversions",
     label: "Conversions",
+    alt_value: "google_conversions",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -496,7 +524,8 @@ export const googleMetricOptions = [
   // },
   {
     value: "metrics.cost_micros",
-    label: "Cost Micros",
+    label: "Spend",
+    alt_value: "google_spend",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -509,6 +538,7 @@ export const googleMetricOptions = [
   {
     value: "metrics.cost_per_conversion",
     label: "Cost Per Conversion",
+    alt_value: "google_cost_per_conversion",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -560,6 +590,7 @@ export const googleMetricOptions = [
   {
     value: "metrics.engagements",
     label: "Engagements",
+    alt_value: "google_engagements",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -582,6 +613,7 @@ export const googleMetricOptions = [
   {
     value: "metrics.impressions",
     label: "Impressions",
+    alt_value: "google_impressions",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -599,6 +631,7 @@ export const googleMetricOptions = [
   {
     value: "metrics.interactions",
     label: "Interactions",
+    alt_value: "google_interactions",
     type: FieldType.METRIC,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -685,20 +718,22 @@ export const googleMetricOptions = [
   // },
 ];
 
+export const googleDateOption = {
+  value: "segments.date",
+  label: "Date",
+  alt_value: "date",
+  type: FieldType.DIMENSION,
+  channel: ChannelType.GOOGLE,
+  img: "google-ads-icon",
+};
+
 export const googleDimensionOptions = [
-  {
-    value: "segments.date",
-    label: "Date",
-    type: FieldType.DIMENSION,
-    channel: ChannelType.GOOGLE,
-    img: "google-ads-icon",
-  },
   {
     value: "ad_group_ad.ad.id",
     label: "Ad Id",
     type: FieldType.DIMENSION,
     channel: ChannelType.GOOGLE,
-    alt_value: "id",
+    alt_value: "google_ad_id",
     img: "google-ads-icon",
   },
   {
@@ -706,7 +741,7 @@ export const googleDimensionOptions = [
     label: "Ad Name",
     type: FieldType.DIMENSION,
     channel: ChannelType.GOOGLE,
-    alt_value: "name",
+    alt_value: "google_ad_name",
     img: "google-ads-icon",
   },
   {
@@ -714,11 +749,13 @@ export const googleDimensionOptions = [
     label: "Ad Group Name",
     type: FieldType.DIMENSION,
     channel: ChannelType.GOOGLE,
+    alt_value: "google_ad_group_name",
     img: "google-ads-icon",
   },
   {
     value: "ad_group.id",
     label: "Ad Group Id",
+    alt_value: "google_ad_group_id",
     type: FieldType.DIMENSION,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -726,6 +763,7 @@ export const googleDimensionOptions = [
   {
     value: "campaign.id",
     label: "Campaign Id",
+    alt_value: "google_campaign_id",
     type: FieldType.DIMENSION,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -733,6 +771,7 @@ export const googleDimensionOptions = [
   {
     value: "campaign.name",
     label: "Campaign Name",
+    alt_value: "google_campaign_name",
     type: FieldType.DIMENSION,
     channel: ChannelType.GOOGLE,
     img: "google-ads-icon",
@@ -740,9 +779,9 @@ export const googleDimensionOptions = [
   {
     value: "segments.keyword.info.text",
     label: "Keyword Text",
+    alt_value: "google_keyword_text",
     type: FieldType.DIMENSION,
     channel: ChannelType.GOOGLE,
-    alt_value: "keyword_text",
     img: "google-ads-icon",
   },
 ];

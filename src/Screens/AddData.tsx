@@ -13,10 +13,12 @@ import {
   AdAccount,
   FieldOption,
   CurrentResults,
+  ChannelType,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { FieldList } from "../Components/FieldList";
 import { DateToString } from "../Utils/DateFormat";
+import { googleDateOption, facebookDateOption } from "../Data/Options";
 
 export const AddData: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
@@ -83,6 +85,24 @@ export const AddData: React.FC = () => {
     setDropDownOptions(options);
   }, [adAccounts]);
 
+  useEffect(() => {
+    let selected = undefined;
+
+    if (selectedAdAccounts.length === 1) {
+      selected = selectedAdAccounts[0];
+    } else {
+      selected = selectedAdAccounts[adAccounts.length - 1];
+    }
+    if (selected !== undefined) {
+      console.log(selected);
+      if (selected.channel === ChannelType.FACEBOOK) {
+        setSelectedOptions((prev) => [...prev, facebookDateOption]);
+      } else if (selected.channel === ChannelType.GOOGLE) {
+        setSelectedOptions((prev) => [...prev, googleDateOption]);
+      }
+    }
+  }, [selectedAdAccounts]);
+
   const handleMultiSelectOption = (selectedOptions: DropDownOption[]) => {
     const selected = adAccounts.filter((account) =>
       selectedOptions.some((option) => account.id.toString() === option.id)
@@ -111,6 +131,7 @@ export const AddData: React.FC = () => {
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
         (response: CurrentResults) => {
+          console.log(response);
           DefaultService.createNewTableQueryCreateNewTablePost(
             currentUser.email,
             response

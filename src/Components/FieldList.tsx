@@ -195,12 +195,14 @@ export const FieldList: React.FC<FieldListProps> = ({
                 )}
                 <span>{option.label}</span>
               </div>
-              <button
-                className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700"
-                onClick={() => handleRemove(option)}
-              >
-                <XMarkIcon className="h-4 w-4" />
-              </button>
+              {option.label !== "Date" && (
+                <button
+                  className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700"
+                  onClick={() => handleRemove(option)}
+                >
+                  <XMarkIcon className="h-4 w-4" />
+                </button>
+              )}
             </li>
           ))}
         </ul>
