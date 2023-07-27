@@ -785,3 +785,25 @@ export const googleDimensionOptions = [
     img: "google-ads-icon",
   },
 ];
+
+export const googleAnalyticsDateOption = {
+  value: "date",
+  label: "Date",
+  alt_value: "date",
+  type: FieldType.DIMENSION,
+  channel: ChannelType.GOOGLE_ANALYTICS,
+  img: "google-analytics-icon",
+};
+
+export const googleAnalyticsMetricOptions = [
+  {
+    value: "totalUsers",
+    label: "Users",
+    alt_value: "google_analytics_users",
+    type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE_ANALYTICS,
+    img: "google-analytics-icon",
+  },
+];
+
+export const googleAnalyticsDimensionOptions = [];

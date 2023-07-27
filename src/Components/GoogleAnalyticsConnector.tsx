@@ -4,7 +4,7 @@ import GoogleSignIn from "./GoogleSignIn";
 import { BaseConnector } from "./BaseConnector";
 import { User } from "../vizoApi";
 
-export const GoogleConnectorV2 = (props: { currentUser?: User }) => {
+export const GoogleAnalyticsConnector = (props: { currentUser?: User }) => {
   const [modal, setModal] = useState(false);
   const [connected, setConnected] = useState(false);
 
@@ -13,7 +13,7 @@ export const GoogleConnectorV2 = (props: { currentUser?: User }) => {
   };
 
   useEffect(() => {
-    if (props.currentUser?.google_access_token) {
+    if (props.currentUser?.google_analytics_access_token) {
       setConnected(true);
     }
   });
@@ -21,14 +21,14 @@ export const GoogleConnectorV2 = (props: { currentUser?: User }) => {
   return (
     <>
       <BaseConnector
-        title={"Google Ads"}
-        imgPath={"google-ads-icon"}
+        title={"Google Analytics"}
+        imgPath={"google-analytics-icon"}
         onConnect={openSignInModal}
         connected={connected}
       />
       <CustomModal parentshow={modal} setParentShow={setModal}>
         <>
-          <GoogleSignIn channel_type={"google"} />
+          <GoogleSignIn channel_type={"google_analytics"} />
         </>
       </CustomModal>
     </>

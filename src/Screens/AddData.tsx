@@ -18,7 +18,11 @@ import {
 import { RouterPath } from "../App";
 import { FieldList } from "../Components/FieldList";
 import { DateToString } from "../Utils/DateFormat";
-import { googleDateOption, facebookDateOption } from "../Data/Options";
+import {
+  googleDateOption,
+  facebookDateOption,
+  googleAnalyticsDateOption,
+} from "../Data/Options";
 
 export const AddData: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
@@ -68,6 +72,20 @@ export const AddData: React.FC = () => {
         .catch((error) => {
           console.log(error);
         });
+      DefaultService.adAccountsConnectorGoogleAnalyticsAdAccountsGet(token)
+        .then((response: AdAccount[]) => {
+          setAdAccounts((prev) => [...prev, ...response]);
+        })
+        .catch((error) => {
+          if (error.status === 401) {
+            window.location.href = RouterPath.LOGIN;
+          } else {
+            console.log(error);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, []);
 
@@ -99,6 +117,8 @@ export const AddData: React.FC = () => {
         setSelectedOptions((prev) => [...prev, facebookDateOption]);
       } else if (selected.channel === ChannelType.GOOGLE) {
         setSelectedOptions((prev) => [...prev, googleDateOption]);
+      } else if (selected.channel === ChannelType.GOOGLE_ANALYTICS) {
+        setSelectedOptions((prev) => [...prev, googleAnalyticsDateOption]);
       }
     }
   }, [selectedAdAccounts]);

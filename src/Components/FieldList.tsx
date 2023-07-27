@@ -5,6 +5,8 @@ import {
   googleDimensionOptions,
   facebookMetricOptions,
   facebookDimensionOptions,
+  googleAnalyticsMetricOptions,
+  googleAnalyticsDimensionOptions,
 } from "../Data/Options";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
@@ -44,6 +46,8 @@ export const FieldList: React.FC<FieldListProps> = ({
           return googleMetricOptions;
         } else if (adAccount.channel === ChannelType.FACEBOOK) {
           return facebookMetricOptions;
+        } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
+          return googleAnalyticsMetricOptions;
         }
         return [];
       });
@@ -53,6 +57,8 @@ export const FieldList: React.FC<FieldListProps> = ({
           return googleDimensionOptions;
         } else if (adAccount.channel === ChannelType.FACEBOOK) {
           return facebookDimensionOptions;
+        } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
+          return googleAnalyticsMetricOptions;
         }
         return [];
       });

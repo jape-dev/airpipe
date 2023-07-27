@@ -99,6 +99,27 @@ export class DefaultService {
     }
 
     /**
+     * Ad Accounts
+     * @param token
+     * @returns AdAccount Successful Response
+     * @throws ApiError
+     */
+    public static adAccountsConnectorGoogleAnalyticsAdAccountsGet(
+        token: string,
+    ): CancelablePromise<Array<AdAccount>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/google-analytics/ad_accounts',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Get Table Columns
      * @param tableName
      * @returns TableColumns Successful Response

@@ -7,5 +7,6 @@ export type User = {
     hashed_password: string;
     facebook_access_token?: string;
     google_access_token?: string;
+    google_analytics_access_token?: string;
 };
 

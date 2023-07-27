@@ -1,9 +1,10 @@
+import { channel } from "diagnostics_channel";
 import { useRef, useEffect } from "react";
 declare const google: any;
 
 const DOMAIN_URL = process.env.REACT_APP_DOMAIN_URL || "http://localhost:8000";
 
-const GoogleSignIn = () => {
+const GoogleSignIn = (props: { channel_type: string }) => {
   const g_sso = useRef(null);
 
   useEffect(() => {
@@ -12,10 +13,9 @@ const GoogleSignIn = () => {
         client_id:
           "666024859022-rq09jru86c64amvrlqhkom354jtmg2k8.apps.googleusercontent.com",
         callback: (res: any) => {
-          console.log("setting google access token");
           localStorage.setItem("googleToken", res.credential);
           const token = localStorage.getItem("token");
-          window.location.href = `${DOMAIN_URL}/connector/google/auth?token=${token}&googleToken=${res.credential}`;
+          window.location.href = `${DOMAIN_URL}/connector/google/auth?token=${token}&googleToken=${res.credential}&channel=${props.channel_type}`;
         },
       });
       google.accounts.id.renderButton(g_sso.current, {
