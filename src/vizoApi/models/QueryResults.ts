@@ -6,3 +6,4 @@ export type QueryResults = {
     columns: Array<string>;
     results: Array<any>;
 };
+

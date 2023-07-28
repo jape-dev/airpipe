@@ -7,3 +7,4 @@ export type ChainResult = {
     answer: string;
     column_options?: Array<string>;
 };
+

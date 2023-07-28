@@ -5,19 +5,28 @@ import {
   googleDimensionOptions,
   facebookMetricOptions,
   facebookDimensionOptions,
-  googleAnalyticsMetricsOptions,
+  googleAnalyticsMetricOptions,
   googleAnalyticsDimensionOptions,
 } from "../Data/Options";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
 interface FieldListProps {
-  adAccount: AdAccount;
+  adAccounts: AdAccount[];
   selectedOptions: FieldOption[];
   setSelectedOptions: React.Dispatch<React.SetStateAction<FieldOption[]>>;
 }
 
+const optionStyle = {
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "left center",
+  backgroundSize: "contain",
+  paddingLeft: "25px", // Add extra padding to the left if there's an image
+  marginRight: "5px",
+  marginBottom: "5px",
+};
+
 export const FieldList: React.FC<FieldListProps> = ({
-  adAccount,
+  adAccounts,
   selectedOptions,
   setSelectedOptions,
 }) => {
@@ -25,24 +34,34 @@ export const FieldList: React.FC<FieldListProps> = ({
   const [searchText, setSearchText] = useState("");
   const [fieldType, setFieldType] = useState<FieldType>(FieldType.METRIC);
 
+  const getIconUrl = (imgPath: string) => {
+    return require(`../Static/images/${imgPath}.png`);
+  };
+
   useEffect(() => {
     let options: FieldOption[] = [];
     if (fieldType === FieldType.METRIC) {
-      if (adAccount.channel === ChannelType.GOOGLE) {
-        options = googleMetricOptions;
-      } else if (adAccount.channel === ChannelType.FACEBOOK) {
-        options = facebookMetricOptions;
-      } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
-        options = googleAnalyticsMetricsOptions;
-      }
+      options = adAccounts.flatMap((adAccount) => {
+        if (adAccount.channel === ChannelType.GOOGLE) {
+          return googleMetricOptions;
+        } else if (adAccount.channel === ChannelType.FACEBOOK) {
+          return facebookMetricOptions;
+        } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
+          return googleAnalyticsMetricOptions;
+        }
+        return [];
+      });
     } else if (fieldType === FieldType.DIMENSION) {
-      if (adAccount.channel === ChannelType.GOOGLE) {
-        options = googleDimensionOptions;
-      } else if (adAccount.channel === ChannelType.FACEBOOK) {
-        options = facebookDimensionOptions;
-      } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
-        options = googleAnalyticsDimensionOptions;
-      }
+      options = adAccounts.flatMap((adAccount) => {
+        if (adAccount.channel === ChannelType.GOOGLE) {
+          return googleDimensionOptions;
+        } else if (adAccount.channel === ChannelType.FACEBOOK) {
+          return facebookDimensionOptions;
+        } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
+          return googleAnalyticsMetricOptions;
+        }
+        return [];
+      });
     }
     // Filter out any options that have already been selected
     options = options.filter(
@@ -50,7 +69,7 @@ export const FieldList: React.FC<FieldListProps> = ({
         !selectedOptions.find((selected) => selected.value === option.value)
     );
     setFieldOptions(options);
-  }, [adAccount, fieldType]);
+  }, [adAccounts, fieldType]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
@@ -145,7 +164,16 @@ export const FieldList: React.FC<FieldListProps> = ({
                   option.label.toLowerCase().includes(searchText.toLowerCase())
                 )
                 .map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    style={{
+                      ...optionStyle,
+                      backgroundImage: option.img
+                        ? `url(${getIconUrl(option.img)})`
+                        : undefined,
+                    }}
+                  >
                     {option.label}
                   </option>
                 ))}
@@ -153,20 +181,34 @@ export const FieldList: React.FC<FieldListProps> = ({
           )}
         </select>
       </div>
+
       <div className="col-span-1">
         <ul
           className="border border-gray-400 bg-white rounded-md p-4 h-80 max-h-80 overflow-y-auto"
           placeholder="selected fields"
         >
           {selectedOptions.map((option) => (
-            <li key={option.value} className="flex justify-between py-1">
-              <span>{option.label}</span>
-              <button
-                className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700"
-                onClick={() => handleRemove(option)}
-              >
-                <XMarkIcon className="h-4 w-4" />
-              </button>
+            <li
+              key={option.value}
+              className="flex items-center justify-between py-1"
+            >
+              <div className="flex items-center">
+                {option.img && (
+                  <img
+                    src={getIconUrl(option.img)}
+                    className="w-6 h-6 mr-2 flex-shrink-0"
+                  />
+                )}
+                <span>{option.label}</span>
+              </div>
+              {option.label !== "Date" && (
+                <button
+                  className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700"
+                  onClick={() => handleRemove(option)}
+                >
+                  <XMarkIcon className="h-4 w-4" />
+                </button>
+              )}
             </li>
           ))}
         </ul>

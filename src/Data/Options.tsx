@@ -1,12 +1,29 @@
-import { FieldType } from "../vizoApi";
+import { FieldType, ChannelType } from "../vizoApi";
 
 export const facebookMetricOptions = [
-  { value: "clicks", label: "Clicks", type: FieldType.METRIC },
-  { value: "conversions", label: "Conversions", type: FieldType.METRIC },
+  {
+    value: "clicks",
+    label: "Clicks",
+    alt_value: "facebook_clicks",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "conversions",
+    label: "Conversions",
+    alt_value: "facebook_conversions",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
   {
     value: "cost_per_conversion",
     label: "Cost Per Conversion",
+    alt_value: "facebook_cost_per_conversion",
     type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
   },
   // {
   //   value: "cost_per_inline_link_click",
@@ -48,12 +65,54 @@ export const facebookMetricOptions = [
   //   label: "Cost Per Unique Outbound Click",
   //   type: FieldType.METRIC,
   // },
-  { value: "cpc", label: "CPC", type: FieldType.METRIC },
-  { value: "cpm", label: "CPM", type: FieldType.METRIC },
-  { value: "cpp", label: "CPP", type: FieldType.METRIC },
-  { value: "ctr", label: "CTR", type: FieldType.METRIC },
-  { value: "frequency", label: "Frequency", type: FieldType.METRIC },
-  { value: "impressions", label: "Impressions", type: FieldType.METRIC },
+  {
+    value: "cpc",
+    label: "CPC",
+    alt_value: "facebook_cpc",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "cpm",
+    label: "CPM",
+    alt_value: "facebook_cpm",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "cpp",
+    label: "CPP",
+    alt_value: "facebook_cpp",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "ctr",
+    label: "CTR",
+    alt_value: "facebook_ctr",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "frequency",
+    label: "Frequency",
+    alt_value: "facebook_frequency",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "impressions",
+    label: "Impressions",
+    alt_value: "facebook_impressions",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
   // {
   //   value: "inline_link_click_ctr",
   //   label: "Inline Link Click CTR",
@@ -79,8 +138,22 @@ export const facebookMetricOptions = [
   //   label: "Outbound Clicks CTR",
   //   type: FieldType.METRIC,
   // },
-  { value: "reach", label: "Reach", type: FieldType.METRIC },
-  { value: "spend", label: "Spend", type: FieldType.METRIC },
+  {
+    value: "reach",
+    label: "Reach",
+    alt_value: "facebook_reach",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "spend",
+    label: "Spend",
+    alt_value: "facebook_spend",
+    type: FieldType.METRIC,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
   // { value: "unique_actions", label: "Unique Actions", type: FieldType.METRIC },
   // { value: "unique_clicks", label: "Unique Clicks", type: FieldType.METRIC },
   // { value: "unique_ctr", label: "Unique CTR", type: FieldType.METRIC },
@@ -196,16 +269,80 @@ export const facebookMetricOptions = [
   // },
 ];
 
+export const facebookDateOption = {
+  value: "date",
+  label: "Date",
+  alt_value: "date",
+  type: FieldType.DIMENSION,
+  channel: ChannelType.FACEBOOK,
+  img: "facebook-icon",
+};
+
 export const facebookDimensionOptions = [
-  { value: "account_id", label: "Account Id", type: FieldType.DIMENSION },
-  { value: "account_name", label: "Account Name", type: FieldType.DIMENSION },
-  { value: "adset_id", label: "Adset Id", type: FieldType.DIMENSION },
-  { value: "adset_name", label: "Adset Name", type: FieldType.DIMENSION },
-  { value: "campaign_id", label: "Campaign Id", type: FieldType.DIMENSION },
-  { value: "campaign_name", label: "Campaign Name", type: FieldType.DIMENSION },
-  { value: "ad_id", label: "Ad Id", type: FieldType.DIMENSION },
-  { value: "ad_name", label: "Ad Name", type: FieldType.DIMENSION },
-  { value: "date", label: "Date", type: FieldType.DIMENSION },
+  {
+    value: "account_id",
+    label: "Account Id",
+    alt_value: "facebook_account_id",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "account_name",
+    label: "Account Name",
+    alt_value: "facebook_account_name",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "adset_id",
+    label: "Adset Id",
+    alt_value: "facebook_adset_id",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "adset_name",
+    label: "Adset Name",
+    alt_value: "facebook_adset_name",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "campaign_id",
+    label: "Campaign Id",
+    alt_value: "facebook_campaign_id",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "campaign_name",
+    label: "Campaign Name",
+    alt_value: "facebook_campaign_name",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "ad_id",
+    label: "Ad Id",
+    alt_value: "facebook_ad_id",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
+  {
+    value: "ad_name",
+    label: "Ad Name",
+    alt_value: "facebook_ad_name",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.FACEBOOK,
+    img: "facebook-icon",
+  },
 ];
 
 export const googleMetricOptions = [
@@ -284,30 +421,45 @@ export const googleMetricOptions = [
   //   label: "All Conversions Value Per Cost",
   //   type: FieldType.METRIC,
   // },
-  {
-    value: "metrics.average_cost",
-    label: "Average Cost",
-    type: FieldType.METRIC,
-  },
+  // {
+  //   value: "metrics.average_cost",
+  //   label: "Average Cost",
+  //   alt_value: "google_average_cost",
+  //   type: FieldType.METRIC,
+  //   channel: ChannelType.GOOGLE,
+  //   img: "google-ads-icon",
+  // },
   {
     value: "metrics.average_cpc",
-    label: "Average CPC",
+    label: "CPC",
+    alt_value: "google_cpc",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpe",
-    label: "Average CPE",
+    label: "CPE",
+    alt_value: "google_cpe",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpm",
-    label: "Average CPM",
+    label: "CPM",
+    alt_value: "google_cpm",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   {
     value: "metrics.average_cpv",
-    label: "Average CPV",
+    label: "CPV",
+    alt_value: "google_cpv",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.average_page_views",
@@ -324,11 +476,21 @@ export const googleMetricOptions = [
   //   label: "Bounce Rate",
   //   type: FieldType.METRIC,
   // },
-  { value: "metrics.clicks", label: "Clicks", type: FieldType.METRIC },
+  {
+    value: "metrics.clicks",
+    label: "Clicks",
+    alt_value: "google_clicks",
+    type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
+  },
   {
     value: "metrics.conversions",
     label: "Conversions",
+    alt_value: "google_conversions",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.conversions_by_conversion_date",
@@ -362,8 +524,11 @@ export const googleMetricOptions = [
   // },
   {
     value: "metrics.cost_micros",
-    label: "Cost Micros",
+    label: "Spend",
+    alt_value: "google_spend",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.cost_per_all_conversions",
@@ -373,7 +538,10 @@ export const googleMetricOptions = [
   {
     value: "metrics.cost_per_conversion",
     label: "Cost Per Conversion",
+    alt_value: "google_cost_per_conversion",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.cost_per_current_model_attributed_conversion",
@@ -422,7 +590,10 @@ export const googleMetricOptions = [
   {
     value: "metrics.engagements",
     label: "Engagements",
+    alt_value: "google_engagements",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.gmail_forwards",
@@ -442,7 +613,10 @@ export const googleMetricOptions = [
   {
     value: "metrics.impressions",
     label: "Impressions",
+    alt_value: "google_impressions",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.interaction_event_types",
@@ -457,7 +631,10 @@ export const googleMetricOptions = [
   {
     value: "metrics.interactions",
     label: "Interactions",
+    alt_value: "google_interactions",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
   // {
   //   value: "metrics.percent_new_visitors",
@@ -541,44 +718,92 @@ export const googleMetricOptions = [
   // },
 ];
 
+export const googleDateOption = {
+  value: "segments.date",
+  label: "Date",
+  alt_value: "date",
+  type: FieldType.DIMENSION,
+  channel: ChannelType.GOOGLE,
+  img: "google-ads-icon",
+};
+
 export const googleDimensionOptions = [
-  { value: "segments.date", label: "Date", type: FieldType.DIMENSION },
   {
     value: "ad_group_ad.ad.id",
     label: "Ad Id",
     type: FieldType.DIMENSION,
-    alt_value: "id",
+    channel: ChannelType.GOOGLE,
+    alt_value: "google_ad_id",
+    img: "google-ads-icon",
   },
   {
     value: "ad_group_ad.ad.name",
     label: "Ad Name",
     type: FieldType.DIMENSION,
-    alt_value: "name",
+    channel: ChannelType.GOOGLE,
+    alt_value: "google_ad_name",
+    img: "google-ads-icon",
   },
-  { value: "ad_group.name", label: "Ad Group Name", type: FieldType.DIMENSION },
-  { value: "ad_group.id", label: "Ad Group Id", type: FieldType.DIMENSION },
-  { value: "campaign.id", label: "Campaign Id", type: FieldType.DIMENSION },
-  { value: "campaign.name", label: "Campaign Name", type: FieldType.DIMENSION },
+  {
+    value: "ad_group.name",
+    label: "Ad Group Name",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.GOOGLE,
+    alt_value: "google_ad_group_name",
+    img: "google-ads-icon",
+  },
+  {
+    value: "ad_group.id",
+    label: "Ad Group Id",
+    alt_value: "google_ad_group_id",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
+  },
+  {
+    value: "campaign.id",
+    label: "Campaign Id",
+    alt_value: "google_campaign_id",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
+  },
+  {
+    value: "campaign.name",
+    label: "Campaign Name",
+    alt_value: "google_campaign_name",
+    type: FieldType.DIMENSION,
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
+  },
   {
     value: "segments.keyword.info.text",
     label: "Keyword Text",
+    alt_value: "google_keyword_text",
     type: FieldType.DIMENSION,
-    alt_value: "keyword_text",
+    channel: ChannelType.GOOGLE,
+    img: "google-ads-icon",
   },
 ];
 
-export const googleAnalyticsDimensionOptions = [
-  {
-    value: "date",
-    label: "date",
-    type: FieldType.DIMENSION,
-  },
-];
+export const googleAnalyticsDateOption = {
+  value: "date",
+  label: "Date",
+  alt_value: "date",
+  type: FieldType.DIMENSION,
+  channel: ChannelType.GOOGLE_ANALYTICS,
+  img: "google-analytics-icon",
+};
 
-export const googleAnalyticsMetricsOptions = [
+export const googleAnalyticsMetricOptions = [
   {
     value: "totalUsers",
-    label: "totalUsers",
+    label: "Users",
+    alt_value: "google_analytics_users",
     type: FieldType.METRIC,
+    channel: ChannelType.GOOGLE_ANALYTICS,
+    img: "google-analytics-icon",
   },
 ];
+
+export const googleAnalyticsDimensionOptions = [];

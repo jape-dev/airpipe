@@ -1,6 +1,6 @@
 import { CustomModal } from "./CustomModal";
 import { useState, useEffect } from "react";
-import GoogleSignIn from "./GoogleSignIn";
+import GoogleSignIn from "./GoogleSignInV2";
 import { BaseConnector } from "./BaseConnector";
 import { User } from "../vizoApi";
 
@@ -28,7 +28,7 @@ export const GoogleConnectorV2 = (props: { currentUser?: User }) => {
       />
       <CustomModal parentshow={modal} setParentShow={setModal}>
         <>
-          <GoogleSignIn channel={"google"} />
+          <GoogleSignIn channel_type={"google"} />
         </>
       </CustomModal>
     </>

@@ -3,20 +3,21 @@ import { useRef, useEffect } from "react";
 declare const google: any;
 
 const DOMAIN_URL = process.env.REACT_APP_DOMAIN_URL || "http://localhost:8000";
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-const GoogleSignIn = (props: { channel: string }) => {
+const tokenLog = localStorage.getItem("token");
+
+const GoogleSignIn = (props: { channel_type: string }) => {
   const g_sso = useRef(null);
 
   useEffect(() => {
     if (g_sso.current) {
       google.accounts.id.initialize({
-        client_id:
-          "666024859022-rq09jru86c64amvrlqhkom354jtmg2k8.apps.googleusercontent.com",
+        client_id: GOOGLE_CLIENT_ID,
         callback: (res: any) => {
-          console.log("setting google access token");
           localStorage.setItem("googleToken", res.credential);
           const token = localStorage.getItem("token");
-          window.location.href = `${DOMAIN_URL}/connector/google/auth?token=${token}&googleToken=${res.credential}&channel=${props.channel}`;
+          window.location.href = `${DOMAIN_URL}/connector/google/auth?token=${token}&googleToken=${res.credential}&channel=${props.channel_type}`;
         },
       });
       google.accounts.id.renderButton(g_sso.current, {

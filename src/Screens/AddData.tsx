@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, DropDownOption } from "../Components/DropDown";
+import {
+  MultiSelectDropDown,
+  DropDownOption,
+} from "../Components/MultiSelectDropDown";
 import { AddDataButton } from "../Components/AddDataButton";
 import { DateSelector } from "../Components/DateSelector";
 import { NavBar } from "../Components/NavBar";
@@ -10,15 +13,21 @@ import {
   AdAccount,
   FieldOption,
   CurrentResults,
+  ChannelType,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { FieldList } from "../Components/FieldList";
 import { DateToString } from "../Utils/DateFormat";
+import {
+  googleDateOption,
+  facebookDateOption,
+  googleAnalyticsDateOption,
+} from "../Data/Options";
 
 export const AddData: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>([]);
-  const [selectedAdAccount, setSelectedAdAccount] = useState<AdAccount>();
+  const [selectedAdAccounts, setSelectedAdAccounts] = useState<AdAccount[]>([]);
   const [selectedOptions, setSelectedOptions] = useState<FieldOption[]>([]);
   const [tableName, setTableName] = useState<string>("");
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
@@ -63,7 +72,7 @@ export const AddData: React.FC = () => {
         .catch((error) => {
           console.log(error);
         });
-      DefaultService.adAccountsConnectorGoogleAnalyticsAdAccountGet(token)
+      DefaultService.adAccountsConnectorGoogleAnalyticsAdAccountsGet(token)
         .then((response: AdAccount[]) => {
           setAdAccounts((prev) => [...prev, ...response]);
         })
@@ -94,11 +103,31 @@ export const AddData: React.FC = () => {
     setDropDownOptions(options);
   }, [adAccounts]);
 
-  const handleSelectOption = (selectedOption: DropDownOption) => {
-    const adAccount = adAccounts.find(
-      (account) => account.id === selectedOption.id
+  useEffect(() => {
+    let selected = undefined;
+
+    if (selectedAdAccounts.length === 1) {
+      selected = selectedAdAccounts[0];
+    } else {
+      selected = selectedAdAccounts[adAccounts.length - 1];
+    }
+    if (selected !== undefined) {
+      console.log(selected);
+      if (selected.channel === ChannelType.FACEBOOK) {
+        setSelectedOptions((prev) => [...prev, facebookDateOption]);
+      } else if (selected.channel === ChannelType.GOOGLE) {
+        setSelectedOptions((prev) => [...prev, googleDateOption]);
+      } else if (selected.channel === ChannelType.GOOGLE_ANALYTICS) {
+        setSelectedOptions((prev) => [...prev, googleAnalyticsDateOption]);
+      }
+    }
+  }, [selectedAdAccounts]);
+
+  const handleMultiSelectOption = (selectedOptions: DropDownOption[]) => {
+    const selected = adAccounts.filter((account) =>
+      selectedOptions.some((option) => account.id.toString() === option.id)
     );
-    setSelectedAdAccount(adAccount);
+    setSelectedAdAccounts(selected);
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,18 +139,19 @@ export const AddData: React.FC = () => {
     const startDateString = DateToString(startDate);
     const endDateString = DateToString(endDate);
 
-    if (currentUser && selectedAdAccount) {
+    if (currentUser && selectedAdAccounts) {
       const dataSource = {
         name: tableName,
         user: currentUser,
         fields: selectedOptions,
-        adAccount: selectedAdAccount,
+        adAccounts: selectedAdAccounts,
         start_date: startDateString,
         end_date: endDateString,
       };
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
         (response: CurrentResults) => {
+          console.log(response);
           DefaultService.createNewTableQueryCreateNewTablePost(
             currentUser.email,
             response
@@ -167,15 +197,15 @@ export const AddData: React.FC = () => {
             {adAccounts.length === 0 ? (
               <p>Loading</p>
             ) : (
-              <Dropdown
+              <MultiSelectDropDown
                 options={dropDownOptions}
-                onSelectOption={handleSelectOption}
+                onSelectOptions={handleMultiSelectOption}
               />
             )}
-            {selectedAdAccount && (
+            {selectedAdAccounts && (
               <>
                 <FieldList
-                  adAccount={selectedAdAccount}
+                  adAccounts={selectedAdAccounts}
                   selectedOptions={selectedOptions}
                   setSelectedOptions={setSelectedOptions}
                 />
