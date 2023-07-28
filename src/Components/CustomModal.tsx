@@ -20,6 +20,10 @@ const CenteredModal = styled(Modal)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column; /* Added this */
+  align-items: center; /* Added this */
+  justify-content: center; /* Added this */
   border: 1px solid #e5e5e5;
   background-color: white;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
