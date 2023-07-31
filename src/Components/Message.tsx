@@ -3,6 +3,7 @@ import { Chart } from "./ChartComponent";
 import { ChartSelector } from "./ChartSelector";
 import { LoadingMessage } from "./LoadingMessage";
 import { StickyHeadTable } from "./Table";
+import { CSVLink } from "react-csv";
 
 export interface MessageProps {
   index: number;
@@ -63,6 +64,11 @@ export const Message: React.FC<MessageProps> = ({
                   setIsOpen={setChartSelectOpen}
                 />
                 <StickyHeadTable columns={columns} results={data} />
+                <button className="bg-gray-500 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-xl mt-5">
+                  <CSVLink data={data} filename={`test.csv`}>
+                    Export CSV
+                  </CSVLink>
+                </button>
               </>
             )}
             {chartOption && data && chartSelectOpen === false && (
