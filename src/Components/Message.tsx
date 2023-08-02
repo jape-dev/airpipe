@@ -13,6 +13,7 @@ export interface MessageProps {
   columns?: string[];
   chartType?: string;
   loading?: boolean;
+  dataSource?: any;
 }
 
 export const Message: React.FC<MessageProps> = ({
@@ -23,6 +24,7 @@ export const Message: React.FC<MessageProps> = ({
   columns,
   chartType,
   loading,
+  dataSource,
 }) => {
   const [chartOption, setChartOption] = useState<string>("");
   const [chartSelectOpen, setChartSelectOpen] = useState<boolean>(false);
@@ -65,7 +67,7 @@ export const Message: React.FC<MessageProps> = ({
                 />
                 <StickyHeadTable columns={columns} results={data} />
                 <button className="bg-gray-500 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-xl mt-5">
-                  <CSVLink data={data} filename={`test.csv`}>
+                  <CSVLink data={data} filename={`${dataSource}.csv`}>
                     Export CSV
                   </CSVLink>
                 </button>

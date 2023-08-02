@@ -20,6 +20,7 @@ interface Message {
   data?: any;
   columns?: string[];
   loading?: boolean;
+  dataSource?: any;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
@@ -96,6 +97,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     data: result.results,
                     columns: result.columns,
                     isUserMessage: false,
+                    dataSource: dataSources[0].table_name,
                   },
                 ]);
               })
