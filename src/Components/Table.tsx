@@ -10,12 +10,19 @@ import TableRow from "@mui/material/TableRow";
 
 import { useEffect } from "react";
 
-export const StickyHeadTable = (props: {
+interface StickyHeadTableProps {
   columns: string[];
   results: Object[];
+  rows?: number;
+}
+
+export const StickyHeadTable: React.FC<StickyHeadTableProps> = ({
+  columns,
+  results,
+  rows = 10,
 }) => {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rows);
 
   interface RowType {
     [key: string]: any;
@@ -38,7 +45,7 @@ export const StickyHeadTable = (props: {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {props.columns.map((column) => (
+              {columns.map((column) => (
                 <TableCell style={{ minWidth: 170, fontWeight: "bold" }}>
                   {column}
                 </TableCell>
@@ -46,12 +53,12 @@ export const StickyHeadTable = (props: {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.results
+            {results
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row: RowType) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1}>
-                    {props.columns.map((column) => {
+                    {columns.map((column) => {
                       const value = row[column];
                       return (
                         <TableCell style={{ minWidth: 170 }}>{value}</TableCell>
@@ -66,7 +73,7 @@ export const StickyHeadTable = (props: {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={props.results.length}
+        count={results.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

@@ -5,7 +5,7 @@ import { ChartSelector } from "./ChartSelector";
 export interface LoadingMessageProps {
   index: number;
   isUserMessage: boolean;
-  text: string;
+  text?: string;
 }
 
 export const LoadingMessage: React.FC<LoadingMessageProps> = ({
@@ -21,7 +21,7 @@ export const LoadingMessage: React.FC<LoadingMessageProps> = ({
           isUserMessage ? "justify-end" : "justify-start"
         } mt-4`}
       >
-        {isUserMessage ? (
+        {isUserMessage && text ? (
           <div className="bg-gray-500 rounded-lg p-2 max-w-md text-white">
             <p className="text-sm">{text}</p>
           </div>
@@ -29,7 +29,7 @@ export const LoadingMessage: React.FC<LoadingMessageProps> = ({
           <div className="bg-teal-500 rounded-lg p-2 max-w-md">
             <div className="flex items-center justify-center">
               <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
-              <p className="text-sm ml-2 text-white">Thinking...</p>
+              <p className="text-sm ml-2 text-white">{text}</p>
             </div>
           </div>
         )}

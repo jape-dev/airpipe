@@ -7,7 +7,7 @@ import { StickyHeadTable } from "./Table";
 export interface MessageProps {
   index: number;
   isUserMessage: boolean;
-  text: string;
+  text?: string;
   data?: any;
   columns?: string[];
   chartType?: string;
@@ -43,25 +43,27 @@ export const Message: React.FC<MessageProps> = ({
                 isUserMessage ? "justify-end" : "justify-start"
               } mt-4`}
             >
-              <div
-                className={`bg-teal-500 rounded-lg p-2 max-w-md ${
-                  isUserMessage
-                    ? "bg-gray-500 text-white"
-                    : "bg-teal-500 text-white"
-                }`}
-              >
-                <p className="text-sm">{text}</p>
-              </div>
+              {text ? (
+                <div
+                  className={`bg-teal-500 rounded-lg p-2 max-w-md ${
+                    isUserMessage
+                      ? "bg-gray-500 text-white"
+                      : "bg-teal-500 text-white"
+                  }`}
+                >
+                  <p className="text-sm">{text}</p>
+                </div>
+              ) : null}
             </div>
 
             {columns && data && data.length > 0 && (
               <>
-                <ChartSelector
+                {/* <ChartSelector
                   chartOption={chartOption}
                   setChartOption={setChartOption}
                   isOpen={chartSelectOpen || false}
                   setIsOpen={setChartSelectOpen}
-                />
+                /> */}
                 <StickyHeadTable columns={columns} results={data} />
               </>
             )}

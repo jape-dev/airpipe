@@ -109,15 +109,16 @@ export const AddData: React.FC = () => {
     if (selectedAdAccounts.length === 1) {
       selected = selectedAdAccounts[0];
     } else {
-      selected = selectedAdAccounts[adAccounts.length - 1];
+      selected = selectedAdAccounts[selectedAdAccounts.length - 1];
     }
+    console.log("selected", selected);
     if (selected !== undefined) {
-      console.log(selected);
       if (selected.channel === ChannelType.FACEBOOK) {
         setSelectedOptions((prev) => [...prev, facebookDateOption]);
       } else if (selected.channel === ChannelType.GOOGLE) {
         setSelectedOptions((prev) => [...prev, googleDateOption]);
       } else if (selected.channel === ChannelType.GOOGLE_ANALYTICS) {
+        console.log("adding ga");
         setSelectedOptions((prev) => [...prev, googleAnalyticsDateOption]);
       }
     }

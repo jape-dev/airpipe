@@ -16,7 +16,7 @@ export interface ChatInterfaceProps {
 
 interface Message {
   isUserMessage: boolean;
-  text: string;
+  text?: string;
   data?: any;
   columns?: string[];
   loading?: boolean;
@@ -27,7 +27,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: "Ask a question about your data...",
+      text: "Ask a question about your data. Try to use specific column names to improve the accuracy of your query...",
       isUserMessage: false,
     },
   ]);
@@ -45,7 +45,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setMessages([
       ...messages,
       { text: inputValue, isUserMessage: true },
-      { text: "Loading...", isUserMessage: false, loading: true },
+      {
+        text: "Checking for ambiguities...",
+        isUserMessage: false,
+        loading: true,
+      },
     ]);
 
     let ambiguitiesBody: Body_check_ambiguous_columns_query_check_ambiguous_columns_post =
@@ -58,17 +62,29 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       inputValue,
       ambiguitiesBody
     ).then((response: AmbiguousColumns | BaseAmbiguities | string) => {
-      console.log("response", response);
       if (typeof response === "object" && response !== null) {
         setAmbiguities(response);
         setMessages([
           ...messages,
+          {
+            text: inputValue,
+            isUserMessage: true,
+          },
           {
             text: response.statement,
             isUserMessage: false,
           },
         ]);
       } else {
+        setMessages([
+          ...messages,
+          { text: inputValue, isUserMessage: true },
+          {
+            text: "No more ambiguities found. Creating SQL query...",
+            isUserMessage: false,
+            loading: true,
+          },
+        ]);
         // No more ambiguities.
         DefaultService.dinSqlQueryDinSqlPost(response, dataSources)
           .then((sql: string) => {
@@ -82,9 +98,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 isUserMessage: true,
               },
             ]);
+
             DefaultService.runQueryQueryRunQueryGet(sql)
               .then((result: QueryResults) => {
-                console.log(result.results);
                 setMessages([
                   ...messages,
                   {
@@ -92,20 +108,23 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     isUserMessage: true,
                   },
                   {
-                    text: "text",
+                    text: undefined,
                     data: result.results,
                     columns: result.columns,
+                    isUserMessage: false,
+                  },
+                  {
+                    text: "Ask a new question...",
                     isUserMessage: false,
                   },
                 ]);
               })
               .catch((err) => {
-                console.log(err);
                 setMessages([
                   ...messages,
                   { text: inputValue, isUserMessage: true },
                   {
-                    text: "I'm sorry, I don't understand. Please try again.",
+                    text: "I'm sorry, I wasn't able to figure out how to answer this. Please tweak your question and try again.",
                     isUserMessage: false,
                   },
                 ]);

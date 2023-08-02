@@ -12,6 +12,12 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
   handleNameChange,
 }) => {
   const [modal, setModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // New state variable
+
+  const handleSubmit = () => {
+    setIsLoading(true);
+    handleNameSubmit();
+  };
 
   return (
     <>
@@ -37,10 +43,15 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
             className="block w-full bg-white border border-gray-400 shadow-sm h-10 mt-4 mb-2 py-2 px-4 rounded-md text-left focus:outline-none"
           />
           <button
-            onClick={handleNameSubmit}
+            onClick={handleSubmit} // Call the new handleSubmit function
             className="bg-teal-500 text-white rounded-md px-4 py-2 h-8 flex items-center justify-center mt-4 mx-auto"
+            disabled={isLoading} // Disable the button when loading
           >
-            <span className="text-sm">Submit</span>
+            {isLoading ? ( // Render loading animation if isLoading is true
+              <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
+            ) : (
+              <span className="text-sm">Submit</span>
+            )}
           </button>
         </>
       </CustomModal>
