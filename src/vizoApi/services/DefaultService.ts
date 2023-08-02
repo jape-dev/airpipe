@@ -4,11 +4,9 @@
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
-import type { ChainResult } from '../models/ChainResult';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
 import type { DataSourceInDB } from '../models/DataSourceInDB';
-import type { Prompt } from '../models/Prompt';
 import type { QueryResults } from '../models/QueryResults';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
@@ -249,47 +247,6 @@ export class DefaultService {
     }
 
     /**
-     * Ask Question
-     * @param requestBody
-     * @returns ChainResult Successful Response
-     * @throws ApiError
-     */
-    public static askQuestionQueryAskQuestionPost(
-        requestBody: Prompt,
-    ): CancelablePromise<ChainResult> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/query/ask_question',
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Chart Type
-     * @param input
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static chartTypeQueryChartTypePost(
-        input: string,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/query/chart_type',
-            query: {
-                'input': input,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
      * Din Sql
      * @param question
      * @param requestBody
@@ -330,34 +287,6 @@ export class DefaultService {
             url: '/query/schema_links',
             query: {
                 'question': question,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Ambiguity Checker
-     * @param input
-     * @param sessionId
-     * @param requestBody
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static ambiguityCheckerQueryHandleAmbiguityPost(
-        input: string,
-        sessionId: string,
-        requestBody: Array<DataSourceInDB>,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/query/handle_ambiguity',
-            query: {
-                'input': input,
-                'session_id': sessionId,
             },
             body: requestBody,
             mediaType: 'application/json',

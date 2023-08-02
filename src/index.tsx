@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "None";
-console.log(GOOGLE_CLIENT_ID);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
