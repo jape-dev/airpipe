@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
 import {
   DefaultService,
@@ -36,6 +36,17 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [ambiguities, setAmbiguities] = useState<
     AmbiguousColumns | BaseAmbiguities | undefined
   >(undefined);
+  const [results, setResults] = useState<Object[]>([]);
+
+  const clearMessages = () => {
+    setResults([]);
+    setMessages([
+      {
+        text: "Ask a question about your data. Try to use specific column names to improve the accuracy of your query...",
+        isUserMessage: false,
+      },
+    ]);
+  };
 
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,7 +92,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           ...messages,
           { text: inputValue, isUserMessage: true },
           {
-            text: "No more ambiguities found. Creating SQL query...",
+            text: "No ambiguities found. Working on the question. Can take 30 seconds...",
             isUserMessage: false,
             loading: true,
           },
@@ -115,11 +126,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     isUserMessage: false,
                     tableName: dataSources[0].table_name,
                   },
-                  {
-                    text: "Ask a new question...",
-                    isUserMessage: false,
-                  },
                 ]);
+                setResults(result.results);
               })
               .catch((err) => {
                 setMessages([
@@ -150,25 +158,27 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     <div className="flex flex-col flex-grow">
       <div className="flex-1">
         {messages.map((message, index) => (
-          <Message index={index} {...message} />
+          <Message index={index} clearMessages={clearMessages} {...message} />
         ))}
       </div>
-      <form className="flex mt-4 " onSubmit={handleInputSubmit}>
-        <div className="flex-1 relative flex items-center">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="w-full bg-white border border-gray-400 shadow-md mt-0 py-2 px-4 rounded-md text-left cursor-pointer focus:outline-none h-full"
-          />
-          <button
-            type="submit"
-            className="absolute mt-0 top-0 right-0 rounded-l h-full min-h-20 px-3"
-          >
-            <PaperAirplaneIcon className="h-6 w-6 text-gray-700 hover:text-teal-500" />
-          </button>
-        </div>
-      </form>
+      {results.length === 0 && (
+        <form className="flex mt-4 " onSubmit={handleInputSubmit}>
+          <div className="flex-1 relative flex items-center">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full bg-white border border-gray-400 shadow-md mt-0 py-2 px-4 rounded-md text-left cursor-pointer focus:outline-none h-full"
+            />
+            <button
+              type="submit"
+              className="absolute mt-0 top-0 right-0 rounded-l h-full min-h-20 px-3"
+            >
+              <PaperAirplaneIcon className="h-6 w-6 text-gray-700 hover:text-teal-500" />
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

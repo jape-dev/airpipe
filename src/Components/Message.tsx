@@ -14,6 +14,7 @@ export interface MessageProps {
   chartType?: string;
   loading?: boolean;
   tableName?: any;
+  clearMessages?: () => void;
 }
 
 export const Message: React.FC<MessageProps> = ({
@@ -25,6 +26,7 @@ export const Message: React.FC<MessageProps> = ({
   chartType,
   loading,
   tableName,
+  clearMessages,
 }) => {
   const [chartOption, setChartOption] = useState<string>("");
   const [chartSelectOpen, setChartSelectOpen] = useState<boolean>(false);
@@ -68,10 +70,16 @@ export const Message: React.FC<MessageProps> = ({
                   setIsOpen={setChartSelectOpen}
                 /> */}
                 <StickyHeadTable columns={columns} results={data} />
-                <button className="bg-gray-500 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-xl mt-5">
+                <button className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2">
                   <CSVLink data={data} filename={`${tableName}.csv`}>
                     Export CSV
                   </CSVLink>
+                </button>
+                <button
+                  onClick={clearMessages}
+                  className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2"
+                >
+                  Ask a new question
                 </button>
               </>
             )}
