@@ -58,7 +58,7 @@ export const FieldList: React.FC<FieldListProps> = ({
         } else if (adAccount.channel === ChannelType.FACEBOOK) {
           return facebookDimensionOptions;
         } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
-          return googleAnalyticsMetricOptions;
+          return googleAnalyticsDimensionOptions;
         }
         return [];
       });
