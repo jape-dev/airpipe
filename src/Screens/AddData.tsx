@@ -111,14 +111,12 @@ export const AddData: React.FC = () => {
     } else {
       selected = selectedAdAccounts[selectedAdAccounts.length - 1];
     }
-    console.log("selected", selected);
     if (selected !== undefined) {
       if (selected.channel === ChannelType.FACEBOOK) {
         setSelectedOptions((prev) => [...prev, facebookDateOption]);
       } else if (selected.channel === ChannelType.GOOGLE) {
         setSelectedOptions((prev) => [...prev, googleDateOption]);
       } else if (selected.channel === ChannelType.GOOGLE_ANALYTICS) {
-        console.log("adding ga");
         setSelectedOptions((prev) => [...prev, googleAnalyticsDateOption]);
       }
     }
@@ -152,7 +150,6 @@ export const AddData: React.FC = () => {
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
         (response: CurrentResults) => {
-          console.log(response);
           DefaultService.createNewTableQueryCreateNewTablePost(
             currentUser.email,
             response
@@ -194,7 +191,10 @@ export const AddData: React.FC = () => {
         </div>
         <div className="col-span-6 justify-center">
           <div className="bg-gray-100 rounded-lg p-4 pb-10 mx-auto mt-10 my-4 max-w-4xl">
-            <h1 className="text-2xl font-bold mb-4">Add Data Source</h1>
+            <h1 className="text-2xl font-bold mb-2">Add Data Source</h1>
+            <p className="mb-4 mt-0text-sm leading-5 text-gray-500">
+              Select your ad accounts and choose the fields you want to import.
+            </p>
             {adAccounts.length === 0 ? (
               <p>Loading</p>
             ) : (

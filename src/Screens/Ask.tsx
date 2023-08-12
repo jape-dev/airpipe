@@ -9,9 +9,11 @@ import {
   DataSourceInDB,
   User,
   CurrentResults,
+  OnboardingStage,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { DataPreview } from "../Components/DataPreview";
+import { ArrowRightIcon } from "@heroicons/react/20/solid";
 
 export const Ask: React.FC = () => {
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
@@ -20,6 +22,7 @@ export const Ask: React.FC = () => {
     useState<DataSourceInDB>();
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
+  const [currentUser, setCurrentUser] = useState<User>();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -28,6 +31,7 @@ export const Ask: React.FC = () => {
     } else {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((response: User) => {
+          setCurrentUser(response);
           DefaultService.dataSourcesQueryDataSourcesGet(response.email).then(
             (response) => {
               setDataSources(response);
@@ -44,6 +48,13 @@ export const Ask: React.FC = () => {
   useEffect(() => {
     // produce a list of DropDownOptions from the list of AdAccounts
     let options: DropDownOption[] = [];
+    if (currentUser?.onboarding_stage == OnboardingStage.CONNECT) {
+      options.push({
+        id: "add_data",
+        name: "Add your own data",
+        img: "plus-icon",
+      });
+    }
     dataSources.map((source) => {
       const option: DropDownOption = {
         id: source.id.toString(),
@@ -52,15 +63,20 @@ export const Ask: React.FC = () => {
       };
       options.push(option);
     });
+
     setDropDownOptions(options);
-  }, [dataSources]);
+  }, [dataSources, currentUser]);
 
   const handleSelectOption = (selectedOption: DropDownOption) => {
-    const dataSource = dataSources.find(
-      // Need to use an actual id field instead of ad_account_id
-      (dataSource) => dataSource.id.toString() === selectedOption.id
-    );
-    setSelectedDataSource(dataSource);
+    if (selectedOption.id === "add_data") {
+      window.location.href = RouterPath.CONNECT;
+    } else {
+      const dataSource = dataSources.find(
+        // Need to use an actual id field instead of ad_account_id
+        (dataSource) => dataSource.id.toString() === selectedOption.id
+      );
+      setSelectedDataSource(dataSource);
+    }
   };
 
   useEffect(() => {
@@ -69,7 +85,6 @@ export const Ask: React.FC = () => {
         selectedDataSource.table_name
       )
         .then((response: CurrentResults) => {
-          console.log(response);
           setResults(response.results);
           setColumns(response.columns);
         })
@@ -87,8 +102,24 @@ export const Ask: React.FC = () => {
           <SideBar />
         </div>
         <div className="col-span-6 justify-center">
-          <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
+          <div
+            id="askContainer"
+            className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl relative"
+          >
+            {selectedDataSource?.name == "tutorial_data" && (
+              <button
+                className="flex items-center absolute top-1 right-1 bg-white border border-darkgray dark:border-black rounded-full px-4 py-2 hover:bg-teal-500 hover:text-white transition-colors duration-300"
+                // onClick={}
+              >
+                Add your own data
+                <ArrowRightIcon className="w-5 h-5 ml-1" />
+              </button>
+            )}
             <h1 className="text-2xl font-bold mb-4">Ask</h1>
+            <p className="mb-4 text-sm leading-5 text-gray-500">
+              Use plain English to ask questions about your data. AirPipe's AI
+              will get the results to answer your question.
+            </p>
             <Dropdown
               options={dropDownOptions}
               onSelectOption={handleSelectOption}
@@ -100,7 +131,10 @@ export const Ask: React.FC = () => {
                   results={results}
                   tablePreview={true}
                 />
-                <ChatInterface dataSources={[selectedDataSource]} />
+                <ChatInterface
+                  dataSources={[selectedDataSource]}
+                  currentUser={currentUser}
+                />
               </>
             )}
           </div>

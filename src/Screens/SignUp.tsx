@@ -4,6 +4,7 @@ import {
   User,
   DefaultService,
   Body_login_for_access_token_user_auth_token_post,
+  OnboardingStage,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import validator from "validator";
@@ -26,6 +27,7 @@ export const SignUp = () => {
     const newUser: User = {
       email: email,
       hashed_password: password,
+      onboarding_stage: OnboardingStage.CONNECT,
     };
 
     const isValid = validator.isEmail(email);

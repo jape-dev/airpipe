@@ -58,7 +58,10 @@ export const DataSources: React.FC = () => {
         </div>
         <div className="col-span-6 justify-center">
           <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
-            <h1 className="text-2xl font-bold mb-4">Data Sources</h1>
+            <h1 className="text-2xl font-bold mb-2">Data Sources</h1>
+            <p className="mb-4 text-sm leading-5 text-gray-500">
+              View your data sources and export them to CSV.
+            </p>
             <>
               {selectedDataSource ? (
                 <>

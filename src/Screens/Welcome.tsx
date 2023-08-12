@@ -5,7 +5,7 @@ export const Welcome = () => {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
-    navigate(RouterPath.HOME);
+    navigate(RouterPath.ASK);
   };
 
   return (

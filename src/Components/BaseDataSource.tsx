@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
 import { DataSourceInDB } from "../vizoApi";
 import { CSVLink } from "react-csv";
+import { useNavigate } from "react-router-dom";
+import { RouterPath } from "../App";
 
 interface BaseDataSourceProps {
   dataSource: DataSourceInDB;
@@ -17,6 +18,8 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
   selected,
   csvData,
 }) => {
+  let navigate = useNavigate();
+
   const getIconUrl = () => {
     return require(`../Static/images/${dataSource.channel_img}.png`);
   };
@@ -27,6 +30,10 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
     } else {
       setSelectedDataSource(dataSource);
     }
+  };
+
+  const handleAskDataSourceClick = () => {
+    navigate(RouterPath.ASK);
   };
 
   return (
@@ -43,6 +50,12 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
             </CSVLink>
           </button>
         )}
+        <button
+          className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4"
+          onClick={handleAskDataSourceClick}
+        >
+          Ask Data
+        </button>
         <button
           className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4"
           onClick={handleDataSourceClick}

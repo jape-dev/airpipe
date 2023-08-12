@@ -6,11 +6,14 @@ import { GoogleAnalyticsConnector } from "../Components/GoogleAnalyticsConnector
 import { FacebookConnectorV2 } from "../Components/FacebookConnectorV2";
 
 import { DefaultService } from "../vizoApi";
-import { User } from "../vizoApi";
+import { User, OnboardingStage } from "../vizoApi";
 import { RouterPath } from "../App";
+import { CustomModal } from "../Components/CustomModal";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 export const Connect: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,6 +30,24 @@ export const Connect: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (currentUser?.onboarding_stage == OnboardingStage.CONNECT) {
+      if (
+        currentUser?.facebook_access_token == null &&
+        currentUser?.google_analytics_access_token == null &&
+        currentUser?.google_access_token == null
+      ) {
+        setModal(true);
+      } else {
+        currentUser.onboarding_stage = OnboardingStage.COMPLETE;
+        DefaultService.updateOnboardingStageUserUpdateOnboardingStagePost(
+          currentUser
+        );
+        setModal(false);
+      }
+    }
+  }, [currentUser]);
+
   return (
     <>
       <NavBar />
@@ -36,13 +57,37 @@ export const Connect: React.FC = () => {
         </div>
         <div className="col-span-6 justify-center">
           <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
-            <h1 className="text-2xl font-bold mb-4">Connectors</h1>
+            <h1 className="text-2xl font-bold mb-1">Connectors</h1>
+            <p className="mb-4 mt-0text-sm leading-5 text-gray-500">
+              Get started by securely authenticating and connecting to your
+              marketing channels.
+            </p>
             <GoogleConnectorV2 currentUser={currentUser} />
             <FacebookConnectorV2 currentUser={currentUser} />
             <GoogleAnalyticsConnector currentUser={currentUser} />
           </div>
         </div>
       </div>
+      <CustomModal parentshow={modal} setParentShow={setModal}>
+        <>
+          <button
+            className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700 absolute top-0 right-0"
+            onClick={() => setModal(false)}
+          >
+            <XMarkIcon className="h-4 w-4" />
+          </button>
+          <p className="font-bold text-lg">Select a connector</p>
+          <p className="mb-4 mt-0text-sm leading-5 text-gray-500">
+            Connect to your marketing channels is easy
+          </p>
+          <button
+            onClick={() => setModal(false)}
+            className="bg-teal-500 text-white rounded-md px-4 py-2 h-8 flex items-center justify-center mt-4 mx-auto"
+          >
+            <span className="text-sm">Get started</span>
+          </button>
+        </>
+      </CustomModal>
     </>
   );
 };

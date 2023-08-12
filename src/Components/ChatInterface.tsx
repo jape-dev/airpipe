@@ -7,14 +7,18 @@ import {
   AmbiguousColumns,
   BaseAmbiguities,
   Body_check_ambiguous_columns_query_check_ambiguous_columns_post,
+  User,
+  Message,
+  Conversation,
 } from "../vizoApi";
-import { Message } from "./Message";
+import { ChatMessage } from "./Message";
 
 export interface ChatInterfaceProps {
   dataSources: DataSourceInDB[];
+  currentUser?: User;
 }
 
-interface Message {
+interface ChatMessage {
   isUserMessage: boolean;
   text?: string;
   data?: any;
@@ -25,27 +29,108 @@ interface Message {
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   dataSources,
+  currentUser,
 }) => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text: "Ask a question about your data. Try to use specific column names to improve the accuracy of your query...",
-      isUserMessage: false,
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [ambiguities, setAmbiguities] = useState<
     AmbiguousColumns | BaseAmbiguities | undefined
   >(undefined);
   const [results, setResults] = useState<Object[]>([]);
 
+  useEffect(() => {
+    // if the last message contains data attribute or last message text starts with "I'm sorry"
+    if (
+      messages.length > 0 &&
+      (messages[messages.length - 1].data !== undefined ||
+        messages[messages.length - 1].text?.startsWith("I'm sorry"))
+    ) {
+      commitMessages();
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const welcomeMessage =
+      dataSources[0].name === "tutorial_data"
+        ? "Welcome to Airpipe! Here you can ask questions about your data and let the AI do the hard work for you. Try to use specific column names from the table to improve the accuracy of your query..."
+        : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...";
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: welcomeMessage, isUserMessage: false },
+    ]);
+
+    if (dataSources[0].name === "tutorial_data") {
+      sleep(1000).then(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: "Use the input box below, or use one of our starter questions:",
+            isUserMessage: false,
+          },
+        ]);
+      });
+      sleep(1000).then(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: "Find all the dates where the cost per conversion was higher for google than facebook",
+            isUserMessage: false,
+            clickable: true,
+            clickAction: buttonClick,
+          },
+          {
+            text: "What date had the highest cost per click?",
+            isUserMessage: false,
+            clickable: true,
+            clickAction: buttonClick,
+          },
+        ]);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    clearMessages();
+  }, [dataSources]);
+
   const clearMessages = () => {
     setResults([]);
     setMessages([
       {
-        text: "Ask a question about your data. Try to use specific column names to improve the accuracy of your query...",
+        text: "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...",
         isUserMessage: false,
       },
     ]);
+  };
+
+  const sleep = (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  const buttonClick = (buttonText: string) => {
+    setInputValue(buttonText);
+  };
+
+  const commitMessages = () => {
+    const messagesDB: Message[] = [];
+    messages.map((message) => {
+      let m: Message = {
+        text: message.text,
+        is_user_message: message.isUserMessage,
+        current_user: currentUser,
+        data: message.data,
+        columns: message.columns,
+        table_name: message.tableName,
+      };
+      messagesDB.push(m);
+    });
+    let conversation: Conversation = {
+      messages: messagesDB,
+    };
+    DefaultService.saveQueryConversationSavePost(conversation).catch((e) => {
+      console.log(e);
+    });
   };
 
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -124,7 +209,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     data: result.results,
                     columns: result.columns,
                     isUserMessage: false,
-                    tableName: dataSources[0].table_name,
+                    tableName: dataSources[0].name,
                   },
                 ]);
                 setResults(result.results);
@@ -158,7 +243,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     <div className="flex flex-col flex-grow">
       <div className="flex-1">
         {messages.map((message, index) => (
-          <Message index={index} clearMessages={clearMessages} {...message} />
+          <ChatMessage
+            index={index}
+            clearMessages={clearMessages}
+            {...message}
+          />
         ))}
       </div>
       {results.length === 0 && (

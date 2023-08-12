@@ -5,12 +5,20 @@ import {
   CircleStackIcon,
   ChatBubbleLeftIcon,
   ChartBarSquareIcon,
+  HomeIcon,
 } from "@heroicons/react/20/solid";
 
 export const SideBar = (props: {}) => {
   return (
     <div className="w-full h-full relative pt-8 pl-4 border-2 bg-gray-200 border-r-neutral-200">
       <div className="flex flex-col items-start">
+        <Link
+          to={RouterPath.HOME}
+          className="flex items-center my-8 font-bold text-gray-700"
+        >
+          <HomeIcon className="w-5 h-5 mr-2 text-gray-700" />
+          Home
+        </Link>
         <Link
           to={RouterPath.CONNECT}
           className="flex items-center my-8 font-bold text-gray-700"
@@ -23,7 +31,7 @@ export const SideBar = (props: {}) => {
           className="flex items-center my-8 font-bold text-gray-700"
         >
           <ChartBarSquareIcon className="w-5 h-5 mr-2 text-gray-700" />
-          Add Data
+          Add Data Source
         </Link>
         <Link
           to={RouterPath.DATA_SOURCES}

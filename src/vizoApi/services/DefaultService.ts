@@ -4,6 +4,7 @@
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
+import type { Conversation } from '../models/Conversation';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
 import type { DataSourceInDB } from '../models/DataSourceInDB';
@@ -322,6 +323,26 @@ export class DefaultService {
     }
 
     /**
+     * Save
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static saveQueryConversationSavePost(
+        requestBody: Conversation,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/conversation/save',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Login For Access Token
      * @param formData
      * @returns Token Successful Response
@@ -374,6 +395,26 @@ export class DefaultService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/user/create_customer',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Update Onboarding Stage
+     * @param requestBody
+     * @returns User Successful Response
+     * @throws ApiError
+     */
+    public static updateOnboardingStageUserUpdateOnboardingStagePost(
+        requestBody: User,
+    ): CancelablePromise<User> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/user/update_onboarding_stage',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

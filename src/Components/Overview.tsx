@@ -11,7 +11,7 @@ export const Overview = () => {
     <div className="bg-white shadow overflow-hidden rounded-lg">
       <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
-          Overview
+          Welcome to AirPipe
         </h3>
         <p className="mt-1 max-w text-sm leading-5 text-gray-500">
           Whilst AirPipe is in Beta, I want to make sure I build a great product
@@ -63,7 +63,7 @@ export const Overview = () => {
           </p>
         </div>
       </div>
-      <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
+      {/* <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
         <div
           className="flex items-center cursor-pointer"
           onClick={toggleCollapse}
@@ -110,7 +110,7 @@ export const Overview = () => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

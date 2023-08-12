@@ -89,7 +89,7 @@ export const MultiSelectDropDown: React.FC<MultiSelectDropDownProps> = ({
             ))}
           </div>
         ) : (
-          "Select an option"
+          "Select multiple options"
         )}
       </button>
       {isOpen && (
