@@ -78,7 +78,8 @@ export const Connect: React.FC = () => {
           </button>
           <p className="font-bold text-lg">Select a connector</p>
           <p className="mb-4 mt-0text-sm leading-5 text-gray-500">
-            Connect to your marketing channels is easy
+            Connecting to your marketing channels is easy and secure. AirPipe
+            never sends your channel data to any third party or AI model.
           </p>
           <button
             onClick={() => setModal(false)}
