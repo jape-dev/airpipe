@@ -52,7 +52,7 @@ export const AddData: React.FC = () => {
         })
         .catch((error: any) => {
           if (error.status === 401) {
-            alert("Google access token expired. Please connect again");
+            // alert("Google access token expired. Please connect again");
             // window.location.href = RouterPath.CONNECT;
           } else {
             console.log(error);
@@ -64,7 +64,7 @@ export const AddData: React.FC = () => {
         })
         .catch((error) => {
           if (error.status === 401) {
-            alert("Facebook access token expired. Please connect again");
+            // alert("Facebook access token expired. Please connect again");
           } else {
             console.log(error);
           }
@@ -78,9 +78,9 @@ export const AddData: React.FC = () => {
         })
         .catch((error) => {
           if (error.status === 401) {
-            alert(
-              "Google Analytics access token expired. Please connect again"
-            );
+            // alert(
+            //   "Google Analytics access token expired. Please connect again"
+            // );
           } else {
             console.log(error);
           }
