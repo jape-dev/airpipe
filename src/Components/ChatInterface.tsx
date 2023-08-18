@@ -128,9 +128,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     let conversation: Conversation = {
       messages: messagesDB,
     };
-    DefaultService.saveQueryConversationSavePost(conversation).catch((e) => {
-      console.log(e);
-    });
+    // DefaultService.saveQueryConversationSavePost(conversation).catch((e) => {
+    //   console.log(e);
+    // });
   };
 
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
