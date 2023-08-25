@@ -31,7 +31,7 @@ export const Login = () => {
         navigate(RouterPath.HOME);
       })
       .catch((error) => {
-        alert("Invalid email or password");
+        alert("There was an error logging in. Please try again.");
       });
   };
 
