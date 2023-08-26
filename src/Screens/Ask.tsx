@@ -30,11 +30,20 @@ export const Ask: React.FC = () => {
       window.location.href = RouterPath.LOGIN;
     } else {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
-        .then((response: User) => {
-          setCurrentUser(response);
-          DefaultService.dataSourcesQueryDataSourcesGet(response.email).then(
+        .then((user: User) => {
+          setCurrentUser(user);
+          DefaultService.dataSourcesQueryDataSourcesGet(user.email).then(
             (response) => {
               setDataSources(response);
+              if (user.onboarding_stage === OnboardingStage.CONNECT) {
+                const tutorialData = response.find(
+                  (dataSource) => dataSource.name === "tutorial_data"
+                );
+                console.log("tutorialData", tutorialData);
+                if (tutorialData !== undefined) {
+                  setSelectedDataSource(tutorialData);
+                }
+              }
             }
           );
         })
@@ -67,18 +76,6 @@ export const Ask: React.FC = () => {
     setDropDownOptions(options);
   }, [dataSources, currentUser]);
 
-  const handleSelectOption = (selectedOption: DropDownOption) => {
-    if (selectedOption.id === "add_data") {
-      window.location.href = RouterPath.CONNECT;
-    } else {
-      const dataSource = dataSources.find(
-        // Need to use an actual id field instead of ad_account_id
-        (dataSource) => dataSource.id.toString() === selectedOption.id
-      );
-      setSelectedDataSource(dataSource);
-    }
-  };
-
   useEffect(() => {
     if (selectedDataSource) {
       DefaultService.tableResultsQueryTableResultsGet(
@@ -94,6 +91,17 @@ export const Ask: React.FC = () => {
     }
   }, [selectedDataSource]);
 
+  const handleSelectOption = (selectedOption: DropDownOption) => {
+    if (selectedOption.id === "add_data") {
+      window.location.href = RouterPath.CONNECT;
+    } else {
+      const dataSource = dataSources.find(
+        // Need to use an actual id field instead of ad_account_id
+        (dataSource) => dataSource.id.toString() === selectedOption.id
+      );
+      setSelectedDataSource(dataSource);
+    }
+  };
   return (
     <>
       <NavBar />
