@@ -150,21 +150,14 @@ export const AddData: React.FC = () => {
         end_date: endDateString,
       };
 
-      DefaultService.addDataSourceQueryAddDataSourcePost(dataSource).then(
-        (response: CurrentResults) => {
-          DefaultService.createNewTableQueryCreateNewTablePost(
-            currentUser.email,
-            response
-          )
-            .then(() => {
-              window.location.href = RouterPath.DATA_SOURCES;
-            })
-            .catch((error) => {
-              console.log(error);
-              alert("Could not add data to the database. Please try again");
-            });
-        }
-      );
+      DefaultService.addDataSourceQueryAddDataSourcePost(dataSource)
+        .then(() => {
+          window.location.href = RouterPath.DATA_SOURCES;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("Could not add data to the database. Please try again");
+        });
     }
   };
 

@@ -23,6 +23,7 @@ export type { Message } from './models/Message';
 export { OnboardingStage } from './models/OnboardingStage';
 export type { QueryResults } from './models/QueryResults';
 export type { Schema } from './models/Schema';
+export type { SuccessResponse } from './models/SuccessResponse';
 export type { TabData } from './models/TabData';
 export type { TableColumns } from './models/TableColumns';
 export type { Token } from './models/Token';

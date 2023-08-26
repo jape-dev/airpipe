@@ -9,6 +9,7 @@ import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
 import type { DataSourceInDB } from '../models/DataSourceInDB';
 import type { QueryResults } from '../models/QueryResults';
+import type { SuccessResponse } from '../models/SuccessResponse';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
 import type { User } from '../models/User';
@@ -98,6 +99,30 @@ export class DefaultService {
     }
 
     /**
+     * Delete
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static deleteConnectorFacebookDeleteGet(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/facebook/delete',
+        });
+    }
+
+    /**
+     * Deauthorize
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static deauthorizeConnectorFacebookDeauthorizeGet(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/facebook/deauthorize',
+        });
+    }
+
+    /**
      * Ad Accounts
      * @param token
      * @returns AdAccount Successful Response
@@ -182,39 +207,14 @@ export class DefaultService {
     }
 
     /**
-     * Create New Table
-     * @param email
-     * @param requestBody
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static createNewTableQueryCreateNewTablePost(
-        email: string,
-        requestBody: CurrentResults,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/query/create_new_table',
-            query: {
-                'email': email,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
      * Add Data Source
      * @param requestBody
-     * @returns any Successful Response
+     * @returns SuccessResponse Successful Response
      * @throws ApiError
      */
     public static addDataSourceQueryAddDataSourcePost(
         requestBody: DataSource,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<SuccessResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/add_data_source',
