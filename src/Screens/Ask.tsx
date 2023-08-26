@@ -14,6 +14,7 @@ import {
 import { RouterPath } from "../App";
 import { DataPreview } from "../Components/DataPreview";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
+import { useNavigate } from "react-router-dom";
 
 export const Ask: React.FC = () => {
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
@@ -23,6 +24,8 @@ export const Ask: React.FC = () => {
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -102,6 +105,11 @@ export const Ask: React.FC = () => {
       setSelectedDataSource(dataSource);
     }
   };
+
+  const routeChange = () => {
+    navigate(RouterPath.CONNECT);
+  };
+
   return (
     <>
       <NavBar />
@@ -117,7 +125,7 @@ export const Ask: React.FC = () => {
             {selectedDataSource?.name == "tutorial_data" && (
               <button
                 className="flex items-center absolute top-1 right-1 bg-white border border-darkgray dark:border-black rounded-full px-4 py-2 hover:bg-teal-500 hover:text-white transition-colors duration-300"
-                // onClick={}
+                onClick={routeChange}
               >
                 Add your own data
                 <ArrowRightIcon className="w-5 h-5 ml-1" />
