@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RouterPath } from "../App";
 import { SideBarBurger } from "./SideBarV2";
 
 export const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -17,23 +31,18 @@ export const NavBar = () => {
               </p>
             </Link>
           </div>
-          <div className="lg:flex flex-grow items-center flex">
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-              <li className="nav-item">
-                <SideBarBurger
-                  menuOpen={burgerOpen}
-                  setMenuOpen={() => setBurgerOpen(!burgerOpen)}
-                />
-                {/* <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  href="#"
-                >
-                  <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">My Account</span>
-                </a> */}
-              </li>
-            </ul>
-          </div>
+          {isMobile && (
+            <div className="lg:flex flex-grow items-center flex">
+              <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+                <li className="nav-item">
+                  <SideBarBurger
+                    menuOpen={burgerOpen}
+                    setMenuOpen={() => setBurgerOpen(!burgerOpen)}
+                  />
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </nav>
     </>
