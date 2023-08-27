@@ -37,15 +37,42 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     AmbiguousColumns | BaseAmbiguities | undefined
   >(undefined);
   const [results, setResults] = useState<Object[]>([]);
+  const [conversationId, setConversationId] = useState<number>(
+    Math.floor(Math.random() * 1000000000000) + 1
+  );
 
   useEffect(() => {
+    console.log(messages);
     // if the last message contains data attribute or last message text starts with "I'm sorry"
-    if (
-      messages.length > 0 &&
-      (messages[messages.length - 1].data !== undefined ||
-        messages[messages.length - 1].text?.startsWith("I'm sorry"))
-    ) {
-      commitMessages();
+    // if (
+    //   messages.length > 0 &&
+    //   (messages[messages.length - 1].data !== undefined ||
+    //     messages[messages.length - 1].text?.startsWith("I'm sorry"))
+    // ) {
+    //   commitMessages();
+    // }
+
+    // Add the latest message to the db (regardless of what it is )
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      let m: Message = {
+        text: lastMessage.text,
+        is_user_message: lastMessage.isUserMessage,
+        current_user: currentUser,
+        data: lastMessage.data,
+        columns: lastMessage.columns,
+        table_name: lastMessage.tableName,
+      };
+      const messagesDB: Message[] = [m];
+      let conversation: Conversation = {
+        messages: messagesDB,
+      };
+      DefaultService.saveQueryConversationSavePost(
+        conversation,
+        conversationId
+      ).catch((e) => {
+        console.log(e);
+      });
     }
   }, [messages]);
 
@@ -139,15 +166,17 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       return;
     }
     setInputValue("");
-    setMessages([
-      ...messages,
-      { text: inputValue, isUserMessage: true },
-      {
-        text: "Checking for ambiguities...",
-        isUserMessage: false,
-        loading: true,
-      },
-    ]);
+    setMessages([...messages, { text: inputValue, isUserMessage: true }]);
+    sleep(1000).then(() => {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          text: "Checking for ambiguities...",
+          isUserMessage: false,
+          loading: true,
+        },
+      ]);
+    });
 
     let ambiguitiesBody: Body_check_ambiguous_columns_query_check_ambiguous_columns_post =
       {
@@ -167,6 +196,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             text: inputValue,
             isUserMessage: true,
           },
+        ]);
+        setMessages([
+          ...messages,
           {
             text: response.statement,
             isUserMessage: false,

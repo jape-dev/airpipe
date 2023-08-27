@@ -325,15 +325,20 @@ export class DefaultService {
     /**
      * Save
      * @param requestBody
+     * @param conversationId
      * @returns any Successful Response
      * @throws ApiError
      */
     public static saveQueryConversationSavePost(
         requestBody: Conversation,
+        conversationId?: number,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/conversation/save',
+            query: {
+                'conversation_id': conversationId,
+            },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
