@@ -14,6 +14,20 @@ import { XMarkIcon } from "@heroicons/react/20/solid";
 export const Connect: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [modal, setModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,9 +66,11 @@ export const Connect: React.FC = () => {
     <>
       <NavBar />
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
-        <div className="col-span-1">
-          <SideBar />
-        </div>
+        {!isMobile && (
+          <div className="col-span-1">
+            <SideBar />
+          </div>
+        )}
         <div className="col-span-6 justify-center">
           <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
             <h1 className="text-2xl font-bold mb-1">Connectors</h1>

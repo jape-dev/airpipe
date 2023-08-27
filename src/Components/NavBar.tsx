@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { RouterPath } from "../App";
+import { SideBarBurger } from "./SideBarV2";
 
 export const NavBar = () => {
+  const [burgerOpen, setBurgerOpen] = useState(false);
+
   return (
     <>
       <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-teal-500">
@@ -14,19 +17,23 @@ export const NavBar = () => {
               </p>
             </Link>
           </div>
-          {/* <div className="lg:flex flex-grow items-center flex">
+          <div className="lg:flex flex-grow items-center flex">
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="nav-item">
-                <a
+                <SideBarBurger
+                  menuOpen={burgerOpen}
+                  setMenuOpen={() => setBurgerOpen(!burgerOpen)}
+                />
+                {/* <a
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
                   href="#"
                 >
                   <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i>
                   <span className="ml-2">My Account</span>
-                </a>
+                </a> */}
               </li>
             </ul>
-          </div> */}
+          </div>
         </div>
       </nav>
     </>
