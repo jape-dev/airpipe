@@ -48,8 +48,8 @@ export const Connect: React.FC = () => {
     if (currentUser?.onboarding_stage == OnboardingStage.CONNECT) {
       if (
         currentUser?.facebook_access_token == null &&
-        currentUser?.google_analytics_access_token == null &&
-        currentUser?.google_access_token == null
+        currentUser?.google_analytics_refresh_token == null &&
+        currentUser?.google_refresh_token == null
       ) {
         setModal(true);
       } else {

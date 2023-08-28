@@ -13,7 +13,7 @@ export const GoogleConnectorV2 = (props: { currentUser?: User }) => {
   };
 
   useEffect(() => {
-    if (props.currentUser?.google_access_token) {
+    if (props.currentUser?.google_refresh_token) {
       setConnected(true);
     }
   });

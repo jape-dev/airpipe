@@ -9,7 +9,7 @@ export type User = {
     hashed_password: string;
     onboarding_stage?: OnboardingStage;
     facebook_access_token?: string;
-    google_access_token?: string;
-    google_analytics_access_token?: string;
+    google_refresh_token?: string;
+    google_analytics_refresh_token?: string;
 };
 

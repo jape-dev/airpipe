@@ -13,7 +13,7 @@ export const GoogleAnalyticsConnector = (props: { currentUser?: User }) => {
   };
 
   useEffect(() => {
-    if (props.currentUser?.google_analytics_access_token) {
+    if (props.currentUser?.google_analytics_refresh_token) {
       setConnected(true);
     }
   });
