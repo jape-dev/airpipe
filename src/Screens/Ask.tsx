@@ -137,15 +137,16 @@ export const Ask: React.FC = () => {
             id="askContainer"
             className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl relative"
           >
-            {selectedDataSource?.name == "tutorial_data" && (
-              <button
-                className="flex items-center absolute top-1 right-1 bg-white border border-darkgray dark:border-black rounded-full px-4 py-2 hover:bg-teal-500 hover:text-white transition-colors duration-300"
-                onClick={routeChange}
-              >
-                Add your own data
-                <ArrowRightIcon className="w-5 h-5 ml-1" />
-              </button>
-            )}
+            {selectedDataSource?.name == "tutorial_data" &&
+              isMobile == false && (
+                <button
+                  className="flex items-center absolute top-1 right-1 bg-white border border-darkgray dark:border-black rounded-full px-4 py-2 hover:bg-teal-500 hover:text-white transition-colors duration-300"
+                  onClick={routeChange}
+                >
+                  Add your own data
+                  <ArrowRightIcon className="w-5 h-5 ml-1" />
+                </button>
+              )}
             <h1 className="text-2xl font-bold mb-4">
               {selectedDataSource?.name == "tutorial_data"
                 ? "Ask - AI Tutorial"
