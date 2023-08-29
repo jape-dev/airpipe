@@ -56,7 +56,6 @@ export const Ask: React.FC = () => {
                 const tutorialData = response.find(
                   (dataSource) => dataSource.name === "tutorial_data"
                 );
-                console.log("tutorialData", tutorialData);
                 if (tutorialData !== undefined) {
                   setSelectedDataSource(tutorialData);
                 }
@@ -147,15 +146,21 @@ export const Ask: React.FC = () => {
                 <ArrowRightIcon className="w-5 h-5 ml-1" />
               </button>
             )}
-            <h1 className="text-2xl font-bold mb-4">Ask</h1>
+            <h1 className="text-2xl font-bold mb-4">
+              {selectedDataSource?.name == "tutorial_data"
+                ? "Ask - AI Tutorial"
+                : "Ask"}
+            </h1>
             <p className="mb-4 text-sm leading-5 text-gray-500">
-              Use plain English to ask questions about your data. AirPipe's AI
-              will get the results to answer your question.
+              Use plain English to ask questions about your data. Use specific
+              column names from the table to improve the accuracy of your query.
             </p>
-            <Dropdown
-              options={dropDownOptions}
-              onSelectOption={handleSelectOption}
-            ></Dropdown>
+            {currentUser?.onboarding_stage !== OnboardingStage.CONNECT && (
+              <Dropdown
+                options={dropDownOptions}
+                onSelectOption={handleSelectOption}
+              ></Dropdown>
+            )}
             {selectedDataSource && columns && results && (
               <>
                 <DataPreview

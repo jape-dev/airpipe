@@ -42,7 +42,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   );
 
   useEffect(() => {
-    console.log(messages);
     // if the last message contains data attribute or last message text starts with "I'm sorry"
     // if (
     //   messages.length > 0 &&
@@ -77,14 +76,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   }, [messages]);
 
   useEffect(() => {
-    const welcomeMessage =
-      dataSources[0].name === "tutorial_data"
-        ? "Welcome to Airpipe! Here you can ask questions about your data and let the AI do the hard work for you. Try to use specific column names from the table to improve the accuracy of your query..."
-        : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...";
-
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: welcomeMessage, isUserMessage: false },
+      {
+        text:
+          dataSources[0].name === "tutorial_data"
+            ? "Use the input box or click on the starter question below:"
+            : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...",
+        isUserMessage: false,
+      },
     ]);
 
     if (dataSources[0].name === "tutorial_data") {
@@ -92,22 +92,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         setMessages((prevMessages) => [
           ...prevMessages,
           {
-            text: "Use the input box below, or use one of our starter questions:",
-            isUserMessage: false,
-          },
-        ]);
-      });
-      sleep(1000).then(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            text: "Find all the dates where the cost per conversion was higher for google than facebook",
-            isUserMessage: false,
-            clickable: true,
-            clickAction: buttonClick,
-          },
-          {
-            text: "What date had the highest cost per click?",
+            text: "Find all the dates and cost per conversion where the cost per conversion was higher for google than facebook",
             isUserMessage: false,
             clickable: true,
             clickAction: buttonClick,
@@ -125,7 +110,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setResults([]);
     setMessages([
       {
-        text: "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...",
+        text:
+          dataSources[0].name === "tutorial_data"
+            ? "Use the input box or click on the starter question below:"
+            : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...",
         isUserMessage: false,
       },
     ]);
@@ -290,10 +278,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className="w-full bg-white border border-gray-400 shadow-md mt-0 py-2 px-4 rounded-md text-left cursor-pointer focus:outline-none h-full"
+              placeholder="Ask a question here..."
             />
             <button
               type="submit"
               className="absolute mt-0 top-0 right-0 rounded-l h-full min-h-20 px-3"
+              disabled={!inputValue}
             >
               <PaperAirplaneIcon className="h-6 w-6 text-gray-700 hover:text-teal-500" />
             </button>

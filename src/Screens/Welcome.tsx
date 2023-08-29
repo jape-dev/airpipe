@@ -19,11 +19,8 @@ export const Welcome = () => {
           streamline your marketing reporting.
         </p>
         <p className="max-w text-sm leading-5 text-gray-500 text-center mb-4">
-          If you have any questions or need any assistance with getting started,
-          please don't hesitate to reach out to me on james@useairpipe.com.
-        </p>
-        <p className="max-w text-sm leading-5 text-gray-500 text-center mb-4">
-          I am always here to help. Thank you again for choosing AirPipe!
+          Click get started to ask questions using the tutorial data. Then add
+          your own data and bring your marketing reporting to the next level 🚀
         </p>
         <div className="flex justify-center">
           <button
