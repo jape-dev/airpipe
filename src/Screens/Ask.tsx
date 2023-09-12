@@ -15,6 +15,7 @@ import { RouterPath } from "../App";
 import { DataPreview } from "../Components/DataPreview";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
+import { WelcomeModal } from "../Components/Welcome";
 
 export const Ask: React.FC = () => {
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
@@ -25,6 +26,7 @@ export const Ask: React.FC = () => {
   const [columns, setColumns] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
   const [isMobile, setIsMobile] = useState(false);
+  const [welcome, setWelcome] = useState(true);
 
   let navigate = useNavigate();
 
@@ -125,58 +127,76 @@ export const Ask: React.FC = () => {
 
   return (
     <>
-      <NavBar />
-      <div className="h-screen grid grid-cols-7 gap-2 p-0">
-        {!isMobile && (
-          <div className="col-span-1">
-            <SideBar />
-          </div>
-        )}
-        <div className="col-span-6 justify-center">
-          <div
-            id="askContainer"
-            className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl relative"
-          >
-            {selectedDataSource?.name == "tutorial_data" && !isMobile && (
-              <button
-                className="flex items-center absolute top-1 right-1 bg-white border border-darkgray dark:border-black rounded-full px-4 py-2 hover:bg-teal-500 hover:text-white transition-colors duration-300"
-                onClick={routeChange}
+      {welcome === true ? (
+        <WelcomeModal setWelcome={setWelcome} />
+      ) : (
+        <>
+          {" "}
+          <NavBar />
+          <div className="h-screen grid grid-cols-7 gap-2 p-0">
+            {!isMobile && (
+              <div className="col-span-1">
+                <SideBar />
+              </div>
+            )}
+            <div className="col-span-6 justify-center">
+              <div
+                id="askContainer"
+                className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl relative"
               >
-                Add your own data
-                <ArrowRightIcon className="w-5 h-5 ml-1" />
-              </button>
-            )}
-            <h1 className="text-2xl font-bold mb-4">
-              {selectedDataSource?.name == "tutorial_data"
-                ? "Ask - AI Tutorial"
-                : "Ask"}
-            </h1>
-            <p className="mb-4 text-sm leading-5 text-gray-500">
-              Use plain English to ask questions about your data. Use specific
-              column names from the table to improve the accuracy of your query.
-            </p>
-            {currentUser?.onboarding_stage !== OnboardingStage.CONNECT && (
-              <Dropdown
-                options={dropDownOptions}
-                onSelectOption={handleSelectOption}
-              ></Dropdown>
-            )}
-            {selectedDataSource && columns && results && (
-              <>
-                <DataPreview
-                  columns={columns}
-                  results={results}
-                  tablePreview={true}
-                />
-                <ChatInterface
-                  dataSources={[selectedDataSource]}
-                  currentUser={currentUser}
-                />
-              </>
-            )}
+                {selectedDataSource?.name == "tutorial_data" && !isMobile && (
+                  <>
+                    <button
+                      id="add-data-button"
+                      type="button"
+                      className="flex items-center absolute top-1 right-1 bg-white border border-darkgray dark:border-black rounded-full px-4 py-2 hover:bg-teal-500 hover:text-white transition-colors duration-300"
+                      onClick={routeChange}
+                    >
+                      Add your own data
+                      <ArrowRightIcon className="w-5 h-5 ml-1" />
+                    </button>
+                  </>
+                )}
+                <div id="main-title">
+                  <h1 className="text-2xl font-bold mb-4">
+                    {selectedDataSource?.name == "tutorial_data"
+                      ? "Ask - AI Tutorial"
+                      : "Ask"}
+                  </h1>
+                </div>
+                <p className="mb-4 text-sm leading-5 text-gray-500">
+                  Use plain English to ask questions about your data. Use
+                  specific column names from the table to improve the accuracy
+                  of your query.
+                </p>
+                {currentUser?.onboarding_stage !== OnboardingStage.CONNECT && (
+                  <Dropdown
+                    options={dropDownOptions}
+                    onSelectOption={handleSelectOption}
+                  ></Dropdown>
+                )}
+                {selectedDataSource && columns && results && (
+                  <>
+                    <div id="data-preview">
+                      <DataPreview
+                        columns={columns}
+                        results={results}
+                        tablePreview={true}
+                      />
+                    </div>
+                    <div id="chat-interface">
+                      <ChatInterface
+                        dataSources={[selectedDataSource]}
+                        currentUser={currentUser}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };
