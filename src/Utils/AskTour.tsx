@@ -97,6 +97,7 @@ export const TourButton = (props: {
   const tour = useContext(ShepherdTourContext);
 
   const handleClick = () => {
+    if (tour === null) return;
     tour.start();
     props.setWelcome(false);
   };
