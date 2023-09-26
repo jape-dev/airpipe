@@ -187,18 +187,21 @@ export class DefaultService {
 
     /**
      * Table Results
-     * @param tableName
+     * @param schema
+     * @param name
      * @returns CurrentResults Successful Response
      * @throws ApiError
      */
     public static tableResultsQueryTableResultsGet(
-        tableName: string,
+        schema: string,
+        name: string,
     ): CancelablePromise<CurrentResults> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/table_results',
             query: {
-                'table_name': tableName,
+                'schema': schema,
+                'name': name,
             },
             errors: {
                 422: `Validation Error`,

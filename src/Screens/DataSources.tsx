@@ -51,7 +51,8 @@ export const DataSources: React.FC = () => {
   useEffect(() => {
     if (selectedDataSource) {
       DefaultService.tableResultsQueryTableResultsGet(
-        selectedDataSource.table_name
+        selectedDataSource.db_schema,
+        selectedDataSource.name
       )
         .then((response: CurrentResults) => {
           setResults(response.results);
