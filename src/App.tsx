@@ -22,6 +22,7 @@ export const RouterPath = {
   CONNECT: "/connect/",
   DATA_SOURCES: "/data-sources/",
   ASK: "/ask/",
+  LOOKER: "/looker/",
 };
 
 function App() {
