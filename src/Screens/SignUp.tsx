@@ -8,6 +8,7 @@ import {
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import validator from "validator";
+import { UserInDB } from "../vizoApi/models/UserInDB";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const SignUp = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newUser: User = {
+    const newUser: UserInDB = {
       email: email,
       hashed_password: password,
       onboarding_stage: OnboardingStage.CONNECT,

@@ -8,17 +8,44 @@ import type { Conversation } from '../models/Conversation';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
 import type { DataSourceInDB } from '../models/DataSourceInDB';
+import type { LookerDataRequest } from '../models/LookerDataRequest';
+import type { LookerField } from '../models/LookerField';
 import type { QueryResults } from '../models/QueryResults';
+import type { SpreadsheetResponse } from '../models/SpreadsheetResponse';
+import type { SpreadsheetWithRefreshToken } from '../models/SpreadsheetWithRefreshToken';
 import type { SuccessResponse } from '../models/SuccessResponse';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
 import type { User } from '../models/User';
+import type { UserInDB } from '../models/UserInDB';
+import type { UserWithId } from '../models/UserWithId';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class DefaultService {
+
+    /**
+     * Get User
+     * @param email
+     * @returns UserWithId Successful Response
+     * @throws ApiError
+     */
+    public static getUserAdminUserUserDetailsGet(
+        email: string,
+    ): CancelablePromise<UserWithId> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/admin/user/user_details',
+            query: {
+                'email': email,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
 
     /**
      * Auth
@@ -137,6 +164,70 @@ export class DefaultService {
             query: {
                 'token': token,
             },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Table Schema
+     * @param schema
+     * @param name
+     * @returns LookerField Successful Response
+     * @throws ApiError
+     */
+    public static tableSchemaConnectorLookerTableSchemaGet(
+        schema: string,
+        name: string,
+    ): CancelablePromise<Array<LookerField>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/looker/table_schema',
+            query: {
+                'schema': schema,
+                'name': name,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Table Data
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static tableDataConnectorLookerTableDataPost(
+        requestBody: LookerDataRequest,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/connector/looker/table_data',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Create
+     * @param requestBody
+     * @returns SpreadsheetResponse Successful Response
+     * @throws ApiError
+     */
+    public static createConnectorSheetsCreatePost(
+        requestBody: SpreadsheetWithRefreshToken,
+    ): CancelablePromise<SpreadsheetResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/connector/sheets/create',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },
@@ -398,7 +489,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static createCustomerUserCreateCustomerPost(
-        requestBody: User,
+        requestBody: UserInDB,
     ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'POST',

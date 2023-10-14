@@ -197,7 +197,7 @@ export const AddData: React.FC = () => {
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
         {!isMobile && (
           <div className="col-span-1">
-            <SideBar />
+            <SideBar currentUser={currentUser} />
           </div>
         )}
         <div className="col-span-6 justify-center">

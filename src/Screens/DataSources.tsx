@@ -10,6 +10,7 @@ import { StickyHeadTable } from "../Components/Table";
 
 export const DataSources: React.FC = () => {
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
+  const [currentUser, setCurrentUser] = useState<User>();
   const [selectedDataSource, setSelectedDataSource] =
     useState<DataSourceInDB>();
   const [results, setResults] = useState<Object[]>([]);
@@ -36,6 +37,7 @@ export const DataSources: React.FC = () => {
     } else {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((response: User) => {
+          setCurrentUser(response);
           DefaultService.dataSourcesQueryDataSourcesGet(response.email).then(
             (response) => {
               setDataSources(response);
@@ -70,7 +72,7 @@ export const DataSources: React.FC = () => {
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
         {!isMobile && (
           <div className="col-span-1">
-            <SideBar />
+            <SideBar currentUser={currentUser} />
           </div>
         )}
         <div className="col-span-6 justify-center">
