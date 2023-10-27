@@ -12,5 +12,6 @@ export type FieldOption = {
     channel: ChannelType;
     alt_value?: string;
     img?: string;
+    default?: boolean;
 };
 

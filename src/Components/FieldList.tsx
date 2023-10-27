@@ -11,9 +11,12 @@ import {
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
 interface FieldListProps {
-  adAccounts: AdAccount[];
+  fieldOptions: FieldOption[];
+  setFieldOptions: React.Dispatch<React.SetStateAction<FieldOption[]>>;
   selectedOptions: FieldOption[];
   setSelectedOptions: React.Dispatch<React.SetStateAction<FieldOption[]>>;
+  fieldType: FieldType;
+  setFieldType: React.Dispatch<React.SetStateAction<FieldType>>;
 }
 
 const optionStyle = {
@@ -26,50 +29,18 @@ const optionStyle = {
 };
 
 export const FieldList: React.FC<FieldListProps> = ({
-  adAccounts,
+  fieldOptions,
+  setFieldOptions,
   selectedOptions,
   setSelectedOptions,
+  fieldType,
+  setFieldType,
 }) => {
-  const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [fieldType, setFieldType] = useState<FieldType>(FieldType.METRIC);
 
   const getIconUrl = (imgPath: string) => {
     return require(`../Static/images/${imgPath}.png`);
   };
-
-  useEffect(() => {
-    let options: FieldOption[] = [];
-    if (fieldType === FieldType.METRIC) {
-      options = adAccounts.flatMap((adAccount) => {
-        if (adAccount.channel === ChannelType.GOOGLE) {
-          return googleMetricOptions;
-        } else if (adAccount.channel === ChannelType.FACEBOOK) {
-          return facebookMetricOptions;
-        } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
-          return googleAnalyticsMetricOptions;
-        }
-        return [];
-      });
-    } else if (fieldType === FieldType.DIMENSION) {
-      options = adAccounts.flatMap((adAccount) => {
-        if (adAccount.channel === ChannelType.GOOGLE) {
-          return googleDimensionOptions;
-        } else if (adAccount.channel === ChannelType.FACEBOOK) {
-          return facebookDimensionOptions;
-        } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
-          return googleAnalyticsDimensionOptions;
-        }
-        return [];
-      });
-    }
-    // Filter out any options that have already been selected
-    options = options.filter(
-      (option) =>
-        !selectedOptions.find((selected) => selected.value === option.value)
-    );
-    setFieldOptions(options);
-  }, [adAccounts, fieldType]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
@@ -163,6 +134,11 @@ export const FieldList: React.FC<FieldListProps> = ({
                 .filter((option) =>
                   option.label.toLowerCase().includes(searchText.toLowerCase())
                 )
+                // Filter out options that already exist in selectedOptions
+                .filter(
+                  (option) =>
+                    !selectedOptions.some((o) => o.value === option.value)
+                )
                 .map((option) => (
                   <option
                     key={option.value}
@@ -201,14 +177,12 @@ export const FieldList: React.FC<FieldListProps> = ({
                 )}
                 <span>{option.label}</span>
               </div>
-              {option.label !== "Date" && (
-                <button
-                  className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700"
-                  onClick={() => handleRemove(option)}
-                >
-                  <XMarkIcon className="h-4 w-4" />
-                </button>
-              )}
+              <button
+                className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700"
+                onClick={() => handleRemove(option)}
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
             </li>
           ))}
         </ul>

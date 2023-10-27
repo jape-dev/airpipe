@@ -1,7 +1,6 @@
-import { DataSourceInDB } from "../vizoApi";
-import { CSVLink } from "react-csv";
-import { useNavigate } from "react-router-dom";
-import { RouterPath } from "../App";
+import { useState, useEffect } from "react";
+
+import { DataSourceInDB, ChannelType } from "../vizoApi";
 
 interface BaseDataSourceProps {
   dataSource: DataSourceInDB;
@@ -9,16 +8,14 @@ interface BaseDataSourceProps {
     React.SetStateAction<DataSourceInDB | undefined>
   >;
   selected: boolean;
-  csvData?: Object[];
 }
 
 export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
   dataSource,
   setSelectedDataSource,
   selected,
-  csvData,
 }) => {
-  let navigate = useNavigate();
+  const [channelName, setChannelName] = useState<string>("");
 
   const getIconUrl = () => {
     return require(`../Static/images/${dataSource.channel_img}.png`);
@@ -32,30 +29,45 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
     }
   };
 
-  const handleAskDataSourceClick = () => {
-    navigate(RouterPath.ASK);
+  useEffect(() => {
+    if (dataSource.channel === ChannelType.GOOGLE) {
+      setChannelName("Google Ads");
+    } else if (dataSource.channel === ChannelType.FACEBOOK) {
+      setChannelName("Facebook Ads");
+    } else if (dataSource.channel === ChannelType.GOOGLE_ANALYTICS) {
+      setChannelName("Google Analytics");
+    }
+  }, []);
+
+  const getChannelNameFromEnum = () => {
+    if (dataSource.channel === ChannelType.GOOGLE) {
+      return "Google Ads";
+    } else if (dataSource.channel === ChannelType.FACEBOOK) {
+      return "Facebook Ads";
+    } else if (dataSource.channel === ChannelType.GOOGLE_ANALYTICS) {
+      return "Google Analytics";
+    }
   };
 
   return (
     <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4 flex items-center justify-between">
       <div className="flex items-center">
         <img className="h-8 w-8 mr-4" src={getIconUrl()} alt="icon" />
-        <h1 className="text-lg font-medium">{dataSource.name}</h1>
+        <h1 className="mr-10">
+          <span className="text-lg font-medium">
+            {getChannelNameFromEnum()} |{" "}
+          </span>
+          <span className="text-md text-gray-500">
+            {dataSource.ad_account_id}
+          </span>
+        </h1>
       </div>
       <div className="flex items-center">
-        {selected && csvData && (
-          <button className="bg-gray-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
-            <CSVLink data={csvData} filename={`${dataSource.name}.csv`}>
-              Export CSV
-            </CSVLink>
-          </button>
-        )}
-        <button
-          className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4"
-          onClick={handleAskDataSourceClick}
-        >
-          Ask Data
-        </button>
+        <h2 className="text-md text-gray-500">
+          {dataSource.start_date} - {dataSource.end_date}
+        </h2>
+      </div>
+      <div className="flex items-center">
         <button
           className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4"
           onClick={handleDataSourceClick}

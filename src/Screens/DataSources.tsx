@@ -79,7 +79,7 @@ export const DataSources: React.FC = () => {
           <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
             <h1 className="text-2xl font-bold mb-2">Data Sources</h1>
             <p className="mb-4 text-sm leading-5 text-gray-500">
-              View your data sources and export them to CSV.
+              View your data sources.
             </p>
             <>
               {selectedDataSource ? (
@@ -87,7 +87,6 @@ export const DataSources: React.FC = () => {
                   <BaseDataSource
                     dataSource={selectedDataSource}
                     setSelectedDataSource={setSelectedDataSource}
-                    csvData={results}
                     selected={true}
                   />
                   <StickyHeadTable results={results} columns={columns} />

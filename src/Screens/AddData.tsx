@@ -217,11 +217,11 @@ export const AddData: React.FC = () => {
             )}
             {selectedAdAccounts && (
               <>
-                <FieldList
+                {/* <FieldList
                   adAccounts={selectedAdAccounts}
                   selectedOptions={selectedOptions}
                   setSelectedOptions={setSelectedOptions}
-                />
+                /> */}
                 <div className="flex justify-start items-center">
                   {selectedOptions.length > 0 && (
                     <>
