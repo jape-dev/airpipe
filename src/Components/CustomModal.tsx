@@ -15,7 +15,6 @@ const Backdrop = styled("div")`
 
 const CenteredModal = styled(Modal)`
   position: absolute;
-  width: 400px;
   z-index: 1040;
   top: 50%;
   left: 50%;
@@ -30,16 +29,19 @@ const CenteredModal = styled(Modal)`
   padding: 20px;
   text-align: center;
   border-radius: 5px;
+  ${({ style }) => style && { ...style }};
 `;
 
 export function CustomModal({
   parentshow,
   setParentShow,
   children,
+  style,
 }: {
   parentshow: boolean;
   setParentShow: React.Dispatch<React.SetStateAction<boolean>>;
   children: JSX.Element;
+  style?: React.CSSProperties;
 }) {
   const [show, setShow] = useState(parentshow);
 
@@ -60,6 +62,7 @@ export function CustomModal({
         show={show}
         onHide={onHide}
         renderBackdrop={renderBackdrop}
+        style={style}
       >
         {children}
       </CenteredModal>

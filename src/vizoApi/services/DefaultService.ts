@@ -3,7 +3,9 @@
 /* eslint-disable */
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
+import type { Body_create_blend_query_create_blend_post } from '../models/Body_create_blend_query_create_blend_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
+import type { Body_save_view_query_save_view_post } from '../models/Body_save_view_query_save_view_post';
 import type { ChannelType } from '../models/ChannelType';
 import type { Conversation } from '../models/Conversation';
 import type { CurrentResults } from '../models/CurrentResults';
@@ -21,6 +23,7 @@ import type { Token } from '../models/Token';
 import type { User } from '../models/User';
 import type { UserInDB } from '../models/UserInDB';
 import type { UserWithId } from '../models/UserWithId';
+import type { ViewInDB } from '../models/ViewInDB';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -339,6 +342,67 @@ export class DefaultService {
     }
 
     /**
+     * Data Source Field Options
+     * @param requestBody
+     * @returns FieldOption Successful Response
+     * @throws ApiError
+     */
+    public static dataSourceFieldOptionsQueryDataSourceFieldOptionsPost(
+        requestBody: DataSourceInDB,
+    ): CancelablePromise<Array<FieldOption>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/data_source_field_options',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Field Options
+     * @param channel
+     * @returns FieldOption Successful Response
+     * @throws ApiError
+     */
+    public static fieldOptionsQueryFieldOptionsGet(
+        channel: ChannelType,
+    ): CancelablePromise<Array<FieldOption>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/field_options',
+            query: {
+                'channel': channel,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Field Options
+     * @param requestBody
+     * @returns FieldOption Successful Response
+     * @throws ApiError
+     */
+    public static fieldOptionsQueryFieldOptionsPost(
+        requestBody: Array<string>,
+    ): CancelablePromise<Array<FieldOption>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/field_options',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Run Query
      * @param query
      * @returns QueryResults Successful Response
@@ -425,20 +489,64 @@ export class DefaultService {
     }
 
     /**
-     * Field Options
-     * @param channel
-     * @returns FieldOption Successful Response
+     * Create Blend
+     * @param requestBody
+     * @returns QueryResults Successful Response
      * @throws ApiError
      */
-    public static fieldOptionsQueryFieldOptionsGet(
-        channel: ChannelType,
-    ): CancelablePromise<Array<FieldOption>> {
+    public static createBlendQueryCreateBlendPost(
+        requestBody: Body_create_blend_query_create_blend_post,
+    ): CancelablePromise<QueryResults> {
         return __request(OpenAPI, {
-            method: 'GET',
-            url: '/query/field_options',
-            query: {
-                'channel': channel,
+            method: 'POST',
+            url: '/query/create_blend',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
             },
+        });
+    }
+
+    /**
+     * Save View
+     * @param requestBody
+     * @returns ViewInDB Successful Response
+     * @throws ApiError
+     */
+    public static saveViewQuerySaveViewPost(
+        requestBody: Body_save_view_query_save_view_post,
+    ): CancelablePromise<ViewInDB> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/save_view',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Save Table
+     * @param schema
+     * @param requestBody
+     * @returns SuccessResponse Successful Response
+     * @throws ApiError
+     */
+    public static saveTableQuerySaveTablePost(
+        schema: string,
+        requestBody: CurrentResults,
+    ): CancelablePromise<SuccessResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/save_table',
+            query: {
+                'schema': schema,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },

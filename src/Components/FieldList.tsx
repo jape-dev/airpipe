@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { AdAccount, ChannelType, FieldType, FieldOption } from "../vizoApi";
-import {
-  googleMetricOptions,
-  googleDimensionOptions,
-  facebookMetricOptions,
-  facebookDimensionOptions,
-  googleAnalyticsMetricOptions,
-  googleAnalyticsDimensionOptions,
-} from "../Data/Options";
+import React, { useState } from "react";
+import { FieldType, FieldOption } from "../vizoApi";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
 interface FieldListProps {

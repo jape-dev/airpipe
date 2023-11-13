@@ -8,6 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
+import { FieldOption, DefaultService } from "../vizoApi";
+
 import { useEffect } from "react";
 
 interface StickyHeadTableProps {
@@ -23,6 +25,7 @@ export const StickyHeadTable: React.FC<StickyHeadTableProps> = ({
 }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rows);
+  const [fields, setFields] = React.useState<FieldOption[]>([]);
 
   interface RowType {
     [key: string]: any;
@@ -39,15 +42,38 @@ export const StickyHeadTable: React.FC<StickyHeadTableProps> = ({
     setPage(0);
   };
 
+  const getIconUrl = (field: FieldOption) => {
+    return require(`../Static/images/${field.img}.png`);
+  };
+
+  useEffect(() => {
+    DefaultService.fieldOptionsQueryFieldOptionsPost(columns)
+      .then((response) => {
+        console.log(columns);
+        console.log(response);
+        setFields(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [columns]);
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell style={{ minWidth: 170, fontWeight: "bold" }}>
-                  {column}
+              {fields.map((field) => (
+                <TableCell style={{ minWidth: 200, fontWeight: "bold" }}>
+                  <div className="flex items-center">
+                    <img
+                      className="h-5 w-5 mr-2"
+                      src={getIconUrl(field)}
+                      alt="icon"
+                    />
+                    <span className="mr-4">{field.label}</span>
+                  </div>
                 </TableCell>
               ))}
             </TableRow>

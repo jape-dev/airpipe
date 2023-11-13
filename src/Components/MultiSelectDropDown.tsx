@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import { ChannelType } from "../vizoApi";
 
 export interface DropDownOption {
   id: string;
   name?: string;
   img?: string;
+  channel?: ChannelType;
 }
 
 interface MultiSelectDropDownProps {

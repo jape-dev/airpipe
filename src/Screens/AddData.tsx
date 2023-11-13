@@ -36,6 +36,8 @@ export const AddData: React.FC = () => {
   );
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [isMobile, setIsMobile] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -234,6 +236,10 @@ export const AddData: React.FC = () => {
                       <AddDataButton
                         handleNameSubmit={handleNameSubmit}
                         handleNameChange={handleNameChange}
+                        modal={modal}
+                        setModal={setModal}
+                        loading={loading}
+                        setLoading={setLoading}
                       />
                     </>
                   )}

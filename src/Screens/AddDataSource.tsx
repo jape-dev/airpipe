@@ -394,11 +394,7 @@ export const AddDataSource: React.FC = () => {
                       onClick={() => handleNameSubmit()}
                       className="bg-teal-500  hover:bg-teal-600  text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                     >
-                      {isLoading ? ( // Render loading animation if isLoading is true
-                        <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
-                      ) : (
-                        <span className="text-lg">Add New Data Source</span>
-                      )}
+                      Add Data Source
                     </button>
                   </>
                 )}

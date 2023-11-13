@@ -10,6 +10,7 @@ import { AddDataSource } from "./Screens/AddDataSource";
 import { Connect } from "./Screens/Connect";
 import { DataSources } from "./Screens/DataSources";
 import { Ask } from "./Screens/Ask";
+import { CreateView } from "./Screens/CreateView";
 import { GoogleSheets } from "./Screens/GoogleSheets";
 import { OpenAPI } from "./vizoApi";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
@@ -27,6 +28,7 @@ export const RouterPath = {
   ASK: "/ask/",
   LOOKER: "/looker/",
   GOOGLE_SHEETS: "/google-sheets/",
+  CREATE_VIEW: "/create-view/",
 };
 
 function App() {
@@ -52,6 +54,7 @@ function App() {
         <Route path={RouterPath.DATA_SOURCES} element={<DataSources />} />
         <Route path={RouterPath.ASK} element={<Ask />} />
         <Route path={RouterPath.GOOGLE_SHEETS} element={<GoogleSheets />} />
+        <Route path={RouterPath.CREATE_VIEW} element={<CreateView />} />
       </Routes>
     </Router>
   );

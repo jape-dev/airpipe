@@ -58,7 +58,15 @@ export const SideBar = (props: { currentUser?: User }) => {
                 to={RouterPath.CONNECT}
                 className="flex items-center 0 text-gray-700"
               >
-                Connectors
+                New data source
+              </Link>
+            </div>
+            <div className="p-2 w-full hover:bg-gray-100 rounded-md">
+              <Link
+                to={RouterPath.DATA_SOURCES}
+                className="flex items-center 0 text-gray-700"
+              >
+                View data sources
               </Link>
             </div>
           </div>
@@ -68,20 +76,13 @@ export const SideBar = (props: { currentUser?: User }) => {
               <CircleStackIcon className="w-5 h-5 mr-2 text-gray-700" />
               Manage
             </div>
+
             <div className="p-2 w-full hover:bg-gray-100 rounded-md">
               <Link
-                to={RouterPath.ADD_DATA}
+                to={RouterPath.CREATE_VIEW}
                 className="flex items-center 0 text-gray-700"
               >
-                Create data source
-              </Link>
-            </div>
-            <div className="p-2 w-full hover:bg-gray-100 rounded-md">
-              <Link
-                to={RouterPath.DATA_SOURCES}
-                className="flex items-center 0 text-gray-700"
-              >
-                Explore data sources
+                Create a view
               </Link>
             </div>
           </div>

@@ -7,6 +7,8 @@ interface DataPreviewProps {
   tablePreview: boolean;
 }
 
+// Add columh icon previews here instead of google_
+
 export const DataPreview: React.FC<DataPreviewProps> = ({
   columns,
   results,

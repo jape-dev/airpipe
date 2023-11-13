@@ -37,7 +37,7 @@ export const GoogleAnalyticsConnector = (props: { currentUser?: User }) => {
       <BaseConnector
         title={"Google Analytics"}
         imgPath={"google-analytics-icon"}
-        onConnect={openSignInModal}
+        onConnect={onConnect}
         connected={connected}
       />
       <CustomModal parentshow={modal} setParentShow={setModal}>
