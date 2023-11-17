@@ -427,12 +427,18 @@ export class DefaultService {
      * Table Results
      * @param schema
      * @param name
+     * @param dateColumn
+     * @param startDate
+     * @param endDate
      * @returns CurrentResults Successful Response
      * @throws ApiError
      */
     public static tableResultsQueryTableResultsGet(
         schema: string,
         name: string,
+        dateColumn?: string,
+        startDate?: string,
+        endDate?: string,
     ): CancelablePromise<CurrentResults> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -440,6 +446,9 @@ export class DefaultService {
             query: {
                 'schema': schema,
                 'name': name,
+                'date_column': dateColumn,
+                'start_date': startDate,
+                'end_date': endDate,
             },
             errors: {
                 422: `Validation Error`,
@@ -489,17 +498,49 @@ export class DefaultService {
     }
 
     /**
+     * Views
+     * @param email
+     * @returns ViewInDB Successful Response
+     * @throws ApiError
+     */
+    public static viewsQueryViewsGet(
+        email: string,
+    ): CancelablePromise<Array<ViewInDB>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/views',
+            query: {
+                'email': email,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Create Blend
      * @param requestBody
+     * @param dateColumn
+     * @param startDate
+     * @param endDate
      * @returns QueryResults Successful Response
      * @throws ApiError
      */
     public static createBlendQueryCreateBlendPost(
         requestBody: Body_create_blend_query_create_blend_post,
+        dateColumn?: string,
+        startDate?: string,
+        endDate?: string,
     ): CancelablePromise<QueryResults> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/create_blend',
+            query: {
+                'date_column': dateColumn,
+                'start_date': startDate,
+                'end_date': endDate,
+            },
             body: requestBody,
             mediaType: 'application/json',
             errors: {

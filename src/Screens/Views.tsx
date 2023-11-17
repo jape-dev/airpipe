@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
-import { BaseDataSource } from "../Components/BaseDataSource";
+import { BaseView } from "../Components/BaseView";
 
 import { DefaultService, CurrentResults } from "../vizoApi";
-import { User, DataSourceInDB } from "../vizoApi";
+import { User, ViewInDB } from "../vizoApi";
 import { RouterPath } from "../App";
 import { StickyHeadTable } from "../Components/Table";
 
-export const DataSources: React.FC = () => {
-  const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
+export const Views: React.FC = () => {
+  const [views, setViews] = useState<ViewInDB[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
-  const [selectedDataSource, setSelectedDataSource] =
-    useState<DataSourceInDB>();
+  const [selectedView, setSelectedView] = useState<ViewInDB>();
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
@@ -38,11 +37,9 @@ export const DataSources: React.FC = () => {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((response: User) => {
           setCurrentUser(response);
-          DefaultService.dataSourcesQueryDataSourcesGet(response.email).then(
-            (response) => {
-              setDataSources(response);
-            }
-          );
+          DefaultService.viewsQueryViewsGet(response.email).then((response) => {
+            setViews(response);
+          });
         })
         .catch((error) => {
           window.location.href = RouterPath.LOGIN;
@@ -51,13 +48,10 @@ export const DataSources: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedDataSource) {
+    if (selectedView) {
       DefaultService.tableResultsQueryTableResultsGet(
-        selectedDataSource.db_schema,
-        selectedDataSource.name,
-        `${selectedDataSource.channel}_date`,
-        selectedDataSource.start_date,
-        selectedDataSource.end_date
+        selectedView.db_schema,
+        selectedView.name
       )
         .then((response: CurrentResults) => {
           setResults(response.results);
@@ -67,7 +61,7 @@ export const DataSources: React.FC = () => {
           console.log(error);
         });
     }
-  }, [selectedDataSource]);
+  }, [selectedView]);
 
   return (
     <>
@@ -80,25 +74,25 @@ export const DataSources: React.FC = () => {
         )}
         <div className="col-span-6 justify-center">
           <div className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl">
-            <h1 className="text-2xl font-bold mb-2">Data Sources</h1>
+            <h1 className="text-2xl font-bold mb-2">Views</h1>
             <p className="mb-4 text-sm leading-5 text-gray-500">
-              View your data sources.
+              Manage your views.
             </p>
             <>
-              {selectedDataSource ? (
+              {selectedView ? (
                 <>
-                  <BaseDataSource
-                    dataSource={selectedDataSource}
-                    setSelectedDataSource={setSelectedDataSource}
+                  <BaseView
+                    view={selectedView}
+                    setSelectedView={setSelectedView}
                     selected={true}
                   />
                   <StickyHeadTable results={results} columns={columns} />
                 </>
               ) : (
-                dataSources.map((dataSource: DataSourceInDB) => (
-                  <BaseDataSource
-                    dataSource={dataSource}
-                    setSelectedDataSource={setSelectedDataSource}
+                views.map((view: ViewInDB) => (
+                  <BaseView
+                    view={view}
+                    setSelectedView={setSelectedView}
                     selected={false}
                   />
                 ))

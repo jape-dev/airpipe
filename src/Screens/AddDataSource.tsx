@@ -257,8 +257,8 @@ export const AddDataSource: React.FC = () => {
 
   const handleNameSubmit = () => {
     setIsLoading(true);
-    const startDateString = DateToString(startDate);
-    const endDateString = DateToString(endDate);
+    // const startDateString = DateToString(startDate);
+    // const endDateString = DateToString(endDate);
 
     if (currentUser && selectedAdAccount) {
       const dataSource = {
@@ -266,8 +266,8 @@ export const AddDataSource: React.FC = () => {
         user: currentUser,
         fields: selectedOptions,
         adAccounts: [selectedAdAccount],
-        start_date: startDateString,
-        end_date: endDateString,
+        start_date: startDate.toISOString(),
+        end_date: endDate.toISOString(),
       };
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource)

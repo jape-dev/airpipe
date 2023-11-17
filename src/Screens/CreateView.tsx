@@ -20,13 +20,13 @@ import {
 import { RouterPath } from "../App";
 import { StickyHeadTable } from "../Components/Table";
 import { FieldList } from "../Components/FieldList";
-import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { DateSelector } from "../Components/DateSelector";
 import { Blender } from "../Components/Blender";
 import { ConfigureBlend } from "../Components/ConfigureBlend";
 import { getChannelTypeEnum } from "../Utils/StaticData";
 import { AddDataButton } from "../Components/AddDataButton";
+import { DateToString } from "../Utils/DateFormat";
 
 export const CreateView: React.FC = () => {
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
@@ -131,7 +131,12 @@ export const CreateView: React.FC = () => {
       right_data_source: rightDataSource,
       join_conditions: joinConditions,
     };
-    DefaultService.createBlendQueryCreateBlendPost(body)
+    DefaultService.createBlendQueryCreateBlendPost(
+      body,
+      `${leftDataSource.channel}_date`,
+      startDate.toISOString(),
+      endDate.toISOString()
+    )
       .then((response) => {
         setResults(response.results);
         setColumns(response.columns);
@@ -149,11 +154,14 @@ export const CreateView: React.FC = () => {
   };
 
   const saveView = () => {
+    const startDateString = DateToString(startDate);
+    const endDateString = DateToString(endDate);
+
     let view: View = {
       name: viewName,
       fields: selectedOptions,
-      start_date: startDate.toDateString(),
-      end_date: endDate.toDateString(),
+      start_date: startDateString,
+      end_date: endDateString,
       join_conditions: joinConditions,
     };
     if (currentUser) {
@@ -180,6 +188,12 @@ export const CreateView: React.FC = () => {
     }
   };
 
+  const handleSaveDateRange = () => {
+    // I need to get the data source as it is, not from the table and apply the date range though
+    // Call an endpoint that filters the data source on the date range
+    setShowDateSelector(false);
+  };
+
   useEffect(() => {
     if (selectedDataSource) {
       setStartDate(new Date(selectedDataSource.start_date));
@@ -187,7 +201,6 @@ export const CreateView: React.FC = () => {
       DefaultService.dataSourceFieldOptionsQueryDataSourceFieldOptionsPost(
         selectedDataSource
       ).then((response) => {
-        console.log(response);
         setFieldOptions(response);
         setSelectedOptions(response);
       });
@@ -218,14 +231,6 @@ export const CreateView: React.FC = () => {
           DefaultService.dataSourcesQueryDataSourcesGet(user.email).then(
             (response) => {
               setDataSources(response);
-              if (user.onboarding_stage === OnboardingStage.CONNECT) {
-                const tutorialData = response.find(
-                  (dataSource) => dataSource.name === "tutorial_data"
-                );
-                if (tutorialData !== undefined) {
-                  setSelectedDataSource(tutorialData);
-                }
-              }
             }
           );
         })
@@ -240,10 +245,12 @@ export const CreateView: React.FC = () => {
     if (selectedDataSource) {
       DefaultService.tableResultsQueryTableResultsGet(
         selectedDataSource.db_schema,
-        selectedDataSource.name
+        selectedDataSource.name,
+        `${selectedDataSource.channel}_date`,
+        startDate.toISOString(),
+        endDate.toISOString()
       )
         .then((response: CurrentResults) => {
-          console.log(response);
           setResults(response.results);
           setColumns(response.columns);
         })
@@ -251,7 +258,7 @@ export const CreateView: React.FC = () => {
           console.log(error);
         });
     }
-  }, [selectedDataSource]);
+  }, [selectedDataSource, startDate, endDate]);
 
   useEffect(() => {
     // produce a list of DropDownOptions from the list of AdAccounts
@@ -350,12 +357,12 @@ export const CreateView: React.FC = () => {
                         >
                           Configure blend
                         </button>
-                        <button
+                        {/* <button
                           onClick={() => handleDataPreviewButtonClick()}
                           className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center"
                         >
                           Preview data
-                        </button>
+                        </button> */}
                         <button
                           onClick={() => handleSaveBlend()}
                           className="bg-teal-500 hover:bg-teal-600 mt-5 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center"
@@ -409,7 +416,7 @@ export const CreateView: React.FC = () => {
                         handleEndDateClick={handleEndDateClick}
                       />
                       <button
-                        onClick={() => setShowDateSelector(false)}
+                        onClick={() => handleSaveDateRange()}
                         className="bg-teal-500 hover:bg-teal-600 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center"
                       >
                         Save date range
@@ -420,15 +427,17 @@ export const CreateView: React.FC = () => {
                       <StickyHeadTable
                         columns={columns}
                         results={results}
-                        rows={3}
+                        rows={5}
                       />
                       <div className="flex space-x-4 justify-center">
-                        <button
-                          onClick={() => setShowFieldList(true)}
-                          className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
-                        >
-                          Edit fields
-                        </button>
+                        {joinConditions.length === 0 && (
+                          <button
+                            onClick={() => setShowFieldList(true)}
+                            className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
+                          >
+                            Edit fields
+                          </button>
+                        )}
                         <button
                           onClick={() => setShowBlender(true)}
                           className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"

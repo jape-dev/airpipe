@@ -152,8 +152,6 @@ export const Blender: React.FC<BlenderProps> = ({
   };
 
   const handleSelectLeftDataSource = (selectedOption: DropDownOption) => {
-    console.log("left data source click");
-    console.log(selectedOption);
     const dataSource = dataSources.find(
       (dataSource) => dataSource.id.toString() === selectedOption?.id
     );

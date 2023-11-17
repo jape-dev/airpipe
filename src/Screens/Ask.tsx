@@ -98,7 +98,10 @@ export const Ask: React.FC = () => {
     if (selectedDataSource) {
       DefaultService.tableResultsQueryTableResultsGet(
         selectedDataSource.db_schema,
-        selectedDataSource.name
+        selectedDataSource.name,
+        `${selectedDataSource.channel}_date`,
+        selectedDataSource.start_date,
+        selectedDataSource.end_date
       )
         .then((response: CurrentResults) => {
           setResults(response.results);

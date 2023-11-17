@@ -8,3 +8,9 @@ export const DateToString = (date: Date) => {
 
   return formattedDate;
 };
+
+export const DatetimeStringToDateString = (dateString: string) => {
+  let date = new Date(dateString);
+  let formattedDate = date.toISOString().split("T")[0];
+  return formattedDate;
+};

@@ -18,10 +18,8 @@ export const SideBar = (props: { currentUser?: User }) => {
   const [modal, setModal] = useState(false);
 
   const googleSheetsClick = () => {
-    console.log(props.currentUser);
     if (props.currentUser && props.currentUser.google_sheets_refresh_token) {
       // navigate to google sheets page
-      console.log("google sheets");
       navigate(RouterPath.GOOGLE_SHEETS);
       // window.location.href = RouterPath.GOOGLE_SHEETS;
     }
@@ -83,6 +81,14 @@ export const SideBar = (props: { currentUser?: User }) => {
                 className="flex items-center 0 text-gray-700"
               >
                 Create a view
+              </Link>
+            </div>
+            <div className="p-2 w-full hover:bg-gray-100 rounded-md">
+              <Link
+                to={RouterPath.VIEWS}
+                className="flex items-center 0 text-gray-700"
+              >
+                Manage views
               </Link>
             </div>
           </div>

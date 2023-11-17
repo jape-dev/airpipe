@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { DatetimeStringToDateString } from "../Utils/DateFormat";
 import { DataSourceInDB, ChannelType } from "../vizoApi";
 
 interface BaseDataSourceProps {
@@ -64,7 +64,8 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
       </div>
       <div className="flex items-center">
         <h2 className="text-md text-gray-500">
-          {dataSource.start_date} - {dataSource.end_date}
+          {DatetimeStringToDateString(dataSource.start_date)} -{" "}
+          {DatetimeStringToDateString(dataSource.end_date)}
         </h2>
       </div>
       <div className="flex items-center">

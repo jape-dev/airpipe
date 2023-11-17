@@ -49,8 +49,6 @@ export const StickyHeadTable: React.FC<StickyHeadTableProps> = ({
   useEffect(() => {
     DefaultService.fieldOptionsQueryFieldOptionsPost(columns)
       .then((response) => {
-        console.log(columns);
-        console.log(response);
         setFields(response);
       })
       .catch((error) => {

@@ -14,6 +14,7 @@ import {
   FieldOption,
   CurrentResults,
   ChannelType,
+  DataSource,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { FieldList } from "../Components/FieldList";
@@ -157,13 +158,13 @@ export const AddData: React.FC = () => {
     const endDateString = DateToString(endDate);
 
     if (currentUser && selectedAdAccounts) {
-      const dataSource = {
+      const dataSource: DataSource = {
         name: tableName,
         user: currentUser,
         fields: selectedOptions,
         adAccounts: selectedAdAccounts,
-        start_date: startDateString,
-        end_date: endDateString,
+        start_date: startDate.toISOString(),
+        end_date: endDate.toISOString(),
       };
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource)
