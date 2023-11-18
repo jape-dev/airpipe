@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ChannelType } from "../vizoApi";
+import { getChannelNameFromEnum } from "../Utils/StaticData";
 
 export interface DropDownOption {
   id: string;
@@ -38,16 +39,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
       setSelectedOption(defaultOption);
     }
   }, [defaultOption]);
-
-  const getChannelNameFromEnum = (selectedOption: DropDownOption) => {
-    if (selectedOption.channel === ChannelType.GOOGLE) {
-      return "Google Ads";
-    } else if (selectedOption.channel === ChannelType.FACEBOOK) {
-      return "Facebook Ads";
-    } else if (selectedOption.channel === ChannelType.GOOGLE_ANALYTICS) {
-      return "Google Analytics";
-    }
-  };
 
   return (
     <div className="relative mb-5">

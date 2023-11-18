@@ -10,7 +10,11 @@ import {
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { Dropdown } from "../Components/DropDown";
-import { DropDownOption } from "../Components/MultiSelectDropDown";
+import { DropDownOption } from "../Components/DropDown";
+import {
+  getChannelTypeEnum,
+  getChannelNameFromEnum,
+} from "../Utils/StaticData";
 
 export const GoogleSheets: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -67,6 +71,8 @@ export const GoogleSheets: React.FC = () => {
         id: source.id.toString(),
         name: source.name,
         img: source.channel_img,
+        ad_account_id: source.ad_account_id,
+        channel: getChannelTypeEnum(source.channel),
       };
       options.push(option);
     });
@@ -108,9 +114,10 @@ export const GoogleSheets: React.FC = () => {
       );
       if (dataSource) {
         setSelectedDataSource(dataSource);
-        if (!title) {
-          setTitle(dataSource.name);
-        }
+        let titleName = `${getChannelNameFromEnum(selectedOption)} - ${
+          selectedOption.ad_account_id
+        }`;
+        setTitle(titleName);
       }
     }
   };
