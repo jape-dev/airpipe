@@ -7,6 +7,8 @@ import {
   JoinType,
   JoinCondition,
 } from "../vizoApi";
+import { LinkIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { JoinFields } from "./JoinFields";
 
@@ -24,9 +26,10 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
   setJoinConditions,
 }) => {
   // State to store the selected join type
-  const [joinType, setJoinType] = useState<JoinType>(JoinType.LEFT_JOIN);
   const [modal, setModal] = useState(false);
 
+  const [index, setIndex] = useState(0);
+  const [joinType, setJoinType] = useState<JoinType>(JoinType.LEFT_JOIN);
   const [selectedLeftOption, setSelectedLeftOption] =
     useState<FieldOptionWithDataSourceId>();
   const [selectedRightOption, setSelectedRightOption] =
@@ -35,6 +38,15 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
   // Function to handle option selection and set the join type
   const handleSelectJoin = (type: JoinType) => {
     setJoinType(type);
+    let selectedJoinCondition = joinConditions[index];
+    if (selectedJoinCondition) {
+      selectedJoinCondition.join_type = type;
+      setJoinConditions((prevJoinConditions) => {
+        const updatedJoinConditions = [...prevJoinConditions];
+        updatedJoinConditions[index] = selectedJoinCondition;
+        return updatedJoinConditions;
+      });
+    }
   };
 
   const saveJoinCondition = () => {
@@ -51,15 +63,28 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (selectedLeftOption && selectedRightOption && joinType) {
-      // Do something soon.
-      console.log(joinType);
-    }
-  }, [joinType]);
+  const handleButtonDoubleClick = (buttonIndex: number) => {
+    setIndex(buttonIndex);
+    setModal(true);
+  };
 
-  const getIconUrl = (imgPath: string) => {
-    return require(`../Static/images/${imgPath}.png`);
+  const getIconUrl = (imgPath: string, fileType: string = "png") => {
+    return require(`../Static/images/${imgPath}.${fileType}`);
+  };
+
+  const getJoinTypeIconUrl = () => {
+    switch (joinType) {
+      case JoinType.LEFT_JOIN:
+        return getIconUrl("left", "svg");
+      case JoinType.RIGHT_JOIN:
+        return getIconUrl("right", "svg");
+      case JoinType.INNER_JOIN:
+        return getIconUrl("inner", "svg");
+      case JoinType.FULL_OUTER_JOIN:
+        return getIconUrl("full", "svg");
+      default:
+        return getIconUrl("left", "svg");
+    }
   };
 
   // Function to display explanation based on selected join type
@@ -78,18 +103,59 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (
+      joinConditions[index] &&
+      joinConditions[index].join_type !== undefined
+    ) {
+      setJoinType(joinConditions[index].join_type);
+      let leftOption: FieldOptionWithDataSourceId = {
+        ...joinConditions[index].left_field,
+        data_source_id: leftDataSource.id,
+      };
+      setSelectedLeftOption(leftOption);
+      let rightOption: FieldOptionWithDataSourceId = {
+        ...joinConditions[index].right_field,
+        data_source_id: rightDataSource.id,
+      };
+      setSelectedRightOption(rightOption);
+    }
+  }, [index]);
+
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-1">
           <>
-            {joinConditions.map((condition) => (
-              <div className="w-full border border-gray-400 rounded-md hover:border-teal-500 px-4 py-2 mb-2">
+            {joinConditions.map((condition, buttonIndex) => (
+              <button
+                key={buttonIndex}
+                onClick={() => setIndex(buttonIndex)}
+                onDoubleClick={() => handleButtonDoubleClick(buttonIndex)}
+                className={`w-full border border-gray-400 rounded-md hover:border-teal-500 px-4 py-2 mb-2 ${
+                  index === buttonIndex ? "border-teal-500 border-2" : ""
+                }`}
+              >
                 <p>
-                  {condition.left_field.alt_value} {condition.join_type}{" "}
-                  {condition.right_field.alt_value}
+                  {condition.left_field.img && (
+                    <img
+                      src={getIconUrl(condition.left_field.img)}
+                      alt="Left field Icon"
+                      className="inline mr-2 h-5 w-5"
+                    />
+                  )}
+                  {condition.left_field.label}{" "}
+                  <LinkIcon className="inline h-5 w-5 rotate-45 ml-2 mr-2" />
+                  {condition.right_field.img && (
+                    <img
+                      src={getIconUrl(condition.right_field.img)}
+                      alt="Right field Icon"
+                      className="inline mr-2 h-5 w-5"
+                    />
+                  )}
+                  {condition.right_field.label}
                 </p>
-              </div>
+              </button>
             ))}
             <div>
               <button
@@ -102,10 +168,9 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
             </div>
           </>
         </div>
-
         <div className="col-span-1">
           <div>
-            <div className="border p-4">
+            <div className="border-2 rounded-md">
               <div className="flex flex-col space-y-2">
                 {[
                   JoinType.LEFT_JOIN,
@@ -116,7 +181,9 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
                   <button
                     key={type}
                     className={`p-2 ${
-                      joinType === type ? "bg-teal-200" : "bg-gray-100"
+                      joinType === type
+                        ? "bg-teal-500 text-white"
+                        : "bg-gray-100"
                     }`}
                     onClick={() => handleSelectJoin(type)}
                   >
@@ -124,8 +191,14 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
                   </button>
                 ))}
               </div>
-              {/* Explainer text */}
-              <div className="mt-4 text-sm">{renderJoinExplanation()}</div>
+              <div className="grid grid-cols-3 gap-4 border-t-2">
+                <div className="col-span-1 p-2 mt-2">
+                  <img src={getJoinTypeIconUrl()} alt="Description of Image" />
+                </div>
+                <div className="col-span-2 p-2">
+                  <div className="mt-4 text-sm">{renderJoinExplanation()}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -135,15 +208,24 @@ export const ConfigureBlend: React.FC<ConfigureBlendProps> = ({
         setParentShow={setModal}
         style={{ minHeight: "500px" }}
       >
-        <JoinFields
-          leftDataSource={leftDataSource}
-          rightDataSource={rightDataSource}
-          selectedLeftOption={selectedLeftOption}
-          setSelectedLeftOption={setSelectedLeftOption}
-          selectedRightOption={selectedRightOption}
-          setSelectedRightOption={setSelectedRightOption}
-          saveJoinCondition={saveJoinCondition}
-        />
+        <>
+          {" "}
+          <button
+            className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700 absolute top-0 right-0"
+            onClick={() => setModal(false)}
+          >
+            <XMarkIcon className="h-4 w-4" />
+          </button>
+          <JoinFields
+            leftDataSource={leftDataSource}
+            rightDataSource={rightDataSource}
+            selectedLeftOption={selectedLeftOption}
+            setSelectedLeftOption={setSelectedLeftOption}
+            selectedRightOption={selectedRightOption}
+            setSelectedRightOption={setSelectedRightOption}
+            saveJoinCondition={saveJoinCondition}
+          />
+        </>
       </CustomModal>
     </>
   );

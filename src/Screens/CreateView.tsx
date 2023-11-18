@@ -26,7 +26,12 @@ import { Blender } from "../Components/Blender";
 import { ConfigureBlend } from "../Components/ConfigureBlend";
 import { getChannelTypeEnum } from "../Utils/StaticData";
 import { AddDataButton } from "../Components/AddDataButton";
-import { DateToString } from "../Utils/DateFormat";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { CalendarDaysIcon } from "@heroicons/react/24/outline";
+import { ListBulletIcon } from "@heroicons/react/24/outline";
+import { LinkIcon } from "@heroicons/react/24/outline";
+import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
 export const CreateView: React.FC = () => {
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
@@ -154,14 +159,11 @@ export const CreateView: React.FC = () => {
   };
 
   const saveView = () => {
-    const startDateString = DateToString(startDate);
-    const endDateString = DateToString(endDate);
-
     let view: View = {
       name: viewName,
       fields: selectedOptions,
-      start_date: startDateString,
-      end_date: endDateString,
+      start_date: startDate.toISOString(),
+      end_date: endDate.toISOString(),
       join_conditions: joinConditions,
     };
     if (currentUser) {
@@ -178,7 +180,12 @@ export const CreateView: React.FC = () => {
             results: results,
             name: response.name,
           };
-          DefaultService.saveTableQuerySaveTablePost(response.db_schema, data);
+          DefaultService.saveTableQuerySaveTablePost(
+            response.db_schema,
+            data
+          ).then(() => {
+            navigate(RouterPath.VIEWS);
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -307,7 +314,8 @@ export const CreateView: React.FC = () => {
               <h1 className="text-2xl font-bold mb-4">Create a view</h1>
             </div>
             <p className="mb-4 text-sm leading-5 text-gray-500">
-              Create views and blends
+              Create a new from a data sources. Create a blend to combine data
+              sources.
             </p>
             {!showBlender && !showPreview && !showConfigureBlend && (
               <Dropdown
@@ -332,7 +340,8 @@ export const CreateView: React.FC = () => {
                         onClick={() => setShowFieldList(false)}
                         className="bg-teal-500 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                       >
-                        <span className="text-lg">Confirm/Back</span>
+                        <CheckCircleIcon className="inline h-6 w-6 mr-2" />
+                        <span className="text-lg">Confirm</span>
                       </button>
                     </>
                   ) : showBlender ? (
@@ -355,7 +364,10 @@ export const CreateView: React.FC = () => {
                           onClick={() => handleConfigureBlendButtonClick()}
                           className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center"
                         >
-                          Configure blend
+                          <span className="text-md">
+                            <Cog6ToothIcon className="inline h-5 w-5 mr-1" />{" "}
+                            Configure Blend
+                          </span>
                         </button>
                         {/* <button
                           onClick={() => handleDataPreviewButtonClick()}
@@ -363,12 +375,17 @@ export const CreateView: React.FC = () => {
                         >
                           Preview data
                         </button> */}
-                        <button
-                          onClick={() => handleSaveBlend()}
-                          className="bg-teal-500 hover:bg-teal-600 mt-5 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center"
-                        >
-                          <span className="text-lg">Save blend</span>
-                        </button>
+                        {joinConditions.length > 0 && (
+                          <button
+                            onClick={() => handleSaveBlend()}
+                            className="bg-teal-500 hover:bg-teal-600 mt-5 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center"
+                          >
+                            <span className="text-md">
+                              <PlusCircleIcon className="inline h-5 w-5 mr-1" />{" "}
+                              Save Blend
+                            </span>
+                          </button>
+                        )}
                       </div>
                     </>
                   ) : showPreview ? (
@@ -402,7 +419,10 @@ export const CreateView: React.FC = () => {
                         onClick={() => handleSaveJoinConditions()}
                         className="bg-teal-500 hover:bg-teal-600 mt-5 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                       >
-                        Save Join condition
+                        <span className="text-md">
+                          <PlusCircleIcon className="inline h-5 w-5 mr-1" />{" "}
+                          Save Conifguration
+                        </span>
                       </button>
                     </>
                   ) : showDateSelector ? (
@@ -435,21 +455,34 @@ export const CreateView: React.FC = () => {
                             onClick={() => setShowFieldList(true)}
                             className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                           >
-                            Edit fields
+                            <span className="text-md">
+                              <ListBulletIcon className="inline h-5 w-5 mr-1" />{" "}
+                              Edit fields
+                            </span>
                           </button>
                         )}
                         <button
                           onClick={() => setShowBlender(true)}
                           className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                         >
-                          Create blend
+                          <span className="text-md">
+                            <LinkIcon className="inline h-5 w-5 mr-1" />{" "}
+                            {joinConditions.length > 0
+                              ? "Edit blend"
+                              : "Create blend"}
+                          </span>
                         </button>
-                        <button
-                          onClick={() => setShowDateSelector(true)}
-                          className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center mx-auto"
-                        >
-                          Change date range
-                        </button>
+                        {joinConditions.length === 0 && (
+                          <button
+                            onClick={() => setShowDateSelector(true)}
+                            className="border border-teal-600 hover:bg-teal-600 mt-5 text-teal-600 hover:text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center mx-auto"
+                          >
+                            <span className="text-md">
+                              <CalendarDaysIcon className="inline h-5 w-5 mr-1" />{" "}
+                              Date range
+                            </span>
+                          </button>
+                        )}
                         <AddDataButton
                           handleNameChange={handleViewNameChange}
                           handleNameSubmit={saveView}

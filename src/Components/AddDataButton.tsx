@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CustomModal } from "./CustomModal";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
 
 interface AddDataButtonProps {
   handleNameSubmit: () => void;
@@ -32,6 +33,7 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
         onClick={() => setModal(true)}
         className="bg-teal-500 hover:bg-teal-600 mt-5 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
       >
+        <PlusCircleIcon className="inline h-6 w-6 mr-2" />
         <span className="text-lg">{buttonText || "Add Data Source"}</span>
       </button>
       <CustomModal
@@ -46,7 +48,10 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
           >
             <XMarkIcon className="h-4 w-4" />
           </button>
-          <p className="font-bold text-lg">Enter a table name</p>
+          <h2 className="font-bold text-lg">Enter a table name</h2>
+          <h3 className="text-lg text-gray-500 font-medium">
+            This is how the view will be named in AirPipe
+          </h3>
           <input
             type="text"
             onChange={handleNameChange}
@@ -55,13 +60,16 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
           />
           <button
             onClick={handleSubmit} // Call the new handleSubmit function
-            className="bg-teal-500 text-white rounded-md px-4 py-2 h-10 flex items-center justify-center mt-4 mx-auto"
+            className="bg-teal-500 text-white rounded-md px-4 py-2 h-12 w-30 flex items-center justify-center mt-4 mx-auto"
             disabled={loading} // Disable the button when loading
           >
             {loading ? ( // Render loading animation if isLoading is true
               <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
             ) : (
-              <span className="text-sm">Submit</span>
+              <>
+                <PlusCircleIcon className="inline h-6 w-6 mr-2" />
+                <span className="text-md">Create View</span>
+              </>
             )}
           </button>
         </>

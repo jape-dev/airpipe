@@ -31,9 +31,11 @@ const optionStyle = {
 
 const optionSelectedStyle = {
   ...optionStyle, // keep the existing styles
-  border: "1px solid teal", // add your border color
+  border: "1px solid rgb(20 184 166)", // add your border color
   borderRadius: "0.25rem", // rounded corners
-  backgroundColor: "teal",
+  backgroundColor: "rgb(20 184 166)",
+  // set textcolor to white instead of black
+  color: "white",
 };
 
 export const JoinFields: React.FC<JoinFieldProps> = ({
@@ -107,7 +109,13 @@ export const JoinFields: React.FC<JoinFieldProps> = ({
   }, [leftDataSource]);
 
   return (
-    <div className="grid grid-cols-2 gap-6 w-full h-96">
+    <div className="grid grid-cols-2 gap-4 w-full h-120">
+      {/* Heading and subheading */}
+      <h2 className="col-span-2 text-xl font-bold">Select Join Fields</h2>
+      {/* Subheading */}
+      <h3 className="col-span-2 text-lg text-gray-500 font-medium">
+        Select a field from each data source that has common values
+      </h3>
       <div className="col-span-1">
         <select
           multiple

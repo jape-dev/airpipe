@@ -14,11 +14,11 @@ import {
 import { RouterPath } from "../App";
 import { useLocation } from "react-router-dom";
 import { FieldList } from "../Components/FieldList";
-import { DateToString } from "../Utils/DateFormat";
 import { Dropdown } from "../Components/DropDown";
 import { getChannelTypeEnum } from "../Utils/StaticData";
-
 import { v4 as uuidv4 } from "uuid";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
 export interface AddDataSourceState {
   channel?: ChannelType;
@@ -338,7 +338,8 @@ export const AddDataSource: React.FC = () => {
                       onClick={() => setIsFieldListVisible(false)}
                       className="bg-teal-500 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                     >
-                      <span className="text-lg">Confirm/Back</span>
+                      <CheckCircleIcon className="inline h-6 w-6 mr-2" />
+                      <span className="text-lg">Confirm</span>
                     </button>
                   </>
                 ) : (
@@ -394,6 +395,7 @@ export const AddDataSource: React.FC = () => {
                       onClick={() => handleNameSubmit()}
                       className="bg-teal-500  hover:bg-teal-600  text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                     >
+                      <PlusCircleIcon className="inline h-6 w-6 mr-2" />
                       Add Data Source
                     </button>
                   </>
