@@ -9,7 +9,7 @@ import {
 } from "../vizoApi";
 import { LinkIcon } from "@heroicons/react/20/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { JoinFields } from "./JoinFields";
 
 interface ConfigureBlendProps {

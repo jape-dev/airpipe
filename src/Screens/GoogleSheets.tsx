@@ -16,6 +16,8 @@ import {
   getChannelNameFromEnum,
 } from "../Utils/StaticData";
 
+import { TableCellsIcon } from "@heroicons/react/24/solid";
+
 export const GoogleSheets: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [currentUser, setCurrentUser] = useState<User>();
@@ -177,7 +179,10 @@ export const GoogleSheets: React.FC = () => {
                     {loading ? ( // Render loading animation if isLoading is true
                       <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
                     ) : (
-                      <span className="text-lg">Create Google Sheet</span>
+                      <>
+                        <TableCellsIcon className="inline h-6 w-6 mr-2" />
+                        <span className="text-lg">Create Google Sheet</span>
+                      </>
                     )}
                   </button>
                 )}
