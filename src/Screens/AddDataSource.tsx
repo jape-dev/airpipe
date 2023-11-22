@@ -28,6 +28,7 @@ export const AddDataSource: React.FC = () => {
   const location = useLocation();
   const state = location.state as AddDataSourceState;
 
+  const [token, setToken] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [connected, setConnected] = useState(false);
   const [currentUser, setCurrentUser] = useState<User>();
@@ -185,6 +186,7 @@ export const AddDataSource: React.FC = () => {
     if (token === null) {
       window.location.href = RouterPath.LOGIN;
     } else {
+      setToken(token);
       DefaultService.currentUserUserAuthCurrentUserGet(token).then(
         (response: User) => {
           setCurrentUser(response);
@@ -284,7 +286,7 @@ export const AddDataSource: React.FC = () => {
 
   useEffect(() => {
     if (channel) {
-      DefaultService.fieldOptionsQueryFieldOptionsGet(channel).then(
+      DefaultService.fieldOptionsQueryFieldOptionsGet(channel, token).then(
         (response) => {
           setSelectedOptions(response);
         }

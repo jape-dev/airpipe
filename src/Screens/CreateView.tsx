@@ -13,7 +13,6 @@ import {
   CurrentResults,
   JoinCondition,
   Body_create_blend_query_create_blend_post,
-  Body_save_view_query_save_view_post,
   FieldOptionWithDataSourceId,
   ViewInDB,
 } from "../vizoApi";
@@ -34,6 +33,7 @@ import { LinkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
 export const CreateView: React.FC = () => {
+  const [token, setToken] = useState<string>("");
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
   const [selectedOption, setSelectedOption] = useState<DropDownOption>();
@@ -137,6 +137,7 @@ export const CreateView: React.FC = () => {
       join_conditions: joinConditions,
     };
     DefaultService.createBlendQueryCreateBlendPost(
+      token,
       body,
       `${leftDataSource.channel}_date`,
       startDate.toISOString(),
@@ -167,11 +168,7 @@ export const CreateView: React.FC = () => {
       join_conditions: joinConditions,
     };
     if (currentUser) {
-      let body: Body_save_view_query_save_view_post = {
-        view: view,
-        user: currentUser,
-      };
-      DefaultService.saveViewQuerySaveViewPost(body)
+      DefaultService.saveViewQuerySaveViewPost(token, view)
         .then((response: ViewInDB) => {
           setModal(false);
           setIsLoading(false);
@@ -181,6 +178,7 @@ export const CreateView: React.FC = () => {
             name: response.name,
           };
           DefaultService.saveTableQuerySaveTablePost(
+            token,
             response.db_schema,
             data
           ).then(() => {
@@ -232,10 +230,11 @@ export const CreateView: React.FC = () => {
     if (token === null) {
       window.location.href = RouterPath.LOGIN;
     } else {
+      setToken(token);
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((user: User) => {
           setCurrentUser(user);
-          DefaultService.dataSourcesQueryDataSourcesGet(user.email).then(
+          DefaultService.dataSourcesQueryDataSourcesGet(token).then(
             (response) => {
               setDataSources(response);
             }
@@ -251,6 +250,7 @@ export const CreateView: React.FC = () => {
   useEffect(() => {
     if (selectedDataSource) {
       DefaultService.tableResultsQueryTableResultsGet(
+        token,
         selectedDataSource.db_schema,
         selectedDataSource.name,
         `${selectedDataSource.channel}_date`,

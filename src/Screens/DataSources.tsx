@@ -38,7 +38,7 @@ export const DataSources: React.FC = () => {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((response: User) => {
           setCurrentUser(response);
-          DefaultService.dataSourcesQueryDataSourcesGet(response.email).then(
+          DefaultService.dataSourcesQueryDataSourcesGet(token).then(
             (response) => {
               setDataSources(response);
             }

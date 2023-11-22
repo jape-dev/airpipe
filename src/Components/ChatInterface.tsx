@@ -16,6 +16,7 @@ import { ChatMessage } from "./Message";
 export interface ChatInterfaceProps {
   dataSources: DataSourceInDB[];
   currentUser?: User;
+  userToken: string;
 }
 
 interface ChatMessage {
@@ -30,6 +31,7 @@ interface ChatMessage {
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   dataSources,
   currentUser,
+  userToken,
 }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -216,7 +218,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               },
             ]);
 
-            DefaultService.runQueryQueryRunQueryGet(sql)
+            DefaultService.runQueryQueryRunQueryGet(userToken, sql)
               .then((result: QueryResults) => {
                 setMessages([
                   ...messages,

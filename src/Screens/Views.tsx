@@ -9,6 +9,7 @@ import { RouterPath } from "../App";
 import { StickyHeadTable } from "../Components/Table";
 
 export const Views: React.FC = () => {
+  const [token, setToken] = useState<string>("");
   const [views, setViews] = useState<ViewInDB[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
   const [selectedView, setSelectedView] = useState<ViewInDB>();
@@ -34,10 +35,11 @@ export const Views: React.FC = () => {
     if (token === null) {
       window.location.href = RouterPath.LOGIN;
     } else {
+      setToken(token);
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((response: User) => {
           setCurrentUser(response);
-          DefaultService.viewsQueryViewsGet(response.email).then((response) => {
+          DefaultService.viewsQueryViewsGet(token).then((response) => {
             setViews(response);
           });
         })
@@ -50,6 +52,7 @@ export const Views: React.FC = () => {
   useEffect(() => {
     if (selectedView) {
       DefaultService.tableResultsQueryTableResultsGet(
+        token,
         selectedView.db_schema,
         selectedView.name
       )

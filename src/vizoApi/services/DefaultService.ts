@@ -5,7 +5,6 @@ import type { AdAccount } from '../models/AdAccount';
 import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 import type { Body_create_blend_query_create_blend_post } from '../models/Body_create_blend_query_create_blend_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
-import type { Body_save_view_query_save_view_post } from '../models/Body_save_view_query_save_view_post';
 import type { ChannelType } from '../models/ChannelType';
 import type { Conversation } from '../models/Conversation';
 import type { CurrentResults } from '../models/CurrentResults';
@@ -14,6 +13,7 @@ import type { DataSourceInDB } from '../models/DataSourceInDB';
 import type { FieldOption } from '../models/FieldOption';
 import type { LookerDataRequest } from '../models/LookerDataRequest';
 import type { LookerField } from '../models/LookerField';
+import type { LookerTable } from '../models/LookerTable';
 import type { QueryResults } from '../models/QueryResults';
 import type { SpreadsheetResponse } from '../models/SpreadsheetResponse';
 import type { SpreadsheetWithRefreshToken } from '../models/SpreadsheetWithRefreshToken';
@@ -22,7 +22,7 @@ import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
 import type { User } from '../models/User';
 import type { UserInDB } from '../models/UserInDB';
-import type { UserWithId } from '../models/UserWithId';
+import type { View } from '../models/View';
 import type { ViewInDB } from '../models/ViewInDB';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -30,27 +30,6 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class DefaultService {
-
-    /**
-     * Get User
-     * @param email
-     * @returns UserWithId Successful Response
-     * @throws ApiError
-     */
-    public static getUserAdminUserUserDetailsGet(
-        email: string,
-    ): CancelablePromise<UserWithId> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/admin/user/user_details',
-            query: {
-                'email': email,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
 
     /**
      * Auth
@@ -257,6 +236,27 @@ export class DefaultService {
     }
 
     /**
+     * Tables
+     * @param email
+     * @returns LookerTable Successful Response
+     * @throws ApiError
+     */
+    public static tablesConnectorLookerTablesGet(
+        email: string,
+    ): CancelablePromise<Array<LookerTable>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/looker/tables',
+            query: {
+                'email': email,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Table Schema
      * @param schema
      * @param name
@@ -322,17 +322,20 @@ export class DefaultService {
 
     /**
      * Get Table Columns
+     * @param token
      * @param tableName
      * @returns TableColumns Successful Response
      * @throws ApiError
      */
     public static getTableColumnsQueryTableColumnsGet(
+        token: string,
         tableName: string,
     ): CancelablePromise<TableColumns> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/table_columns',
             query: {
+                'token': token,
                 'table_name': tableName,
             },
             errors: {
@@ -364,17 +367,20 @@ export class DefaultService {
     /**
      * Field Options
      * @param channel
+     * @param token
      * @returns FieldOption Successful Response
      * @throws ApiError
      */
     public static fieldOptionsQueryFieldOptionsGet(
         channel: ChannelType,
+        token: string,
     ): CancelablePromise<Array<FieldOption>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/field_options',
             query: {
                 'channel': channel,
+                'token': token,
             },
             errors: {
                 422: `Validation Error`,
@@ -404,17 +410,20 @@ export class DefaultService {
 
     /**
      * Run Query
+     * @param token
      * @param query
      * @returns QueryResults Successful Response
      * @throws ApiError
      */
     public static runQueryQueryRunQueryGet(
+        token: string,
         query: string,
     ): CancelablePromise<QueryResults> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/run_query',
             query: {
+                'token': token,
                 'query': query,
             },
             errors: {
@@ -425,6 +434,7 @@ export class DefaultService {
 
     /**
      * Table Results
+     * @param token
      * @param schema
      * @param name
      * @param dateColumn
@@ -434,6 +444,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static tableResultsQueryTableResultsGet(
+        token: string,
         schema: string,
         name: string,
         dateColumn?: string,
@@ -444,6 +455,7 @@ export class DefaultService {
             method: 'GET',
             url: '/query/table_results',
             query: {
+                'token': token,
                 'schema': schema,
                 'name': name,
                 'date_column': dateColumn,
@@ -478,18 +490,18 @@ export class DefaultService {
 
     /**
      * Data Sources
-     * @param email
+     * @param token
      * @returns DataSourceInDB Successful Response
      * @throws ApiError
      */
     public static dataSourcesQueryDataSourcesGet(
-        email: string,
+        token: string,
     ): CancelablePromise<Array<DataSourceInDB>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/data_sources',
             query: {
-                'email': email,
+                'token': token,
             },
             errors: {
                 422: `Validation Error`,
@@ -499,18 +511,18 @@ export class DefaultService {
 
     /**
      * Views
-     * @param email
+     * @param token
      * @returns ViewInDB Successful Response
      * @throws ApiError
      */
     public static viewsQueryViewsGet(
-        email: string,
+        token: string,
     ): CancelablePromise<Array<ViewInDB>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/views',
             query: {
-                'email': email,
+                'token': token,
             },
             errors: {
                 422: `Validation Error`,
@@ -520,6 +532,7 @@ export class DefaultService {
 
     /**
      * Create Blend
+     * @param token
      * @param requestBody
      * @param dateColumn
      * @param startDate
@@ -528,6 +541,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static createBlendQueryCreateBlendPost(
+        token: string,
         requestBody: Body_create_blend_query_create_blend_post,
         dateColumn?: string,
         startDate?: string,
@@ -537,6 +551,7 @@ export class DefaultService {
             method: 'POST',
             url: '/query/create_blend',
             query: {
+                'token': token,
                 'date_column': dateColumn,
                 'start_date': startDate,
                 'end_date': endDate,
@@ -551,16 +566,21 @@ export class DefaultService {
 
     /**
      * Save View
+     * @param token
      * @param requestBody
      * @returns ViewInDB Successful Response
      * @throws ApiError
      */
     public static saveViewQuerySaveViewPost(
-        requestBody: Body_save_view_query_save_view_post,
+        token: string,
+        requestBody: View,
     ): CancelablePromise<ViewInDB> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/save_view',
+            query: {
+                'token': token,
+            },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -571,12 +591,14 @@ export class DefaultService {
 
     /**
      * Save Table
+     * @param token
      * @param schema
      * @param requestBody
      * @returns SuccessResponse Successful Response
      * @throws ApiError
      */
     public static saveTableQuerySaveTablePost(
+        token: string,
         schema: string,
         requestBody: CurrentResults,
     ): CancelablePromise<SuccessResponse> {
@@ -584,6 +606,7 @@ export class DefaultService {
             method: 'POST',
             url: '/query/save_table',
             query: {
+                'token': token,
                 'schema': schema,
             },
             body: requestBody,

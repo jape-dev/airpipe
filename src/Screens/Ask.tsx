@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { WelcomeModal } from "../Components/Welcome";
 
 export const Ask: React.FC = () => {
+  const [token, setToken] = useState<string>("");
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
   const [selectedDataSource, setSelectedDataSource] =
@@ -48,10 +49,11 @@ export const Ask: React.FC = () => {
     if (token === null) {
       window.location.href = RouterPath.LOGIN;
     } else {
+      setToken(token);
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((user: User) => {
           setCurrentUser(user);
-          DefaultService.dataSourcesQueryDataSourcesGet(user.email).then(
+          DefaultService.dataSourcesQueryDataSourcesGet(token).then(
             (response) => {
               setDataSources(response);
               if (user.onboarding_stage === OnboardingStage.CONNECT) {
@@ -95,9 +97,9 @@ export const Ask: React.FC = () => {
   }, [dataSources, currentUser]);
 
   useEffect(() => {
-    if (selectedDataSource) {
+    if (selectedDataSource && token) {
       DefaultService.tableResultsQueryTableResultsGet(
-        selectedDataSource.db_schema,
+        token,
         selectedDataSource.name,
         `${selectedDataSource.channel}_date`,
         selectedDataSource.start_date,
@@ -192,6 +194,7 @@ export const Ask: React.FC = () => {
                       <ChatInterface
                         dataSources={[selectedDataSource]}
                         currentUser={currentUser}
+                        userToken={token}
                       />
                     </div>
                   </>

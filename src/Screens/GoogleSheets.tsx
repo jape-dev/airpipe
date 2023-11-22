@@ -52,7 +52,7 @@ export const GoogleSheets: React.FC = () => {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((user: User) => {
           setCurrentUser(user);
-          DefaultService.dataSourcesQueryDataSourcesGet(user.email).then(
+          DefaultService.dataSourcesQueryDataSourcesGet(token).then(
             (response) => {
               setDataSources(response);
             }
