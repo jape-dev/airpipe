@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { RouterPath } from "../App";
 
 export const Overview = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -18,41 +22,51 @@ export const Overview = () => {
           Please get in touch: james@useairpipe.com
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-4 py-5 px-4 sm:px-6">
+      <div className="grid grid-cols-3 gap-4 py-5 px-4 sm:px-6">
         <div className="bg-gray-100 rounded-lg px-4 py-5">
           <h3 className="text-md leading-6 font-medium text-gray-900">
             1) Connect
           </h3>
+
           <p className="mt-2 text-sm leading-5 text-gray-500">
             Get started by securely authenticating and connecting to your
             marketing channels.
           </p>
+          <button
+            className="mt-4 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => navigate(RouterPath.CONNECT)}
+          >
+            Connect
+          </button>
         </div>
         <div className="bg-gray-100 rounded-lg px-4 py-5">
           <h3 className="text-md leading-6 font-medium text-gray-900">
-            2) Add data
+            2) Manage
           </h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">
-            Select your ad account and choose the fields you want to import.
-            Create as many data sources as you need.
+            Use views to blend together data sources or segment data.
           </p>
+          <button
+            className="mt-4 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => navigate(RouterPath.CREATE_VIEW)}
+          >
+            Manage
+          </button>
         </div>
         <div className="bg-gray-100 rounded-lg px-4 py-5">
           <h3 className="text-md leading-6 font-medium text-gray-900">
-            3) Data sources
+            3) Share & Analyse
           </h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">
-            View your data sources and export them as a csv.
+            Share your data to Looker Studio or Google Sheets. Ask ad hoc
+            questions using AirPipe's AI.
           </p>
-        </div>
-        <div className="bg-gray-100 rounded-lg px-4 py-5">
-          <h3 className="text-md leading-6 font-medium text-gray-900">
-            4) Ask
-          </h3>
-          <p className="mt-2 text-sm leading-5 text-gray-500">
-            Use plain english to ask questions about your data. Our AI do the
-            hard work and get the results to answer your question.
-          </p>
+          <button
+            className="mt-4 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => navigate(RouterPath.ASK)}
+          >
+            Ask AI
+          </button>
         </div>
       </div>
       {/* <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
