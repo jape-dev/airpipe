@@ -102,7 +102,7 @@ export const SideBar = (props: { currentUser?: User }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://datastudio.google.com/datasources/create?connectorId=AKfycbwIbAHXEi5LAS2s-p8w545j3tQFGAu4WyooKJAyglDQnzyShLbEaSixyUWcCoVxK5Ty&authuser=0"
+                href="https://datastudio.google.com/datasources/create?connectorId=AKfycbyJbgOrU7EfCaA0TGukkA4Gxc33sypaWJ5UChf3ffRYJVEy94JtGEr2hfYGvZpRSCZ0&authuser=0"
               >
                 Looker Studio
               </a>
@@ -240,7 +240,7 @@ export const SideBarBurger = (props: {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://datastudio.google.com/datasources/create?connectorId=AKfycbwIbAHXEi5LAS2s-p8w545j3tQFGAu4WyooKJAyglDQnzyShLbEaSixyUWcCoVxK5Ty&authuser=0"
+                  href="https://datastudio.google.com/datasources/create?connectorId=AKfycbyJbgOrU7EfCaA0TGukkA4Gxc33sypaWJ5UChf3ffRYJVEy94JtGEr2hfYGvZpRSCZ0&authuser=0"
                 >
                   Looker Studio
                 </a>
