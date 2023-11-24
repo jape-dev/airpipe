@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
 import { Dropdown } from "../Components/DropDown";
-import { DropDownOption } from "../Components/MultiSelectDropDown";
+import { DropDownOption } from "../Components/DropDown";
 import { ChatInterface } from "../Components/ChatInterface";
 import {
   DefaultService,
@@ -10,16 +10,20 @@ import {
   User,
   CurrentResults,
   OnboardingStage,
+  ViewInDB,
+  ChannelType,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { DataPreview } from "../Components/DataPreview";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { WelcomeModal } from "../Components/Welcome";
+import { getChannelTypeEnum } from "../Utils/StaticData";
 
 export const Ask: React.FC = () => {
   const [token, setToken] = useState<string>("");
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
+  const [views, setViews] = useState<ViewInDB[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
   const [selectedDataSource, setSelectedDataSource] =
     useState<DataSourceInDB>();
@@ -27,7 +31,7 @@ export const Ask: React.FC = () => {
   const [columns, setColumns] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
   const [isMobile, setIsMobile] = useState(false);
-  const [welcome, setWelcome] = useState(true);
+  const [welcome, setWelcome] = useState(false);
 
   let navigate = useNavigate();
 
@@ -53,8 +57,8 @@ export const Ask: React.FC = () => {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((user: User) => {
           setCurrentUser(user);
-          DefaultService.dataSourcesQueryDataSourcesGet(token).then(
-            (response) => {
+          DefaultService.dataSourcesQueryDataSourcesGet(token)
+            .then((response) => {
               setDataSources(response);
               if (user.onboarding_stage === OnboardingStage.CONNECT) {
                 const tutorialData = response.find(
@@ -64,12 +68,20 @@ export const Ask: React.FC = () => {
                   setSelectedDataSource(tutorialData);
                 }
               }
-            }
-          );
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          DefaultService.viewsQueryViewsGet(token)
+            .then((response) => {
+              setViews(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
-          window.location.href = RouterPath.LOGIN;
         });
     }
   }, []);
@@ -89,19 +101,32 @@ export const Ask: React.FC = () => {
         id: source.id.toString(),
         name: source.name,
         img: source.channel_img,
+        ad_account_id: source.ad_account_id,
+        channel: getChannelTypeEnum(source.channel),
       };
       options.push(option);
+      setDropDownOptions(options);
     });
-
-    setDropDownOptions(options);
-  }, [dataSources, currentUser]);
+    views.map((view) => {
+      const option: DropDownOption = {
+        id: view.id.toString(),
+        name: view.name,
+      };
+      options.push(option);
+      setDropDownOptions(options);
+    });
+  }, [dataSources, views, currentUser]);
 
   useEffect(() => {
+    console.log("table results called");
     if (selectedDataSource && token) {
       DefaultService.tableResultsQueryTableResultsGet(
         token,
+        selectedDataSource.db_schema,
         selectedDataSource.name,
-        `${selectedDataSource.channel}_date`,
+        selectedDataSource.channel_img !== "na"
+          ? `${selectedDataSource.channel}_date`
+          : undefined,
         selectedDataSource.start_date,
         selectedDataSource.end_date
       )
@@ -123,7 +148,27 @@ export const Ask: React.FC = () => {
         // Need to use an actual id field instead of ad_account_id
         (dataSource) => dataSource.id.toString() === selectedOption.id
       );
-      setSelectedDataSource(dataSource);
+      const view = views.find(
+        (view) => view.id.toString() === selectedOption.id
+      );
+      if (view) {
+        const viewAsDataSource: DataSourceInDB = {
+          id: view.id,
+          name: view.name,
+          user_id: view.user_id,
+          db_schema: view.db_schema,
+          fields: view.fields,
+          table_name: view.table_name,
+          channel: ChannelType.GOOGLE,
+          channel_img: "na",
+          ad_account_id: "na",
+          start_date: view.start_date,
+          end_date: view.end_date,
+        };
+        setSelectedDataSource(viewAsDataSource);
+      } else {
+        setSelectedDataSource(dataSource);
+      }
     }
   };
 
