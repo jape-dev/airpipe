@@ -16,6 +16,7 @@ export const DataSources: React.FC = () => {
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [token, setToken] = useState<string>("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,14 +32,15 @@ export const DataSources: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token === null) {
+    const userToken = localStorage.getItem("token");
+    if (userToken === null) {
       window.location.href = RouterPath.LOGIN;
     } else {
-      DefaultService.currentUserUserAuthCurrentUserGet(token)
+      setToken(userToken);
+      DefaultService.currentUserUserAuthCurrentUserGet(userToken)
         .then((response: User) => {
           setCurrentUser(response);
-          DefaultService.dataSourcesQueryDataSourcesGet(token).then(
+          DefaultService.dataSourcesQueryDataSourcesGet(userToken).then(
             (response) => {
               setDataSources(response);
             }
@@ -53,6 +55,7 @@ export const DataSources: React.FC = () => {
   useEffect(() => {
     if (selectedDataSource) {
       DefaultService.tableResultsQueryTableResultsGet(
+        token,
         selectedDataSource.db_schema,
         selectedDataSource.name,
         `${selectedDataSource.channel}_date`,
