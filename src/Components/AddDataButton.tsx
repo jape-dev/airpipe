@@ -49,9 +49,6 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
             <XMarkIcon className="h-4 w-4" />
           </button>
           <h2 className="font-bold text-lg">Enter a table name</h2>
-          <h3 className="text-lg text-gray-500 font-medium">
-            This is how the view will be named in AirPipe
-          </h3>
           <input
             type="text"
             onChange={handleNameChange}

@@ -19,6 +19,8 @@ import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { WelcomeModal } from "../Components/Welcome";
 import { getChannelTypeEnum } from "../Utils/StaticData";
+import { CustomModal } from "../Components/CustomModal";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 export const Ask: React.FC = () => {
   const [token, setToken] = useState<string>("");
@@ -32,6 +34,8 @@ export const Ask: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [isMobile, setIsMobile] = useState(false);
   const [welcome, setWelcome] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [privacyChecked, setPrivacyChecked] = useState(false);
 
   let navigate = useNavigate();
 
@@ -141,6 +145,10 @@ export const Ask: React.FC = () => {
   }, [selectedDataSource]);
 
   const handleSelectOption = (selectedOption: DropDownOption) => {
+    const aiConsent = localStorage.getItem("aiConsent");
+    if (!aiConsent) {
+      setModal(true);
+    }
     if (selectedOption.id === "add_data") {
       window.location.href = RouterPath.CONNECT;
     } else {
@@ -170,6 +178,11 @@ export const Ask: React.FC = () => {
         setSelectedDataSource(dataSource);
       }
     }
+  };
+
+  const handleAiConsent = () => {
+    localStorage.setItem("aiConsent", "true");
+    setModal(false);
   };
 
   const routeChange = () => {
@@ -249,6 +262,86 @@ export const Ask: React.FC = () => {
           </div>
         </>
       )}
+      <CustomModal
+        parentshow={modal}
+        setParentShow={setModal}
+        style={{ minWidth: "400px", minHeight: "300px" }}
+      >
+        <>
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+              Privacy-First AI
+            </h1>
+            <div className="text-left">
+              <p className="text-sm font-light text-gray-500">
+                To power our AI Analysis features, AirPipe uses the OpenAI API.
+                Here's what we send to OpenAI:
+              </p>
+              <br></br>
+              <ul className="text-sm font-light text-gray-500">
+                <li className="mb-2">
+                  <strong>Column Names:</strong> In our use of the OpenAI API,
+                  we only send column names from your selected data source or
+                  view. This means that no actual channel data, personal
+                  information, or sensitive details are transmitted to OpenAI
+                  for processing.
+                </li>
+                <li className="mb-2">
+                  <strong>Anonymization of Data:</strong> Any column names sent
+                  to OpenAI are stripped of personal identifiers or sensitive
+                  information to ensure your privacy.
+                </li>
+                <li className="mb-2">
+                  <strong>Storage:</strong> OpenAI does not store these column
+                  names for any purpose other than the immediate processing
+                  required for the functionality you are using within AirPipe.
+                </li>
+              </ul>
+
+              <p className="text-sm font-light text-gray-500">
+                You can find more information about this in our{" "}
+                <a
+                  href="https://useairpipe.com/privacy"
+                  target="_blank"
+                  className="underline"
+                >
+                  Privacy Policy
+                </a>
+                .
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  <input
+                    id="privacy"
+                    aria-describedby="privacy"
+                    type="checkbox"
+                    className="w-4 h-4 border mt-0 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 align-middle" // Added align-middle here
+                    onChange={() => setPrivacyChecked(!privacyChecked)}
+                  />
+                </div>
+                <label
+                  htmlFor="privacy"
+                  className="ml-3 text-sm font-light text-gray-500 align-middle" // Added align-middle here
+                >
+                  I understand how AirPipe works with OpenAI
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="bg-teal-500 hover:bg-teal-600 mt-5 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center mx-auto disabled:opacity-50"
+              disabled={!privacyChecked}
+              onClick={() => handleAiConsent()}
+            >
+              Continue
+            </button>
+          </div>
+        </>
+      </CustomModal>
     </>
   );
 };
