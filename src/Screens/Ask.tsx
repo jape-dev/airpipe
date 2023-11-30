@@ -326,7 +326,8 @@ export const Ask: React.FC = () => {
                   htmlFor="privacy"
                   className="ml-3 text-sm font-light text-gray-500 align-middle" // Added align-middle here
                 >
-                  I understand how AirPipe works with OpenAI
+                  I consent to sharing my data with OpenAI for enhanced user
+                  experience and analytics.
                 </label>
               </div>
             </div>
