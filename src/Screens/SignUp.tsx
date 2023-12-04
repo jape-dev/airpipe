@@ -53,7 +53,7 @@ export const SignUp = () => {
             localStorage.setItem("token", response.access_token);
           })
           .then(() => {
-            navigate(RouterPath.WELCOME);
+            navigate(RouterPath.HOME);
           })
           .catch((error) => {
             console.log("Error");

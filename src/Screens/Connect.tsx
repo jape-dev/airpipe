@@ -13,7 +13,6 @@ import { XMarkIcon } from "@heroicons/react/20/solid";
 
 export const Connect: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
-  const [modal, setModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -44,24 +43,6 @@ export const Connect: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (currentUser?.onboarding_stage == OnboardingStage.CONNECT) {
-      if (
-        currentUser?.facebook_access_token == null &&
-        currentUser?.google_analytics_refresh_token == null &&
-        currentUser?.google_refresh_token == null
-      ) {
-        setModal(true);
-      } else {
-        currentUser.onboarding_stage = OnboardingStage.COMPLETE;
-        DefaultService.updateOnboardingStageUserUpdateOnboardingStagePost(
-          currentUser
-        );
-        setModal(false);
-      }
-    }
-  }, [currentUser]);
-
   return (
     <>
       <NavBar />
@@ -84,27 +65,6 @@ export const Connect: React.FC = () => {
           </div>
         </div>
       </div>
-      <CustomModal parentshow={modal} setParentShow={setModal}>
-        <>
-          <button
-            className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700 absolute top-0 right-0"
-            onClick={() => setModal(false)}
-          >
-            <XMarkIcon className="h-4 w-4" />
-          </button>
-          <p className="font-bold text-lg">Select a connector</p>
-          <p className="mb-4 mt-0text-sm leading-5 text-gray-500">
-            Connecting to your marketing channels is easy and secure. AirPipe
-            never sends your channel data to any third party or AI model.
-          </p>
-          <button
-            onClick={() => setModal(false)}
-            className="bg-teal-500 text-white rounded-md px-4 py-2 h-8 flex items-center justify-center mt-4 mx-auto"
-          >
-            <span className="text-sm">Get started</span>
-          </button>
-        </>
-      </CustomModal>
     </>
   );
 };

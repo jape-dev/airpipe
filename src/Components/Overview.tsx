@@ -41,10 +41,11 @@ export const Overview = () => {
         </div>
         <div className="bg-gray-100 rounded-lg px-4 py-5">
           <h3 className="text-md leading-6 font-medium text-gray-900">
-            2) Manage
+            2) Manage & Transform
           </h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">
-            Use views to blend together data sources or segment data.
+            Create views from your data sources. Blend together data sources and
+            segment data.
           </p>
           <button
             className="mt-4 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
