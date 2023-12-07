@@ -20,7 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { WelcomeModal } from "../Components/Welcome";
 import { getChannelTypeEnum } from "../Utils/StaticData";
 import { CustomModal } from "../Components/CustomModal";
-import { XMarkIcon } from "@heroicons/react/20/solid";
+
+import { TableDescriptionsService, ScannerRequest } from "../dataHeraldApi";
 
 export const Ask: React.FC = () => {
   const [token, setToken] = useState<string>("");
@@ -36,6 +37,7 @@ export const Ask: React.FC = () => {
   const [welcome, setWelcome] = useState(false);
   const [modal, setModal] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
+  const [connectionId, setConnectionId] = useState<string>("");
 
   let navigate = useNavigate();
 
@@ -64,14 +66,6 @@ export const Ask: React.FC = () => {
           DefaultService.dataSourcesQueryDataSourcesGet(token)
             .then((response) => {
               setDataSources(response);
-              if (user.onboarding_stage === OnboardingStage.CONNECT) {
-                const tutorialData = response.find(
-                  (dataSource) => dataSource.name === "tutorial_data"
-                );
-                if (tutorialData !== undefined) {
-                  setSelectedDataSource(tutorialData);
-                }
-              }
             })
             .catch((error) => {
               console.log(error);
@@ -93,13 +87,6 @@ export const Ask: React.FC = () => {
   useEffect(() => {
     // produce a list of DropDownOptions from the list of AdAccounts
     let options: DropDownOption[] = [];
-    if (currentUser?.onboarding_stage == OnboardingStage.CONNECT) {
-      options.push({
-        id: "add_data",
-        name: "Add your own data",
-        img: "plus-icon",
-      });
-    }
     dataSources.map((source) => {
       const option: DropDownOption = {
         id: source.id.toString(),
@@ -122,7 +109,6 @@ export const Ask: React.FC = () => {
   }, [dataSources, views, currentUser]);
 
   useEffect(() => {
-    console.log("table results called");
     if (selectedDataSource && token) {
       DefaultService.tableResultsQueryTableResultsGet(
         token,
@@ -189,6 +175,27 @@ export const Ask: React.FC = () => {
     navigate(RouterPath.CONNECT);
   };
 
+  useEffect(() => {
+    if (selectedDataSource !== undefined) {
+      DefaultService.connectDbQueryDataheraldConnectDbPost(
+          selectedDataSource?.db_schema,
+          false,
+          "airpipe_db",
+      ).then((connection_id: string) => {
+        setConnectionId(connection_id);
+        const requestBody: ScannerRequest = {
+          db_connection_id: connection_id,
+          table_names: [selectedDataSource.name]
+
+        }
+        TableDescriptionsService.scanDb(requestBody).catch(error => {
+          console.log(error);
+        })
+      }).catch(error => {
+        console.log(error);
+      })
+    }}, [selectedDataSource])
+
   return (
     <>
       {welcome === true ? (
@@ -233,12 +240,10 @@ export const Ask: React.FC = () => {
                   specific column names from the table to improve the accuracy
                   of your query.
                 </p>
-                {currentUser?.onboarding_stage !== OnboardingStage.CONNECT && (
                   <Dropdown
                     options={dropDownOptions}
                     onSelectOption={handleSelectOption}
                   ></Dropdown>
-                )}
                 {selectedDataSource && columns && results && (
                   <>
                     <div id="data-preview">
@@ -253,6 +258,7 @@ export const Ask: React.FC = () => {
                         dataSources={[selectedDataSource]}
                         currentUser={currentUser}
                         userToken={token}
+                        connectionId={connectionId}
                       />
                     </div>
                   </>

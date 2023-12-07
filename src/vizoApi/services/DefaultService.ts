@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -238,17 +239,20 @@ export class DefaultService {
     /**
      * Tables
      * @param email
+     * @param token
      * @returns LookerTable Successful Response
      * @throws ApiError
      */
     public static tablesConnectorLookerTablesGet(
         email: string,
+        token: string,
     ): CancelablePromise<Array<LookerTable>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/connector/looker/tables',
             query: {
                 'email': email,
+                'token': token,
             },
             errors: {
                 422: `Validation Error`,
@@ -260,12 +264,14 @@ export class DefaultService {
      * Table Schema
      * @param schema
      * @param name
+     * @param token
      * @returns LookerField Successful Response
      * @throws ApiError
      */
     public static tableSchemaConnectorLookerTableSchemaGet(
         schema: string,
         name: string,
+        token: string,
     ): CancelablePromise<Array<LookerField>> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -273,6 +279,7 @@ export class DefaultService {
             query: {
                 'schema': schema,
                 'name': name,
+                'token': token,
             },
             errors: {
                 422: `Validation Error`,
@@ -711,6 +718,33 @@ export class DefaultService {
             },
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Connect Db
+     * @param dbSchema
+     * @param useSsh
+     * @param alias
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static connectDbQueryDataheraldConnectDbPost(
+        dbSchema: string,
+        useSsh: boolean = false,
+        alias: string = 'airpipe_db',
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/dataherald/connect_db',
+            query: {
+                'db_schema': dbSchema,
+                'use_ssh': useSsh,
+                'alias': alias,
+            },
             errors: {
                 422: `Validation Error`,
             },

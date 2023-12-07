@@ -13,10 +13,13 @@ import {
 } from "../vizoApi";
 import { ChatMessage } from "./Message";
 
+import {QuestionsService, QuestionRequest, Response} from "../dataHeraldApi";
+
 export interface ChatInterfaceProps {
   dataSources: DataSourceInDB[];
   currentUser?: User;
   userToken: string;
+  connectionId?: string;
 }
 
 interface ChatMessage {
@@ -32,6 +35,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   dataSources,
   currentUser,
   userToken,
+  connectionId
 }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -205,58 +209,34 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           },
         ]);
         // No more ambiguities.
-        DefaultService.dinSqlQueryDinSqlPost(response, dataSources)
-          .then((sql: string) => {
-            if (messages[messages.length - 1].loading) {
-              messages.pop();
-            }
-            setMessages([
-              ...messages,
-              {
-                text: inputValue,
-                isUserMessage: true,
-              },
-            ]);
 
-            DefaultService.runQueryQueryRunQueryGet(userToken, sql)
-              .then((result: QueryResults) => {
-                setMessages([
-                  ...messages,
-                  {
-                    text: inputValue,
-                    isUserMessage: true,
-                  },
-                  {
-                    text: undefined,
-                    data: result.results,
-                    columns: result.columns,
-                    isUserMessage: false,
-                    tableName: dataSources[0].name,
-                  },
-                ]);
-                setResults(result.results);
-              })
-              .catch((err) => {
-                setMessages([
-                  ...messages,
-                  { text: inputValue, isUserMessage: true },
-                  {
-                    text: "I'm sorry, I wasn't able to figure out how to answer this. Please tweak your question and try again.",
-                    isUserMessage: false,
-                  },
-                ]);
-              });
-          })
-          .catch((err) =>
-            setMessages([
-              ...messages,
-              { text: inputValue, isUserMessage: true },
-              {
-                text: "I'm sorry, I don't understand. Please try again.",
-                isUserMessage: false,
-              },
-            ])
-          );
+        // Change this to use the new endpoint.
+        if (connectionId) {
+        const requestBody: QuestionRequest = {
+          db_connection_id: connectionId,
+          question: response
+        }
+        QuestionsService.answerQuestion(
+          true,
+          false,
+          requestBody
+        ).then((response: Response) => {
+          setMessages([
+            ...messages,
+            {
+              text: inputValue,
+              isUserMessage: true,
+            },
+            {
+              text: undefined,
+              data: response.sql_query_result?.rows,
+              columns: response.sql_query_result?.rows.flatMap(record => Object.keys(record)),
+              isUserMessage: false,
+              tableName: dataSources[0].name,
+            },
+          ]);
+        })
+        }
       }
     });
   };

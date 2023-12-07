@@ -14,6 +14,7 @@ import { CreateView } from "./Screens/CreateView";
 import { GoogleSheets } from "./Screens/GoogleSheets";
 import { Views } from "./Screens/Views";
 import { OpenAPI } from "./vizoApi";
+import { OpenAPI as dataHeraldOpenAPI } from "./dataHeraldApi"
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 
 export const RouterPath = {
@@ -35,6 +36,7 @@ export const RouterPath = {
 
 function App() {
   OpenAPI.BASE = process.env.REACT_APP_DOMAIN_URL || "https://api-airpipe.com";
+  dataHeraldOpenAPI.BASE = process.env.REACT_APP_DATA_HERALD_API ||  "https://dataherald.onrender.com";
 
   return (
     <Router>
