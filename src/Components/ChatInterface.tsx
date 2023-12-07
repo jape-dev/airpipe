@@ -46,6 +46,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [conversationId, setConversationId] = useState<number>(
     Math.floor(Math.random() * 1000000000000) + 1
   );
+  const [sql, setSql] = useState<string>();
+  const [confidenceScore, setConfidenceScore] = useState<number>()
 
   useEffect(() => {
     // if the last message contains data attribute or last message text starts with "I'm sorry"
@@ -88,7 +90,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         text:
           dataSources[0].name === "tutorial_data"
             ? "Use the input box or click on the starter question below:"
-            : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...",
+            : "Ask a question about your data.",
         isUserMessage: false,
       },
     ]);
@@ -119,7 +121,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         text:
           dataSources[0].name === "tutorial_data"
             ? "Use the input box or click on the starter question below:"
-            : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query...",
+            : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query",
         isUserMessage: false,
       },
     ]);
@@ -208,9 +210,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             loading: true,
           },
         ]);
-        // No more ambiguities.
-
-        // Change this to use the new endpoint.
         if (connectionId) {
         const requestBody: QuestionRequest = {
           db_connection_id: connectionId,
@@ -221,6 +220,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           false,
           requestBody
         ).then((response: Response) => {
+          setSql(response.sql_query)
+          setConfidenceScore(response.confidence_score)
           setMessages([
             ...messages,
             {
@@ -249,6 +250,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             index={index}
             clearMessages={clearMessages}
             {...message}
+            sql={sql}
+            confidenceScore={confidenceScore}
           />
         ))}
       </div>

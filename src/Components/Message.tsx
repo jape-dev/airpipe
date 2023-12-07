@@ -5,6 +5,7 @@ import { StickyHeadTable } from "./Table";
 import { CSVLink } from "react-csv";
 import { RouterPath } from "../App";
 import { useNavigate } from "react-router-dom";
+import { ChartSelector } from "./ChartSelector";
 
 export interface ChatMessageProps {
   index: number;
@@ -18,6 +19,8 @@ export interface ChatMessageProps {
   clearMessages?: () => void;
   clickable?: boolean;
   clickAction?: (text: string) => void;
+  sql?: string;
+  confidenceScore?: number;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({
@@ -83,12 +86,6 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
 
             {columns && data && data.length > 0 && (
               <>
-                {/* <ChartSelector
-                  chartOption={chartOption}
-                  setChartOption={setChartOption}
-                  isOpen={chartSelectOpen || false}
-                  setIsOpen={setChartSelectOpen}
-                /> */}
                 <StickyHeadTable columns={columns} results={data} />
                 {tableName !== "tutorial_data" ? (
                   <>
@@ -98,11 +95,21 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                     >
                       Ask a new question
                     </button>
-                    <button className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2">
+                    {/* <button className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2">
                       <CSVLink data={data} filename={`${tableName}.csv`}>
                         Export CSV
                       </CSVLink>
+                    </button> */}
+                                        <button className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2">
+                        Save as view
                     </button>
+                    <ChartSelector
+                      chartOption={chartOption}
+                      setChartOption={setChartOption}
+                      isOpen={chartSelectOpen || false}
+                      setIsOpen={setChartSelectOpen}
+                    />
+
                   </>
                 ) : (
                   <>

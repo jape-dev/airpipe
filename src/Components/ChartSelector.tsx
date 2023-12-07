@@ -33,9 +33,9 @@ export const ChartSelector: React.FC<ChartSelectorProps> = ({
   };
 
   return (
-    <div className="relative">
+    <>
       <button
-        className="bg-transparent hover:bg-teal-500 text-teal-500 hover:text-white py-1 px-2 rounded-lg mt-2 border border-teal-500 text-sm"
+        className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2"
         onClick={() => setIsOpen(!isOpen)}
       >
         {chartOption || "Select Chart Type"}
@@ -65,6 +65,6 @@ export const ChartSelector: React.FC<ChartSelectorProps> = ({
           </div>
         </ResponsiveContainer>
       )}
-    </div>
+    </>
   );
 };

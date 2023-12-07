@@ -80,6 +80,7 @@ export const Ask: React.FC = () => {
         })
         .catch((error) => {
           console.log(error);
+          window.location.href = RouterPath.LOGIN;
         });
     }
   }, []);
