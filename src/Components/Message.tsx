@@ -2,10 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Chart } from "./ChartComponent";
 import { LoadingMessage } from "./LoadingMessage";
 import { StickyHeadTable } from "./Table";
-import { CSVLink } from "react-csv";
 import { RouterPath } from "../App";
 import { useNavigate } from "react-router-dom";
 import { ChartSelector } from "./ChartSelector";
+import {
+  View,
+  ViewInDB,
+  DefaultService,
+  CurrentResults,
+  User,
+  DataSourceInDB,
+  FieldOption,
+} from "../vizoApi";
+
+import { CustomModal } from "./CustomModal";
+import { XMarkIcon } from "@heroicons/react/20/solid";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
+import {
+  InformationCircleIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/outline";
 
 export interface ChatMessageProps {
   index: number;
@@ -21,6 +37,9 @@ export interface ChatMessageProps {
   clickAction?: (text: string) => void;
   sql?: string;
   confidenceScore?: number;
+  currentUser?: User;
+  userToken?: string;
+  dataSource?: DataSourceInDB;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({
@@ -35,12 +54,88 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   clearMessages,
   clickable,
   clickAction,
+  sql,
+  confidenceScore,
+  currentUser,
+  userToken,
+  dataSource,
 }) => {
   const [chartOption, setChartOption] = useState<string>("");
   const [chartSelectOpen, setChartSelectOpen] = useState<boolean>(false);
+  const [showCode, setShowCode] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false);
+  const [viewName, setViewName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [fields, setFields] = useState<FieldOption[]>([]);
+
+  const handleViewNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setViewName(event.target.value);
+  };
+
+  useEffect(() => {
+    if (columns) {
+      DefaultService.fieldOptionsQueryFieldOptionsPost(columns)
+        .then((response) => {
+          setFields(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [columns]);
+
+  const saveView = () => {
+    let view: View = {
+      name: viewName,
+      fields: fields,
+      start_date: dataSource?.start_date ? dataSource?.start_date : "",
+      end_date: dataSource?.end_date ? dataSource?.end_date : "",
+    };
+    if (currentUser && userToken) {
+      DefaultService.saveViewQuerySaveViewPost(userToken, view)
+        .then((response: ViewInDB) => {
+          setModal(false);
+          setIsLoading(false);
+          let dataElse: CurrentResults = {
+            columns: columns ? columns : [],
+            results: data,
+            name: response.name,
+          };
+          DefaultService.saveTableQuerySaveTablePost(
+            userToken,
+            response.db_schema,
+            dataElse
+          ).then(() => {
+            navigate(RouterPath.VIEWS);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("Could not save view. Please try again");
+          setIsLoading(false);
+        });
+    }
+  };
+
   let navigate = useNavigate();
   const routeChange = () => {
     navigate(RouterPath.CONNECT);
+  };
+
+  const confidenceBackgroundColour = (confidenceScore: number | undefined) => {
+    if (!confidenceScore) {
+      return "bg-grey-200";
+    }
+    if (confidenceScore > 0.8) {
+      return "bg-green-400";
+    } else if (confidenceScore > 0.6) {
+      return "bg-green-200";
+    } else if (confidenceScore > 0.5) {
+      return "bg-yellow-200";
+    } else {
+      return "bg-red-200";
+    }
   };
 
   return (
@@ -62,11 +157,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             >
               {text ? (
                 <div
-                  className={`bg-teal-500 rounded-lg p-2 max-w-md ${
+                  className={`bg-teal-500  rounded-lg p-2 max-w-md ${
                     isUserMessage
-                      ? "bg-gray-500 text-white"
+                      ? "bg-transparent border-2 "
                       : clickable
-                      ? "bg-transparent border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white"
+                      ? "bg-transparent border hover:bg-teal-700 text-teal-500 hover:bg-teal-500 hover:text-white"
                       : "bg-teal-500 text-white"
                   }`}
                 >
@@ -89,27 +184,73 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                 <StickyHeadTable columns={columns} results={data} />
                 {tableName !== "tutorial_data" ? (
                   <>
-                    <button
-                      onClick={clearMessages}
-                      className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2"
-                    >
-                      Ask a new question
-                    </button>
-                    {/* <button className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2">
-                      <CSVLink data={data} filename={`${tableName}.csv`}>
-                        Export CSV
-                      </CSVLink>
-                    </button> */}
-                                        <button className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2">
-                        Save as view
-                    </button>
-                    <ChartSelector
-                      chartOption={chartOption}
-                      setChartOption={setChartOption}
-                      isOpen={chartSelectOpen || false}
-                      setIsOpen={setChartSelectOpen}
-                    />
+                    <div className="inline-flex items-center bg-transparent border border-gray-300 rounded-xl p-2 mt-3 mr-2 shadow-sm">
+                      <div className="flex items-center bg-gray-300 rounded-l-xl py-2 relative">
+                        <p className="pl-4 mr-2">Confidence</p>
+                        <div className="group">
+                          <InformationCircleIcon className="inline h-4 w-4 mr-2 mb-1" />
+                          <div className="absolute bottom-full w-60 mb-4 hidden group-hover:block bg-gray-50 text-black text-sm rounded-md shadow-lg p-4">
+                            <p className="mb-2">
+                              The confidence score is how likely the result is
+                              to be accurate.
+                            </p>
+                            <p>
+                              It is based on the question asked and the
+                              complexity of the generated query.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
+                      <div
+                        className={`flex items-center rounded-r-xl py-2 ${confidenceBackgroundColour(
+                          confidenceScore
+                        )}`}
+                      >
+                        <p className="text-white px-4">
+                          {confidenceScore ? confidenceScore * 100 : 0}%
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => setShowCode(!showCode)}
+                        className="inline-flex px-2 py-2 ml-2"
+                      >
+                        Show Code
+                        <ChevronDownIcon
+                          className={`inline w-4 h-4 ml-2 mt-1 transform ${
+                            showCode ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                    </div>
+
+                    <div className="inline-block bg-transparent border border-gray-300 rounded-xl p-2 mt-3 shadow-sm">
+                      <button
+                        onClick={clearMessages}
+                        className="bg-teal-500 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-xl mr-2"
+                      >
+                        Ask a new question
+                      </button>
+                      <button
+                        onClick={() => setModal(true)}
+                        className="bg-teal-500 hover:bg-teal-700  text-white font-medium py-2 px-4 rounded-xl mr-2"
+                      >
+                        Save as view
+                      </button>
+                      <ChartSelector
+                        chartOption={chartOption}
+                        setChartOption={setChartOption}
+                        isOpen={chartSelectOpen || false}
+                        setIsOpen={setChartSelectOpen}
+                      />
+                    </div>
+                    {showCode && sql && (
+                      <div className="inline-block bg-transparent border border-gray-300 rounded-xl p-2 mt-3 shadow-sm">
+                        <pre className="bg-gray-300 text-grey-500 p-2.5 rounded-xl overflow-auto whitespace-pre-wrap break-words">
+                          <code className="language-sql">{sql}</code>
+                        </pre>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>
@@ -135,6 +276,41 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
               </div>
             )}
           </div>
+          <CustomModal
+            parentshow={modal}
+            setParentShow={setModal}
+            style={{ minWidth: "400px", minHeight: "300px" }}
+          >
+            <>
+              <button
+                className="ml-2 p-1 rounded-md text-gray-500 hover:text-gray-700 absolute top-0 right-0"
+                onClick={() => setModal(false)}
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+              <h2 className="font-bold text-lg">Enter a view name</h2>
+              <input
+                type="text"
+                onChange={handleViewNameChange}
+                placeholder={"View name"}
+                className="block w-full bg-white border border-gray-400 shadow-sm h-10 mt-4 mb-2 py-2 px-4 rounded-md text-left focus:outline-none"
+              />
+              <button
+                onClick={saveView} // Call the new handleSubmit function
+                className="bg-teal-500 text-white rounded-md px-4 py-2 h-12 w-30 flex items-center justify-center mt-4 mx-auto"
+                disabled={isLoading} // Disable the button when loading
+              >
+                {isLoading ? ( // Render loading animation if isLoading is true
+                  <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
+                ) : (
+                  <>
+                    <PlusCircleIcon className="inline h-6 w-6 mr-2" />
+                    <span className="text-md">Create View</span>
+                  </>
+                )}
+              </button>
+            </>
+          </CustomModal>
         </div>
       )}
     </>

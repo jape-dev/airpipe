@@ -48,11 +48,11 @@ export const AddDataButton: React.FC<AddDataButtonProps> = ({
           >
             <XMarkIcon className="h-4 w-4" />
           </button>
-          <h2 className="font-bold text-lg">Enter a table name</h2>
+          <h2 className="font-bold text-lg">Enter a view name</h2>
           <input
             type="text"
             onChange={handleNameChange}
-            placeholder={"Table name"}
+            placeholder={"View name"}
             className="block w-full bg-white border border-gray-400 shadow-sm h-10 mt-4 mb-2 py-2 px-4 rounded-md text-left focus:outline-none"
           />
           <button

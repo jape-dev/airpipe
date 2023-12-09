@@ -3,17 +3,16 @@ import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
 import {
   DefaultService,
   DataSourceInDB,
-  QueryResults,
   AmbiguousColumns,
   BaseAmbiguities,
   Body_check_ambiguous_columns_query_check_ambiguous_columns_post,
   User,
-  Message,
-  Conversation,
+  View,
+  CurrentResults,
 } from "../vizoApi";
 import { ChatMessage } from "./Message";
 
-import {QuestionsService, QuestionRequest, Response} from "../dataHeraldApi";
+import { QuestionsService, QuestionRequest, Response } from "../dataHeraldApi";
 
 export interface ChatInterfaceProps {
   dataSources: DataSourceInDB[];
@@ -29,59 +28,25 @@ interface ChatMessage {
   columns?: string[];
   loading?: boolean;
   tableName?: any;
+  currentUser?: User;
+  userToken?: string;
+  dataSource?: DataSourceInDB;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   dataSources,
   currentUser,
   userToken,
-  connectionId
+  connectionId,
 }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [ambiguities, setAmbiguities] = useState<
     AmbiguousColumns | BaseAmbiguities | undefined
   >(undefined);
-  const [results, setResults] = useState<Object[]>([]);
-  const [conversationId, setConversationId] = useState<number>(
-    Math.floor(Math.random() * 1000000000000) + 1
-  );
   const [sql, setSql] = useState<string>();
-  const [confidenceScore, setConfidenceScore] = useState<number>()
-
-  useEffect(() => {
-    // if the last message contains data attribute or last message text starts with "I'm sorry"
-    // if (
-    //   messages.length > 0 &&
-    //   (messages[messages.length - 1].data !== undefined ||
-    //     messages[messages.length - 1].text?.startsWith("I'm sorry"))
-    // ) {
-    //   commitMessages();
-    // }
-
-    // Add the latest message to the db (regardless of what it is )
-    if (messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
-      let m: Message = {
-        text: lastMessage.text,
-        is_user_message: lastMessage.isUserMessage,
-        current_user: currentUser,
-        data: lastMessage.data,
-        columns: lastMessage.columns,
-        table_name: lastMessage.tableName,
-      };
-      const messagesDB: Message[] = [m];
-      let conversation: Conversation = {
-        messages: messagesDB,
-      };
-      DefaultService.saveQueryConversationSavePost(
-        conversation,
-        conversationId
-      ).catch((e) => {
-        console.log(e);
-      });
-    }
-  }, [messages]);
+  const [confidenceScore, setConfidenceScore] = useState<number>();
+  const [showInput, setShowInput] = useState<boolean>(true);
 
   useEffect(() => {
     setMessages((prevMessages) => [
@@ -114,8 +79,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     clearMessages();
   }, [dataSources]);
 
+  useEffect(() => {
+    if (sql !== undefined) {
+      setShowInput(false);
+    }
+  }, [sql]);
+
   const clearMessages = () => {
-    setResults([]);
+    setSql(undefined);
+    setConfidenceScore(undefined);
     setMessages([
       {
         text:
@@ -133,27 +105,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   const buttonClick = (buttonText: string) => {
     setInputValue(buttonText);
-  };
-
-  const commitMessages = () => {
-    const messagesDB: Message[] = [];
-    messages.map((message) => {
-      let m: Message = {
-        text: message.text,
-        is_user_message: message.isUserMessage,
-        current_user: currentUser,
-        data: message.data,
-        columns: message.columns,
-        table_name: message.tableName,
-      };
-      messagesDB.push(m);
-    });
-    let conversation: Conversation = {
-      messages: messagesDB,
-    };
-    DefaultService.saveQueryConversationSavePost(conversation).catch((e) => {
-      console.log(e);
-    });
   };
 
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -205,38 +156,58 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           ...messages,
           { text: inputValue, isUserMessage: true },
           {
-            text: "No ambiguities found. Working on the question. Can take 30 seconds...",
+            text: "No ambiguities found. Working on the question. Can take 45 seconds...",
             isUserMessage: false,
             loading: true,
           },
         ]);
         if (connectionId) {
-        const requestBody: QuestionRequest = {
-          db_connection_id: connectionId,
-          question: response
-        }
-        QuestionsService.answerQuestion(
-          true,
-          false,
-          requestBody
-        ).then((response: Response) => {
-          setSql(response.sql_query)
-          setConfidenceScore(response.confidence_score)
-          setMessages([
-            ...messages,
-            {
-              text: inputValue,
-              isUserMessage: true,
-            },
-            {
-              text: undefined,
-              data: response.sql_query_result?.rows,
-              columns: response.sql_query_result?.rows.flatMap(record => Object.keys(record)),
-              isUserMessage: false,
-              tableName: dataSources[0].name,
-            },
-          ]);
-        })
+          const requestBody: QuestionRequest = {
+            db_connection_id: connectionId,
+            question: response,
+          };
+          QuestionsService.answerQuestion(true, false, requestBody)
+            .then((response: Response) => {
+              setSql(response.sql_query);
+              setConfidenceScore(response.confidence_score);
+              setMessages([
+                ...messages,
+                {
+                  text: inputValue,
+                  isUserMessage: true,
+                },
+                {
+                  text: undefined,
+                  data: response.sql_query_result?.rows,
+                  columns: [
+                    ...new Set(
+                      response.sql_query_result?.rows.flatMap((record) =>
+                        Object.keys(record)
+                      )
+                    ),
+                  ],
+                  isUserMessage: false,
+                  tableName: dataSources[0].name,
+                  currentUser: currentUser,
+                  userToken: userToken,
+                  dataSource: dataSources[0],
+                },
+              ]);
+            })
+            .catch((error: Error) => {
+              setShowInput(true);
+              setMessages([
+                ...messages,
+                {
+                  text: inputValue,
+                  isUserMessage: true,
+                },
+                {
+                  text: "Sorry, I was unable to answer this question. Please tweak your question and try again. Using specific column names from your selected table can help me improve the accuracy of my query.",
+                  isUserMessage: false,
+                },
+              ]);
+            });
         }
       }
     });
@@ -255,7 +226,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           />
         ))}
       </div>
-      {results.length === 0 && (
+      {showInput && (
         <form className="flex mt-4 " onSubmit={handleInputSubmit}>
           <div className="flex-1 relative flex items-center">
             <input

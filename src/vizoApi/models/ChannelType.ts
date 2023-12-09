@@ -11,4 +11,5 @@ export enum ChannelType {
     FACEBOOK = 'facebook',
     GOOGLE_ANALYTICS = 'google_analytics',
     SHEETS = 'sheets',
+    AIRPIPE = 'airpipe',
 }
