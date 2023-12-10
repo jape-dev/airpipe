@@ -138,6 +138,10 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     }
   };
 
+  const copyToClickBoard = () => {
+    navigator.clipboard.writeText(sql ? sql : "");
+  };
+
   return (
     <>
       {loading ? (
@@ -184,7 +188,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                 <StickyHeadTable columns={columns} results={data} />
                 {tableName !== "tutorial_data" ? (
                   <>
-                    <div className="inline-flex items-center bg-transparent border border-gray-300 rounded-xl p-2 mt-3 mr-2 shadow-sm">
+                    <div className="inline-flex items-center bg-transparent border border-gray-200 rounded-xl p-2 mt-3 mr-2 shadow-sm">
                       <div className="flex items-center bg-gray-300 rounded-l-xl py-2 relative">
                         <p className="pl-4 mr-2">Confidence</p>
                         <div className="group">
@@ -245,10 +249,27 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                       />
                     </div>
                     {showCode && sql && (
-                      <div className="inline-block bg-transparent border border-gray-300 rounded-xl p-2 mt-3 shadow-sm">
-                        <pre className="bg-gray-300 text-grey-500 p-2.5 rounded-xl overflow-auto whitespace-pre-wrap break-words">
-                          <code className="language-sql">{sql}</code>
-                        </pre>
+                      <div className="inline-block mt-3 shadow-sm">
+                        <div className="bg-gray-900 text-white p-4 rounded-md">
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-gray-400">SQL:</span>
+                            <button
+                              onClick={copyToClickBoard}
+                              className="code bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1 rounded-md"
+                              data-clipboard-target="#code"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                          <div className="overflow-x-auto">
+                            <pre
+                              id="code"
+                              className="text-gray-300 overflow-auto whitespace-pre-wrap break-words"
+                            >
+                              <code>{sql}</code>
+                            </pre>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </>

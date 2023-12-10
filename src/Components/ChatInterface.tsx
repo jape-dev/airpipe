@@ -93,7 +93,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         text:
           dataSources[0].name === "tutorial_data"
             ? "Use the input box or click on the starter question below:"
-            : "Ask a question about your data. Try to use specific column names from the table to improve the accuracy of your query",
+            : "Ask a question about your data.",
         isUserMessage: false,
       },
     ]);
@@ -114,103 +114,161 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
     setInputValue("");
     setMessages([...messages, { text: inputValue, isUserMessage: true }]);
-    sleep(1000).then(() => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          text: "Checking for ambiguities...",
-          isUserMessage: false,
-          loading: true,
-        },
-      ]);
-    });
-
-    let ambiguitiesBody: Body_check_ambiguous_columns_query_check_ambiguous_columns_post =
+    setMessages([
+      ...messages,
+      { text: inputValue, isUserMessage: true },
       {
-        data_sources: dataSources,
-        ambiguities: ambiguities,
+        text: "Working. Estimated time: 45 seconds.",
+        isUserMessage: false,
+        loading: true,
+      },
+    ]);
+    if (connectionId) {
+      const requestBody: QuestionRequest = {
+        db_connection_id: connectionId,
+        question: inputValue,
       };
+      QuestionsService.answerQuestion(true, false, requestBody)
+        .then((response: Response) => {
+          setSql(response.sql_query);
+          setConfidenceScore(response.confidence_score);
+          setMessages([
+            ...messages,
+            {
+              text: inputValue,
+              isUserMessage: true,
+            },
+            {
+              text: undefined,
+              data: response.sql_query_result?.rows,
+              columns: [
+                ...new Set(
+                  response.sql_query_result?.rows.flatMap((record) =>
+                    Object.keys(record)
+                  )
+                ),
+              ],
+              isUserMessage: false,
+              tableName: dataSources[0].name,
+              currentUser: currentUser,
+              userToken: userToken,
+              dataSource: dataSources[0],
+            },
+          ]);
+        })
+        .catch((error: Error) => {
+          setShowInput(true);
+          setMessages([
+            ...messages,
+            {
+              text: inputValue,
+              isUserMessage: true,
+            },
+            {
+              text: "Sorry, I was unable to answer this question. Please tweak your question and try again. Using specific column names from your selected table can help me improve the accuracy of my query.",
+              isUserMessage: false,
+            },
+          ]);
+        });
+    }
 
-    DefaultService.checkAmbiguousColumnsQueryCheckAmbiguousColumnsPost(
-      inputValue,
-      ambiguitiesBody
-    ).then((response: AmbiguousColumns | BaseAmbiguities | string) => {
-      if (typeof response === "object" && response !== null) {
-        setAmbiguities(response);
-        setMessages([
-          ...messages,
-          {
-            text: inputValue,
-            isUserMessage: true,
-          },
-        ]);
-        setMessages([
-          ...messages,
-          {
-            text: response.statement,
-            isUserMessage: false,
-          },
-        ]);
-      } else {
-        setMessages([
-          ...messages,
-          { text: inputValue, isUserMessage: true },
-          {
-            text: "No ambiguities found. Working on the question. Can take 45 seconds...",
-            isUserMessage: false,
-            loading: true,
-          },
-        ]);
-        if (connectionId) {
-          const requestBody: QuestionRequest = {
-            db_connection_id: connectionId,
-            question: response,
-          };
-          QuestionsService.answerQuestion(true, false, requestBody)
-            .then((response: Response) => {
-              setSql(response.sql_query);
-              setConfidenceScore(response.confidence_score);
-              setMessages([
-                ...messages,
-                {
-                  text: inputValue,
-                  isUserMessage: true,
-                },
-                {
-                  text: undefined,
-                  data: response.sql_query_result?.rows,
-                  columns: [
-                    ...new Set(
-                      response.sql_query_result?.rows.flatMap((record) =>
-                        Object.keys(record)
-                      )
-                    ),
-                  ],
-                  isUserMessage: false,
-                  tableName: dataSources[0].name,
-                  currentUser: currentUser,
-                  userToken: userToken,
-                  dataSource: dataSources[0],
-                },
-              ]);
-            })
-            .catch((error: Error) => {
-              setShowInput(true);
-              setMessages([
-                ...messages,
-                {
-                  text: inputValue,
-                  isUserMessage: true,
-                },
-                {
-                  text: "Sorry, I was unable to answer this question. Please tweak your question and try again. Using specific column names from your selected table can help me improve the accuracy of my query.",
-                  isUserMessage: false,
-                },
-              ]);
-            });
-        }
-      }
-    });
+    // sleep(1000).then(() => {
+    //   setMessages((prevMessages) => [
+    //     ...prevMessages,
+    //     {
+    //       text: "Checking for ambiguities...",
+    //       isUserMessage: false,
+    //       loading: true,
+    //     },
+    //   ]);
+    // });
+
+    // let ambiguitiesBody: Body_check_ambiguous_columns_query_check_ambiguous_columns_post =
+    //   {
+    //     data_sources: dataSources,
+    //     ambiguities: ambiguities,
+    //   };
+
+    // DefaultService.checkAmbiguousColumnsQueryCheckAmbiguousColumnsPost(
+    //   inputValue,
+    //   ambiguitiesBody
+    // ).then((response: AmbiguousColumns | BaseAmbiguities | string) => {
+    //   if (typeof response === "object" && response !== null) {
+    //     setAmbiguities(response);
+    //     setMessages([
+    //       ...messages,
+    //       {
+    //         text: inputValue,
+    //         isUserMessage: true,
+    //       },
+    //     ]);
+    //     setMessages([
+    //       ...messages,
+    //       {
+    //         text: response.statement,
+    //         isUserMessage: false,
+    //       },
+    //     ]);
+    //   } else {
+    // setMessages([
+    //   ...messages,
+    //   { text: inputValue, isUserMessage: true },
+    //   {
+    //     text: "No ambiguities found. Working on the question. Can take 45 seconds...",
+    //     isUserMessage: false,
+    //     loading: true,
+    //   },
+    // ]);
+    //     if (connectionId) {
+    //       const requestBody: QuestionRequest = {
+    //         db_connection_id: connectionId,
+    //         question: response,
+    //       };
+    //       QuestionsService.answerQuestion(true, false, requestBody)
+    //         .then((response: Response) => {
+    //           setSql(response.sql_query);
+    //           setConfidenceScore(response.confidence_score);
+    //           setMessages([
+    //             ...messages,
+    //             {
+    //               text: inputValue,
+    //               isUserMessage: true,
+    //             },
+    //             {
+    //               text: undefined,
+    //               data: response.sql_query_result?.rows,
+    //               columns: [
+    //                 ...new Set(
+    //                   response.sql_query_result?.rows.flatMap((record) =>
+    //                     Object.keys(record)
+    //                   )
+    //                 ),
+    //               ],
+    //               isUserMessage: false,
+    //               tableName: dataSources[0].name,
+    //               currentUser: currentUser,
+    //               userToken: userToken,
+    //               dataSource: dataSources[0],
+    //             },
+    //           ]);
+    //         })
+    //         .catch((error: Error) => {
+    //           setShowInput(true);
+    //           setMessages([
+    //             ...messages,
+    //             {
+    //               text: inputValue,
+    //               isUserMessage: true,
+    //             },
+    //             {
+    //               text: "Sorry, I was unable to answer this question. Please tweak your question and try again. Using specific column names from your selected table can help me improve the accuracy of my query.",
+    //               isUserMessage: false,
+    //             },
+    //           ]);
+    //         });
+    //     }
+    //   }
+    // });
   };
 
   return (

@@ -1,15 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RouterPath } from "../App";
+import { DefaultService, User } from "../vizoApi";
+import { GoogleConnectorV2 } from "../Components/GoogleConnectorV2";
+import { GoogleAnalyticsConnector } from "../Components/GoogleAnalyticsConnector";
+import { FacebookConnectorV2 } from "../Components/FacebookConnectorV2";
 
 export const Overview = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
   const navigate = useNavigate();
 
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
+  const [step, setStep] = useState(0);
+  const [currentUser, setCurrentUser] = useState<User>();
+
+  const gifs = [
+    require("../Static/images/connect.gif"),
+    require("../Static/images/manage.gif"),
+    require("../Static/images/ask.gif"),
+  ];
+
+  const handleMouseEnter = (step: number) => {
+    setStep(step);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      window.location.href = RouterPath.LOGIN;
+    } else {
+      DefaultService.currentUserUserAuthCurrentUserGet(token)
+        .then((response) => {
+          setCurrentUser(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
 
   return (
     <div className="bg-white shadow overflow-hidden rounded-lg">
@@ -23,7 +49,12 @@ export const Overview = () => {
         </p>
       </div>
       <div className="grid grid-cols-3 gap-4 py-5 px-4 sm:px-6">
-        <div className="bg-gray-100 rounded-lg px-4 py-5">
+        <div
+          className={`bg-gray-100 rounded-lg px-4 py-5 ${
+            step === 0 && "border-2 border-teal-500 shadow-sm"
+          }`}
+          onMouseEnter={() => handleMouseEnter(0)}
+        >
           <h3 className="text-md leading-6 font-medium text-gray-900">
             1) Connect
           </h3>
@@ -39,7 +70,12 @@ export const Overview = () => {
             Connect
           </button>
         </div>
-        <div className="bg-gray-100 rounded-lg px-4 py-5">
+        <div
+          className={`bg-gray-100 rounded-lg px-4 py-5 ${
+            step === 1 && "border-2 border-teal-500"
+          }`}
+          onMouseEnter={() => handleMouseEnter(1)}
+        >
           <h3 className="text-md leading-6 font-medium text-gray-900">
             2) Manage & Transform
           </h3>
@@ -54,7 +90,12 @@ export const Overview = () => {
             Manage
           </button>
         </div>
-        <div className="bg-gray-100 rounded-lg px-4 py-5">
+        <div
+          className={`bg-gray-100 rounded-lg px-4 py-5 ${
+            step === 2 && "border-2 border-teal-500"
+          }`}
+          onMouseEnter={() => handleMouseEnter(2)}
+        >
           <h3 className="text-md leading-6 font-medium text-gray-900">
             3) Share & Analyse
           </h3>
@@ -70,54 +111,26 @@ export const Overview = () => {
           </button>
         </div>
       </div>
-      {/* <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
-        <div
-          className="flex items-center cursor-pointer"
-          onClick={toggleCollapse}
-        >
-          <h3 className="text-lg leading-6 mb-2 font-medium text-gray-900">
-            Tutorial
-          </h3>
-          <svg
-            className={`h-4 w-4 transform transition-transform ${
-              isCollapsed ? "" : "rotate-180"
-            } text-gray-500`}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
+      <div className="grid grid-cols-3 gap-4 py-5 px-4 sm:px-6">
+        <div className="col-span-2 col-mt-5 bg-gray-100 rounded-lg border-2 border-gray-200 h-[500px]">
+          {" "}
+          <img
+            src={gifs[step]}
+            alt="Step Illustration"
+            className="w-full h-fullin rounded-lg"
+          />
         </div>
-        {!isCollapsed && (
-          <div className="aspect-w-12 aspect-h-6">
-            <div
-              style={{
-                position: "relative",
-                paddingBottom: "64.98194945848375%",
-                height: 0,
-              }}
-            >
-              <iframe
-                src="https://www.loom.com/embed/8f41ac2f51c14a1cb67dc6878db27a1f"
-                allowFullScreen
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              ></iframe>
-            </div>
-          </div>
-        )}
-      </div> */}
+        <div className="col-span-1 col-mt-5 bg-gray-100 rounded-lg border-2 border-gray-200 p-5">
+          <h1 className="text-2xl font-bold mb-5">Connectors</h1>
+          <p className="mb-12 mt-0text-sm leading-5 text-gray-500">
+            Get started by securely authenticating and connecting to your
+            marketing channels.
+          </p>
+          <GoogleConnectorV2 currentUser={currentUser} />
+          <FacebookConnectorV2 currentUser={currentUser} />
+          <GoogleAnalyticsConnector currentUser={currentUser} />
+        </div>
+      </div>
     </div>
   );
 };

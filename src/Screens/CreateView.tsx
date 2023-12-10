@@ -270,13 +270,6 @@ export const CreateView: React.FC = () => {
   useEffect(() => {
     // produce a list of DropDownOptions from the list of AdAccounts
     let options: DropDownOption[] = [];
-    if (currentUser?.onboarding_stage == OnboardingStage.CONNECT) {
-      options.push({
-        id: "add_data",
-        name: "Add your own data",
-        img: "plus-icon",
-      });
-    }
     dataSources.map((source) => {
       const option: DropDownOption = {
         id: source.id.toString(),
