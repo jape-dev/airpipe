@@ -6,10 +6,8 @@ import { GoogleAnalyticsConnector } from "../Components/GoogleAnalyticsConnector
 import { FacebookConnectorV2 } from "../Components/FacebookConnectorV2";
 
 import { DefaultService } from "../vizoApi";
-import { User, OnboardingStage } from "../vizoApi";
+import { User } from "../vizoApi";
 import { RouterPath } from "../App";
-import { CustomModal } from "../Components/CustomModal";
-import { XMarkIcon } from "@heroicons/react/20/solid";
 
 export const Connect: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();

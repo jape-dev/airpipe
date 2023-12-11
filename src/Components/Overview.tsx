@@ -100,8 +100,8 @@ export const Overview = () => {
             3) Share & Analyse
           </h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">
-            Share your data to Looker Studio or Google Sheets. Ask ad hoc
-            questions using AirPipe's AI.
+            Share your data to Looker Studio or Google Sheets. Get answers to ad
+            hoc questions using AirPipe's AI.
           </p>
           <button
             className="mt-4 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
