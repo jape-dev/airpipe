@@ -21,7 +21,12 @@ import { WelcomeModal } from "../Components/Welcome";
 import { getChannelTypeEnum } from "../Utils/StaticData";
 import { CustomModal } from "../Components/CustomModal";
 
-import { TableDescriptionsService, ScannerRequest } from "../dataHeraldApi";
+import {
+  TableDescriptionsService,
+  ScannerRequest,
+  InstructionsService,
+  InstructionRequest,
+} from "../dataHeraldApi";
 
 export const Ask: React.FC = () => {
   const [token, setToken] = useState<string>("");
@@ -179,23 +184,38 @@ export const Ask: React.FC = () => {
   useEffect(() => {
     if (selectedDataSource !== undefined) {
       DefaultService.connectDbQueryDataheraldConnectDbPost(
-          selectedDataSource?.db_schema,
-          false,
-          "airpipe_db",
-      ).then((connection_id: string) => {
-        setConnectionId(connection_id);
-        const requestBody: ScannerRequest = {
-          db_connection_id: connection_id,
-          table_names: [selectedDataSource.name]
-
-        }
-        TableDescriptionsService.scanDb(requestBody).catch(error => {
-          console.log(error);
+        selectedDataSource?.db_schema,
+        false,
+        "airpipe_db"
+      )
+        .then((connection_id: string) => {
+          setConnectionId(connection_id);
+          const requestBody: ScannerRequest = {
+            db_connection_id: connection_id,
+            table_names: [selectedDataSource.name],
+          };
+          TableDescriptionsService.scanDb(requestBody)
+            .catch((error) => {
+              console.log(error);
+            })
+            .then(() => {
+              const instructionRequestBody: InstructionRequest = {
+                db_connection_id: connection_id,
+                instruction:
+                  "Unless specified, give calculations to two decimal places.",
+              };
+              InstructionsService.addInstruction(instructionRequestBody).catch(
+                (error) => {
+                  console.log(error);
+                }
+              );
+            });
         })
-      }).catch(error => {
-        console.log(error);
-      })
-    }}, [selectedDataSource])
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [selectedDataSource]);
 
   return (
     <>
@@ -241,10 +261,10 @@ export const Ask: React.FC = () => {
                   specific column names from the table to improve the accuracy
                   of your query.
                 </p>
-                  <Dropdown
-                    options={dropDownOptions}
-                    onSelectOption={handleSelectOption}
-                  ></Dropdown>
+                <Dropdown
+                  options={dropDownOptions}
+                  onSelectOption={handleSelectOption}
+                ></Dropdown>
                 {selectedDataSource && columns && results && (
                   <>
                     <div id="data-preview">
