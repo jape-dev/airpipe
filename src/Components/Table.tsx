@@ -47,27 +47,14 @@ export const StickyHeadTable: React.FC<StickyHeadTableProps> = ({
   };
 
   useEffect(() => {
-    console.log("useEffect called using", {columns})
     DefaultService.fieldOptionsQueryFieldOptionsPost(columns)
       .then((response) => {
-        console.log("response", response)
         setFields(response);
       })
       .catch((error) => {
-        console.log("it didn't run because of sum error")
         console.log(error);
       });
   }, [columns]);
-
-  useEffect(() => {
-    console.log("columns", columns);
-  }, [columns])
-
-
-  useEffect(() => {
-    console.log("fields", fields);
-  }, [fields])
-
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
