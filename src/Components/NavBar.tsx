@@ -5,20 +5,6 @@ import { SideBarBurger } from "./SideBarV2";
 
 export const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const getLogoUrl = (logo: string) => {
     return require(`../Static/images/${logo}.svg`);
@@ -37,18 +23,6 @@ export const NavBar = () => {
               />
             </Link>
           </div>
-          {isMobile && (
-            <div className="lg:flex flex-grow items-center flex">
-              <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-                <li className="nav-item">
-                  <SideBarBurger
-                    menuOpen={burgerOpen}
-                    setMenuOpen={() => setBurgerOpen(!burgerOpen)}
-                  />
-                </li>
-              </ul>
-            </div>
-          )}
         </div>
       </nav>
     </>

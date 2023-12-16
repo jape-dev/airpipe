@@ -6,21 +6,7 @@ import { User, DefaultService } from "../vizoApi";
 import { RouterPath } from "../App";
 
 export const Home = () => {
-  const [isMobile, setIsMobile] = useState(false);
   const [currentUser, setCurrentUser] = useState<User>();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,12 +27,10 @@ export const Home = () => {
     <>
       <NavBar />
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
-        {!isMobile && (
-          <div className="col-span-1">
-            <SideBar currentUser={currentUser} />
-          </div>
-        )}
-        <div className={isMobile ? "col-span-7" : "col-span-6"}>
+        <div className="col-span-1">
+          <SideBar currentUser={currentUser} />
+        </div>
+        <div className="col-span-6">
           <Overview />
         </div>
       </div>

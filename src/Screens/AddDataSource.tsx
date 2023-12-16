@@ -40,7 +40,6 @@ export const AddDataSource: React.FC = () => {
     new Date(new Date().getFullYear(), 0, 1)
   );
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [isMobile, setIsMobile] = useState(false);
   const [channel, setChannel] = useState<ChannelType>();
   const [isFieldListVisible, setIsFieldListVisible] = useState(false);
   const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
@@ -149,19 +148,6 @@ export const AddDataSource: React.FC = () => {
       });
     }
   }, [adAccounts, fieldType]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     if (channel === ChannelType.GOOGLE && currentUser?.google_refresh_token) {
@@ -298,11 +284,9 @@ export const AddDataSource: React.FC = () => {
     <>
       <NavBar />
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
-        {!isMobile && (
-          <div className="col-span-1">
-            <SideBar currentUser={currentUser} />
-          </div>
-        )}
+        <div className="col-span-1">
+          <SideBar currentUser={currentUser} />
+        </div>
         <div className="col-span-6 justify-center">
           <div className="bg-gray-100 rounded-lg p-4 pb-10 mx-auto mt-10 my-4 max-w-4xl">
             <h1 className="text-2xl font-bold mb-2">Add Data Source</h1>

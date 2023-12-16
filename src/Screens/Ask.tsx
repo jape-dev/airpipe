@@ -38,26 +38,12 @@ export const Ask: React.FC = () => {
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
-  const [isMobile, setIsMobile] = useState(false);
   const [welcome, setWelcome] = useState(false);
   const [modal, setModal] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
   const [connectionId, setConnectionId] = useState<string>("");
 
   let navigate = useNavigate();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -226,17 +212,15 @@ export const Ask: React.FC = () => {
           {" "}
           <NavBar />
           <div className="h-screen grid grid-cols-7 gap-2 p-0">
-            {!isMobile && (
-              <div className="col-span-1">
-                <SideBar currentUser={currentUser} />
-              </div>
-            )}
+            <div className="col-span-1">
+              <SideBar currentUser={currentUser} />
+            </div>
             <div className="col-span-6 justify-center">
               <div
                 id="askContainer"
                 className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl relative"
               >
-                {selectedDataSource?.name == "tutorial_data" && !isMobile && (
+                {selectedDataSource?.name == "tutorial_data" && (
                   <>
                     <button
                       id="add-data-button"

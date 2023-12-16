@@ -1,6 +1,13 @@
 import "./App.css";
+import React, { useState, useEffect } from "react";
+import { withMobileWarning } from "./Utils/mobileWarning";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { Home } from "./Screens/Home";
 import { SignUp } from "./Screens/SignUp";
 import { Login } from "./Screens/Login";
@@ -14,7 +21,7 @@ import { CreateView } from "./Screens/CreateView";
 import { GoogleSheets } from "./Screens/GoogleSheets";
 import { Views } from "./Screens/Views";
 import { OpenAPI } from "./vizoApi";
-import { OpenAPI as dataHeraldOpenAPI } from "./dataHeraldApi"
+import { OpenAPI as dataHeraldOpenAPI } from "./dataHeraldApi";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 
 export const RouterPath = {
@@ -36,32 +43,88 @@ export const RouterPath = {
 
 function App() {
   OpenAPI.BASE = process.env.REACT_APP_DOMAIN_URL || "https://api-airpipe.com";
-  dataHeraldOpenAPI.BASE = process.env.REACT_APP_DATA_HERALD_API ||  "https://dataherald.onrender.com";
+  dataHeraldOpenAPI.BASE =
+    process.env.REACT_APP_DATA_HERALD_API || "https://dataherald.onrender.com";
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path={RouterPath.HOME}
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route path={RouterPath.LOGIN} element={<Login />} />
-        <Route path={RouterPath.SIGNUP} element={<SignUp />} />
-        <Route path={RouterPath.WELCOME} element={<Welcome />} />
-        <Route path={RouterPath.ADD_DATA} element={<AddData />} />
-        <Route path={RouterPath.ADD_DATA_SOURCE} element={<AddDataSource />} />
-        <Route path={RouterPath.CONNECT} element={<Connect />} />
-        <Route path={RouterPath.DATA_SOURCES} element={<DataSources />} />
-        <Route path={RouterPath.ASK} element={<Ask />} />
-        <Route path={RouterPath.GOOGLE_SHEETS} element={<GoogleSheets />} />
-        <Route path={RouterPath.CREATE_VIEW} element={<CreateView />} />
-        <Route path={RouterPath.VIEWS} element={<Views />} />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route
+            path={RouterPath.HOME}
+            element={withMobileWarning(
+              ProtectedRoute,
+              true
+            )({ children: <Home /> })}
+          />
+          <Route
+            path={RouterPath.LOGIN}
+            element={withMobileWarning(Login, false)({ children: <Login /> })}
+          />
+          <Route
+            path={RouterPath.SIGNUP}
+            element={withMobileWarning(SignUp, false)({ children: <SignUp /> })}
+          />
+          <Route
+            path={RouterPath.WELCOME}
+            element={withMobileWarning(
+              Welcome,
+              true
+            )({ children: <Welcome /> })}
+          />
+          <Route
+            path={RouterPath.ADD_DATA}
+            element={withMobileWarning(
+              AddData,
+              true
+            )({ children: <AddData /> })}
+          />
+          <Route
+            path={RouterPath.ADD_DATA_SOURCE}
+            element={withMobileWarning(
+              AddDataSource,
+              true
+            )({ children: <AddDataSource /> })}
+          />
+          <Route
+            path={RouterPath.CONNECT}
+            element={withMobileWarning(
+              Connect,
+              true
+            )({ children: <Connect /> })}
+          />
+          <Route
+            path={RouterPath.DATA_SOURCES}
+            element={withMobileWarning(
+              DataSources,
+              true
+            )({ children: <DataSources /> })}
+          />
+          <Route
+            path={RouterPath.ASK}
+            element={withMobileWarning(Ask, true)({ children: <Ask /> })}
+          />
+          <Route
+            path={RouterPath.GOOGLE_SHEETS}
+            element={withMobileWarning(
+              GoogleSheets,
+              true
+            )({ children: <GoogleSheets /> })}
+          />
+          <Route
+            path={RouterPath.CREATE_VIEW}
+            element={withMobileWarning(
+              CreateView,
+              true
+            )({ children: <CreateView /> })}
+          />
+          <Route
+            path={RouterPath.VIEWS}
+            element={withMobileWarning(Views, true)({ children: <Views /> })}
+          />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

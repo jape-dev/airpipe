@@ -40,7 +40,6 @@ export const CreateView: React.FC = () => {
   const [selectedDataSource, setSelectedDataSource] =
     useState<DataSourceInDB>();
   const [currentUser, setCurrentUser] = useState<User>();
-  const [isMobile, setIsMobile] = useState(false);
 
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
@@ -213,19 +212,6 @@ export const CreateView: React.FC = () => {
   }, [selectedDataSource]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token === null) {
       window.location.href = RouterPath.LOGIN;
@@ -293,11 +279,9 @@ export const CreateView: React.FC = () => {
     <>
       <NavBar />
       <div className="h-screen grid grid-cols-7 gap-2 p-0">
-        {!isMobile && (
-          <div className="col-span-1">
-            <SideBar currentUser={currentUser} />
-          </div>
-        )}
+        <div className="col-span-1">
+          <SideBar currentUser={currentUser} />
+        </div>
         <div className="col-span-6 justify-center">
           <div
             id="viewContainer"
