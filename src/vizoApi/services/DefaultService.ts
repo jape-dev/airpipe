@@ -373,30 +373,6 @@ export class DefaultService {
 
     /**
      * Field Options
-     * @param channel
-     * @param token
-     * @returns FieldOption Successful Response
-     * @throws ApiError
-     */
-    public static fieldOptionsQueryFieldOptionsGet(
-        channel: ChannelType,
-        token: string,
-    ): CancelablePromise<Array<FieldOption>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/query/field_options',
-            query: {
-                'channel': channel,
-                'token': token,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-
-    /**
-     * Field Options
      * @param requestBody
      * @returns FieldOption Successful Response
      * @throws ApiError
@@ -409,6 +385,30 @@ export class DefaultService {
             url: '/query/field_options',
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Channel Field Options
+     * @param channel
+     * @param token
+     * @returns FieldOption Successful Response
+     * @throws ApiError
+     */
+    public static channelFieldOptionsQueryChannelFieldOptionsGet(
+        channel: ChannelType,
+        token: string,
+    ): CancelablePromise<Array<FieldOption>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/channel_field_options',
+            query: {
+                'channel': channel,
+                'token': token,
+            },
             errors: {
                 422: `Validation Error`,
             },

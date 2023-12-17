@@ -192,7 +192,6 @@ export const AddData: React.FC = () => {
             <h1 className="text-2xl font-bold mb-2">Add Data Source</h1>
             <p className="mb-4 mt-0text-sm leading-5 text-gray-500">
               Select your ad accounts and choose the fields you want to import.
-              Choose multiple channels to join data by date.
             </p>
             {adAccounts.length === 0 ? (
               <p>Loading</p>

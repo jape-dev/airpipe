@@ -272,11 +272,12 @@ export const AddDataSource: React.FC = () => {
 
   useEffect(() => {
     if (channel) {
-      DefaultService.fieldOptionsQueryFieldOptionsGet(channel, token).then(
-        (response) => {
-          setSelectedOptions(response);
-        }
-      );
+      DefaultService.channelFieldOptionsQueryChannelFieldOptionsGet(
+        channel,
+        token
+      ).then((response) => {
+        setSelectedOptions(response);
+      });
     }
   }, [channel]);
 
@@ -292,7 +293,6 @@ export const AddDataSource: React.FC = () => {
             <h1 className="text-2xl font-bold mb-2">Add Data Source</h1>
             <p className="mb-4 mt-0text-sm leading-5 text-gray-500">
               Select your ad accounts and choose the fields you want to import.
-              Choose multiple channels to join data by date.
             </p>
             {channel && !connected && (
               <ChannelAuth
@@ -301,11 +301,15 @@ export const AddDataSource: React.FC = () => {
                 connected={connected}
               />
             )}
-            {connected && (
+            {connected && dropDownOptions ? (
               <Dropdown
                 options={dropDownOptions}
                 onSelectOption={handleSelectOption}
               />
+            ) : (
+              <div>
+                <p>Loading...</p>
+              </div>
             )}
             {selectedAdAccount && (
               <>
