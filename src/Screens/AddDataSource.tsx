@@ -301,15 +301,11 @@ export const AddDataSource: React.FC = () => {
                 connected={connected}
               />
             )}
-            {connected && dropDownOptions ? (
+            {connected && dropDownOptions && (
               <Dropdown
                 options={dropDownOptions}
                 onSelectOption={handleSelectOption}
               />
-            ) : (
-              <div>
-                <p>Loading...</p>
-              </div>
             )}
             {selectedAdAccount && (
               <>

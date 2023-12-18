@@ -19,6 +19,7 @@ import type { QueryResults } from '../models/QueryResults';
 import type { SpreadsheetResponse } from '../models/SpreadsheetResponse';
 import type { SpreadsheetWithRefreshToken } from '../models/SpreadsheetWithRefreshToken';
 import type { SuccessResponse } from '../models/SuccessResponse';
+import type { Table } from '../models/Table';
 import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
 import type { User } from '../models/User';
@@ -528,6 +529,27 @@ export class DefaultService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/query/views',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Tables
+     * @param token
+     * @returns Table Successful Response
+     * @throws ApiError
+     */
+    public static tablesQueryTablesGet(
+        token: string,
+    ): CancelablePromise<Array<Table>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/tables',
             query: {
                 'token': token,
             },

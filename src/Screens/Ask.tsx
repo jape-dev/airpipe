@@ -12,6 +12,7 @@ import {
   OnboardingStage,
   ViewInDB,
   ChannelType,
+  Table,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { DataPreview } from "../Components/DataPreview";
@@ -32,6 +33,7 @@ export const Ask: React.FC = () => {
   const [token, setToken] = useState<string>("");
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
   const [views, setViews] = useState<ViewInDB[]>([]);
+  const [tables, setTables] = useState<Table[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
   const [selectedDataSource, setSelectedDataSource] =
     useState<DataSourceInDB>();
@@ -54,16 +56,9 @@ export const Ask: React.FC = () => {
       DefaultService.currentUserUserAuthCurrentUserGet(token)
         .then((user: User) => {
           setCurrentUser(user);
-          DefaultService.dataSourcesQueryDataSourcesGet(token)
+          DefaultService.tablesQueryTablesGet(token)
             .then((response) => {
-              setDataSources(response);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          DefaultService.viewsQueryViewsGet(token)
-            .then((response) => {
-              setViews(response);
+              setTables(response);
             })
             .catch((error) => {
               console.log(error);
@@ -77,36 +72,31 @@ export const Ask: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // produce a list of DropDownOptions from the list of AdAccounts
+    // Initialize an empty array for DropDownOptions
     let options: DropDownOption[] = [];
-    dataSources.map((source) => {
+    // Process each table and add to options
+    tables.forEach((table) => {
       const option: DropDownOption = {
-        id: source.id.toString(),
-        name: source.name,
-        img: source.channel_img,
-        ad_account_id: source.ad_account_id,
-        channel: getChannelTypeEnum(source.channel),
+        id: table.id.toString(),
+        name: table.name,
+        img: table.channel_img ? table.channel_img : "airpipe-field-icon",
+        channel: table.channel ? getChannelTypeEnum(table.channel) : undefined,
+        ad_account_id: table.ad_account_id ? table.ad_account_id : undefined,
       };
       options.push(option);
-      setDropDownOptions(options);
     });
-    views.map((view) => {
-      const option: DropDownOption = {
-        id: view.id.toString(),
-        name: view.name,
-      };
-      options.push(option);
-      setDropDownOptions(options);
-    });
-  }, [dataSources, views, currentUser]);
+
+    setDropDownOptions(options);
+  }, [tables, currentUser]);
 
   useEffect(() => {
     if (selectedDataSource && token) {
+      console.log("selectedDataSource", selectedDataSource);
       DefaultService.tableResultsQueryTableResultsGet(
         token,
         selectedDataSource.db_schema,
         selectedDataSource.name,
-        selectedDataSource.channel_img !== "na"
+        selectedDataSource.channel_img !== "airpipe-field-icon"
           ? `${selectedDataSource.channel}_date`
           : undefined,
         selectedDataSource.start_date,
@@ -130,31 +120,55 @@ export const Ask: React.FC = () => {
     if (selectedOption.id === "add_data") {
       window.location.href = RouterPath.CONNECT;
     } else {
-      const dataSource = dataSources.find(
-        // Need to use an actual id field instead of ad_account_id
-        (dataSource) => dataSource.id.toString() === selectedOption.id
+      const table = tables.find(
+        (table) => table.id.toString() === selectedOption.id
       );
-      const view = views.find(
-        (view) => view.id.toString() === selectedOption.id
-      );
-      if (view) {
-        const viewAsDataSource: DataSourceInDB = {
-          id: view.id,
-          name: view.name,
-          user_id: view.user_id,
-          db_schema: view.db_schema,
-          fields: view.fields,
-          table_name: view.table_name,
-          channel: ChannelType.GOOGLE,
-          channel_img: "na",
-          ad_account_id: "na",
-          start_date: view.start_date,
-          end_date: view.end_date,
+      if (table) {
+        const tableAsDataSource: DataSourceInDB = {
+          id: table.id,
+          name: table.name,
+          user_id: table.user_id,
+          db_schema: table.db_schema,
+          fields: table.fields,
+          table_name: table.table_name,
+          channel: table.channel
+            ? getChannelTypeEnum(table.channel)
+            : "airpipe",
+          channel_img: table.channel_img
+            ? table.channel_img
+            : "airpipe-field-icon",
+          ad_account_id: table.ad_account_id ? table.ad_account_id : "na",
+          start_date: table.start_date,
+          end_date: table.end_date,
         };
-        setSelectedDataSource(viewAsDataSource);
-      } else {
-        setSelectedDataSource(dataSource);
+        setSelectedDataSource(tableAsDataSource);
       }
+
+      // const dataSource = dataSources.find(
+      //   // Need to use an actual id field instead of ad_account_id
+      //   (dataSource) => dataSource.id.toString() === selectedOption.id
+      // );
+      // const view = views.find(
+      //   (view) => view.id.toString() === selectedOption.id
+      // );
+      // if (view) {
+      //   const viewAsDataSource: DataSourceInDB = {
+      // id: view.id,
+      // name: view.name,
+      // user_id: view.user_id,
+      // db_schema: view.db_schema,
+      // fields: view.fields,
+      // table_name: view.table_name,
+      // channel: ChannelType.GOOGLE,
+      // channel_img: "na",
+      // ad_account_id: "na",
+      // start_date: view.start_date,
+      // end_date: view.end_date,
+      //   };
+      //   setSelectedDataSource(viewAsDataSource);
+      // } else {
+      //   setSelectedDataSource(dataSource);
+      // }
     }
   };
 

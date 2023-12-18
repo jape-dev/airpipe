@@ -8,6 +8,8 @@ export const getChannelTypeEnum = (channel: string) => {
     return ChannelType.FACEBOOK;
   } else if (channel === "google_analytics") {
     return ChannelType.GOOGLE_ANALYTICS;
+  } else {
+    return ChannelType.AIRPIPE;
   }
 };
 
@@ -18,5 +20,7 @@ export const getChannelNameFromEnum = (selectedOption: DropDownOption) => {
     return "Facebook Ads";
   } else if (selectedOption.channel === ChannelType.GOOGLE_ANALYTICS) {
     return "Google Analytics";
+  } else {
+    return "";
   }
 };

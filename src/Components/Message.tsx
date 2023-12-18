@@ -241,12 +241,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                       >
                         Save as view
                       </button>
-                      <ChartSelector
+                      {/* <ChartSelector
                         chartOption={chartOption}
                         setChartOption={setChartOption}
                         isOpen={chartSelectOpen || false}
                         setIsOpen={setChartSelectOpen}
-                      />
+                      /> */}
                     </div>
                     {showCode && sql && (
                       <div className="inline-block mt-3 shadow-sm">

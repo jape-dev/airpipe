@@ -88,6 +88,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const clearMessages = () => {
     setSql(undefined);
     setConfidenceScore(undefined);
+    setShowInput(true);
     setMessages([
       {
         text:

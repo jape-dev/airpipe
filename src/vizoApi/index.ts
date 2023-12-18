@@ -36,6 +36,7 @@ export type { SpreadsheetResponse } from './models/SpreadsheetResponse';
 export type { SpreadsheetWithRefreshToken } from './models/SpreadsheetWithRefreshToken';
 export type { SuccessResponse } from './models/SuccessResponse';
 export type { TabData } from './models/TabData';
+export type { Table } from './models/Table';
 export type { TableColumns } from './models/TableColumns';
 export type { Token } from './models/Token';
 export type { User } from './models/User';

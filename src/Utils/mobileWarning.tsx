@@ -28,8 +28,8 @@ export const withMobileWarning = <P extends object>(
       <>
         {shouldShowWarning && isMobile ? (
           <div className="mobile-warning">
-            Hi there, thanks for using AirPipe. Currently we only run on desktop
-            screens. Please use a desktop browser or largen your current
+            Hi there, thanks for using AirPipe. Currently AirPipe only run on
+            desktop screens. Please use a desktop browser or largen your current
             screensize.
           </div>
         ) : (
