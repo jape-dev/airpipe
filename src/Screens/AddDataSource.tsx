@@ -178,46 +178,49 @@ export const AddDataSource: React.FC = () => {
           setCurrentUser(response);
         }
       );
-      if (channel === ChannelType.GOOGLE) {
-        DefaultService.adAccountsConnectorGoogleAdAccountsGet(token)
-          .then((response: AdAccount[]) => {
-            setAdAccounts((prev) => [...prev, ...response]);
-          })
-          .catch((error: any) => {
-            if (error.status === 401) {
-              // alert("Google access token expired. Please connect again");
-              // window.location.href = RouterPath.CONNECT;
-            } else {
-              console.log(error);
-            }
-          });
-      } else if (channel === ChannelType.FACEBOOK) {
-        DefaultService.adAccountsConnectorFacebookAdAccountsGet(token)
-          .then((response: AdAccount[]) => {
-            setAdAccounts((prev) => [...prev, ...response]);
-          })
-          .catch((error) => {
-            if (error.status === 401) {
-              // alert("Facebook access token expired. Please connect again");
-            } else {
-              console.log(error);
-            }
-          });
-      } else if (channel === ChannelType.GOOGLE_ANALYTICS) {
-        DefaultService.adAccountsConnectorGoogleAnalyticsAdAccountsGet(token)
-          .then((response: AdAccount[]) => {
-            setAdAccounts((prev) => [...prev, ...response]);
-          })
-          .catch((error) => {
-            if (error.status === 401) {
-              // alert(
-              //   "Google Analytics access token expired. Please connect again"
-              // );
-            } else {
-              console.log(error);
-            }
-          });
-      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (channel === ChannelType.GOOGLE) {
+      DefaultService.adAccountsConnectorGoogleAdAccountsGet(token)
+        .then((response: AdAccount[]) => {
+          setAdAccounts((prev) => [...prev, ...response]);
+        })
+        .catch((error: any) => {
+          if (error.status === 401) {
+            // alert("Google access token expired. Please connect again");
+            // window.location.href = RouterPath.CONNECT;
+          } else {
+            console.log(error);
+          }
+        });
+    } else if (channel === ChannelType.FACEBOOK) {
+      DefaultService.adAccountsConnectorFacebookAdAccountsGet(token)
+        .then((response: AdAccount[]) => {
+          setAdAccounts((prev) => [...prev, ...response]);
+        })
+        .catch((error) => {
+          if (error.status === 401) {
+            // alert("Facebook access token expired. Please connect again");
+          } else {
+            console.log(error);
+          }
+        });
+    } else if (channel === ChannelType.GOOGLE_ANALYTICS) {
+      DefaultService.adAccountsConnectorGoogleAnalyticsAdAccountsGet(token)
+        .then((response: AdAccount[]) => {
+          setAdAccounts((prev) => [...prev, ...response]);
+        })
+        .catch((error) => {
+          if (error.status === 401) {
+            // alert(
+            //   "Google Analytics access token expired. Please connect again"
+            // );
+          } else {
+            console.log(error);
+          }
+        });
     }
   }, [channel]);
 
@@ -301,11 +304,15 @@ export const AddDataSource: React.FC = () => {
                 connected={connected}
               />
             )}
-            {connected && dropDownOptions && (
+            {connected &&
+            dropDownOptions.length > 0 &&
+            fieldOptions.length > 0 ? (
               <Dropdown
                 options={dropDownOptions}
                 onSelectOption={handleSelectOption}
               />
+            ) : (
+              <p>Connecting...</p>
             )}
             {selectedAdAccount && (
               <>
