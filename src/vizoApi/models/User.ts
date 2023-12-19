@@ -4,10 +4,12 @@
 /* eslint-disable */
 
 import type { OnboardingStage } from './OnboardingStage';
+import type { UserRoleType } from './UserRoleType';
 
 export type User = {
     email: string;
     onboarding_stage?: OnboardingStage;
+    role?: UserRoleType;
     facebook_access_token?: string;
     google_refresh_token?: string;
     google_analytics_refresh_token?: string;

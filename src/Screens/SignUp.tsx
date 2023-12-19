@@ -5,6 +5,7 @@ import {
   DefaultService,
   Body_login_for_access_token_user_auth_token_post,
   OnboardingStage,
+  UserRoleType,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import validator from "validator";
@@ -15,9 +16,14 @@ export const SignUp = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [privacyChecked, setPrivacyChecked] = useState<boolean>(false);
+  const [selectedRole, setSelectedRole] = useState<UserRoleType>();
 
   const getLogoUrl = (logoUrl: string) => {
     return require(`../Static/images/${logoUrl}.png`);
+  };
+
+  const handleSelectedRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedRole(event.target.value as UserRoleType);
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +40,7 @@ export const SignUp = () => {
       email: email,
       hashed_password: password,
       onboarding_stage: OnboardingStage.CONNECT,
+      role: selectedRole,
     };
 
     const isValid = validator.isEmail(email);
@@ -107,6 +114,27 @@ export const SignUp = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   onChange={handlePasswordChange}
                 />
+              </div>
+              {/* Drop down for user to select their UserRoleType */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Which of these best describes your current role?
+                </label>
+                <select
+                  id="userRole"
+                  name="userRole"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2"
+                  placeholder="Select your role"
+                  onChange={(e) => {
+                    handleSelectedRole(e);
+                  }}
+                >
+                  {Object.values(UserRoleType).map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
               </div>
               <p className="text-sm font-light text-gray-500">
                 By signing up, you agree to accept our{" "}

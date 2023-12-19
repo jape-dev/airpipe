@@ -41,6 +41,7 @@ export type { TableColumns } from './models/TableColumns';
 export type { Token } from './models/Token';
 export type { User } from './models/User';
 export type { UserInDB } from './models/UserInDB';
+export { UserRoleType } from './models/UserRoleType';
 export type { ValidationError } from './models/ValidationError';
 export type { View } from './models/View';
 export type { ViewInDB } from './models/ViewInDB';
