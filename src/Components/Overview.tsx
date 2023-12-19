@@ -5,12 +5,16 @@ import { DefaultService, User } from "../vizoApi";
 import { GoogleConnectorV2 } from "../Components/GoogleConnectorV2";
 import { GoogleAnalyticsConnector } from "../Components/GoogleAnalyticsConnector";
 import { FacebookConnectorV2 } from "../Components/FacebookConnectorV2";
+import { ChatInterfaceProps } from "./ChatInterface";
 
-export const Overview = () => {
+interface OverviewProps {
+  currentUser?: User;
+}
+
+export const Overview: React.FC<OverviewProps> = ({ currentUser }) => {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(0);
-  const [currentUser, setCurrentUser] = useState<User>();
 
   const gifs = [
     require("../Static/images/connect.gif"),
@@ -21,21 +25,6 @@ export const Overview = () => {
   const handleMouseEnter = (step: number) => {
     setStep(step);
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token === null) {
-      window.location.href = RouterPath.LOGIN;
-    } else {
-      DefaultService.currentUserUserAuthCurrentUserGet(token)
-        .then((response) => {
-          setCurrentUser(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, []);
 
   return (
     <div className="bg-white shadow overflow-hidden rounded-lg">

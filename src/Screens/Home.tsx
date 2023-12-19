@@ -31,7 +31,7 @@ export const Home = () => {
           <SideBar currentUser={currentUser} />
         </div>
         <div className="col-span-6">
-          <Overview />
+          <Overview currentUser={currentUser} />
         </div>
       </div>
     </>
