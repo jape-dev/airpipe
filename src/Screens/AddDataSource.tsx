@@ -311,8 +311,10 @@ export const AddDataSource: React.FC = () => {
                 options={dropDownOptions}
                 onSelectOption={handleSelectOption}
               />
-            ) : (
+            ) : connected ? (
               <p>Connecting...</p>
+            ) : (
+              <></>
             )}
             {selectedAdAccount && (
               <>
