@@ -44,6 +44,15 @@ export const AddDataSource: React.FC = () => {
   const [isFieldListVisible, setIsFieldListVisible] = useState(false);
   const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
   const [fieldType, setFieldType] = useState<FieldType>(FieldType.METRIC);
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => prevTimer + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (state?.channel) {
@@ -311,8 +320,21 @@ export const AddDataSource: React.FC = () => {
                 options={dropDownOptions}
                 onSelectOption={handleSelectOption}
               />
-            ) : connected ? (
+            ) : connected && timer < 4 ? (
               <p>Connecting...</p>
+            ) : connected && timer >= 4 ? (
+              <>
+                <p>
+                  If you see this, something went wrong. Please press the button
+                  below to refresh the page.
+                </p>
+                <button
+                  className="bg-teal-500 text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center mt-2 mx-auto"
+                  onClick={() => window.location.reload()}
+                >
+                  Refresh
+                </button>
+              </>
             ) : (
               <></>
             )}
