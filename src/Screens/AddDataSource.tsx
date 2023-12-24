@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { DropDownOption } from "../Components/MultiSelectDropDown";
 import { ChannelAuth } from "../Components/ChannelAuth";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
@@ -14,7 +13,7 @@ import {
 import { RouterPath } from "../App";
 import { useLocation } from "react-router-dom";
 import { FieldList } from "../Components/FieldList";
-import { Dropdown } from "../Components/DropDown";
+import { Dropdown, DropDownOption } from "../Components/DropDown";
 import { getChannelTypeEnum } from "../Utils/StaticData";
 import { v4 as uuidv4 } from "uuid";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
@@ -37,7 +36,7 @@ export const AddDataSource: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<FieldOption[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
   const [startDate, setStartDate] = useState<Date>(
-    new Date(new Date().getFullYear(), 0, 1)
+    new Date(new Date(2020, 9, 1))
   );
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [channel, setChannel] = useState<ChannelType>();
@@ -277,7 +276,7 @@ export const AddDataSource: React.FC = () => {
         .catch((error) => {
           setIsLoading(false);
           console.log(error);
-          alert("Could not add data to the database. Please try again");
+          alert("Could not add data source. Please try again");
         });
     }
   };
