@@ -6,12 +6,14 @@ interface BaseViewProps {
   view: ViewInDB;
   setSelectedView: React.Dispatch<React.SetStateAction<ViewInDB | undefined>>;
   selected: boolean;
+  hanldeChartClick: () => void;
 }
 
 export const BaseView: React.FC<BaseViewProps> = ({
   view,
   setSelectedView,
   selected,
+  hanldeChartClick,
 }) => {
   const [channelName, setChannelName] = useState<string>("");
 
@@ -62,6 +64,15 @@ export const BaseView: React.FC<BaseViewProps> = ({
         </h2>
       </div>
       <div className="flex items-center">
+        {selected && (
+          <button
+            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4"
+            onClick={hanldeChartClick}
+          >
+            Create chart
+          </button>
+        )}
+
         <button
           className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4"
           onClick={handleViewClick}

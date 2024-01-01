@@ -33,7 +33,7 @@ export const Overview: React.FC<OverviewProps> = ({ currentUser }) => {
           Welcome to AirPipe
         </h3>
         <p className="mt-1 max-w text-sm leading-5 text-gray-500">
-          AirPipe is currently in beta. Have any idea on how to improve it?
+          AirPipe is currently in beta. Have any ideas on how to improve it?
           Please get in touch: james@useairpipe.com
         </p>
       </div>

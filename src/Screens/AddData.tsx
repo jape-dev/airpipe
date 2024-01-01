@@ -12,7 +12,6 @@ import {
   User,
   AdAccount,
   FieldOption,
-  CurrentResults,
   ChannelType,
   DataSource,
 } from "../vizoApi";

@@ -19,6 +19,9 @@ export interface ChatInterfaceProps {
   currentUser?: User;
   userToken: string;
   connectionId?: string;
+  showInput: boolean;
+  setShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+  scanComplete?: boolean;
 }
 
 interface ChatMessage {
@@ -31,6 +34,7 @@ interface ChatMessage {
   currentUser?: User;
   userToken?: string;
   dataSource?: DataSourceInDB;
+  question?: string;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
@@ -38,46 +42,37 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   currentUser,
   userToken,
   connectionId,
+  showInput,
+  setShowInput,
+  scanComplete,
 }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [ambiguities, setAmbiguities] = useState<
-    AmbiguousColumns | BaseAmbiguities | undefined
-  >(undefined);
   const [sql, setSql] = useState<string>();
   const [confidenceScore, setConfidenceScore] = useState<number>();
-  const [showInput, setShowInput] = useState<boolean>(true);
 
   useEffect(() => {
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      {
-        text:
-          dataSources[0].name === "tutorial_data"
-            ? "Use the input box or click on the starter question below:"
-            : "Ask a question about your data.",
-        isUserMessage: false,
-      },
-    ]);
-
-    if (dataSources[0].name === "tutorial_data") {
-      sleep(1000).then(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            text: "Find all the dates and cost per conversion where the cost per conversion was higher for google than facebook",
-            isUserMessage: false,
-            clickable: true,
-            clickAction: buttonClick,
-          },
-        ]);
-      });
+    if (scanComplete) {
+      setMessages([
+        {
+          text: "Tuning complete. Ask a question about your data.",
+          isUserMessage: false,
+        },
+      ]);
+    } else {
+      setMessages([
+        {
+          text: "Safely tuning model to your data. Please wait...",
+          isUserMessage: false,
+          loading: true,
+        },
+      ]);
     }
-  }, []);
+  }, [scanComplete]);
 
-  useEffect(() => {
-    clearMessages();
-  }, [dataSources]);
+  // useEffect(() => {
+  //   clearMessages();
+  // }, [dataSources]);
 
   const clearMessages = () => {
     setSql(undefined);
@@ -94,19 +89,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     ]);
   };
 
-  const sleep = (ms: number) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
-
-  const buttonClick = (buttonText: string) => {
-    setInputValue(buttonText);
-  };
-
   const handleInputSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!inputValue) {
       return;
     }
+    setShowInput(false);
     setInputValue("");
     setMessages([...messages, { text: inputValue, isUserMessage: true }]);
     setMessages([
@@ -128,7 +116,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           setSql(response.sql_query);
           setConfidenceScore(response.confidence_score);
           if (response.sql_generation_status === "VALID") {
-            setShowInput(false);
             setMessages([
               ...messages,
               {
@@ -137,6 +124,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               },
               {
                 text: undefined,
+                question: inputValue,
                 data: response.sql_query_result?.rows,
                 columns: [
                   ...new Set(
@@ -152,7 +140,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 dataSource: dataSources[0],
               },
             ]);
+            setShowInput(false);
           } else {
+            console.log("response", response);
             setShowInput(true);
             setMessages([
               ...messages,
@@ -198,7 +188,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           />
         ))}
       </div>
-      {showInput && (
+      {showInput === true && (
         <form className="flex mt-4 " onSubmit={handleInputSubmit}>
           <div className="flex-1 relative flex items-center">
             <input

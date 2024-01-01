@@ -15,6 +15,8 @@ import { Welcome } from "./Screens/Welcome";
 import { AddData } from "./Screens/AddData";
 import { AddDataSource } from "./Screens/AddDataSource";
 import { Connect } from "./Screens/Connect";
+import { ChartPage } from "./Screens/ChartPage";
+import { CreateChart } from "./Screens/CreateChart";
 import { DataSources } from "./Screens/DataSources";
 import { Ask } from "./Screens/Ask";
 import { CreateView } from "./Screens/CreateView";
@@ -39,6 +41,8 @@ export const RouterPath = {
   GOOGLE_SHEETS: "/google-sheets/",
   CREATE_VIEW: "/create-view/",
   VIEWS: "/views/",
+  CREATE_CHART: "/chart/",
+  CHART_PAGE: "/chart-page/",
 };
 
 function App() {
@@ -121,6 +125,20 @@ function App() {
           <Route
             path={RouterPath.VIEWS}
             element={withMobileWarning(Views, true)({ children: <Views /> })}
+          />
+          <Route
+            path={RouterPath.CREATE_CHART}
+            element={withMobileWarning(
+              CreateChart,
+              true
+            )({ children: <CreateChart /> })}
+          />
+          <Route
+            path={RouterPath.CHART_PAGE}
+            element={withMobileWarning(
+              ChartPage,
+              true
+            )({ children: <ChartPage /> })}
           />
         </Routes>
       </Router>

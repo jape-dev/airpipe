@@ -6,7 +6,9 @@ import type { AdAccount } from '../models/AdAccount';
 import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 import type { Body_create_blend_query_create_blend_post } from '../models/Body_create_blend_query_create_blend_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
+import type { CaptionData } from '../models/CaptionData';
 import type { ChannelType } from '../models/ChannelType';
+import type { ChartData } from '../models/ChartData';
 import type { Conversation } from '../models/Conversation';
 import type { CurrentResults } from '../models/CurrentResults';
 import type { DataSource } from '../models/DataSource';
@@ -24,6 +26,7 @@ import type { TableColumns } from '../models/TableColumns';
 import type { Token } from '../models/Token';
 import type { User } from '../models/User';
 import type { UserInDB } from '../models/UserInDB';
+import type { UserWithId } from '../models/UserWithId';
 import type { View } from '../models/View';
 import type { ViewInDB } from '../models/ViewInDB';
 
@@ -647,6 +650,52 @@ export class DefaultService {
     }
 
     /**
+     * Chart Data
+     * @param chartId
+     * @returns ChartData Successful Response
+     * @throws ApiError
+     */
+    public static chartDataQueryChartDataGet(
+        chartId: string,
+    ): CancelablePromise<ChartData> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/chart_data',
+            query: {
+                'chart_id': chartId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Save Chart
+     * @param token
+     * @param requestBody
+     * @returns SuccessResponse Successful Response
+     * @throws ApiError
+     */
+    public static saveChartQuerySaveChartPost(
+        token: string,
+        requestBody: ChartData,
+    ): CancelablePromise<SuccessResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/save_chart',
+            query: {
+                'token': token,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Din Sql
      * @param question
      * @param requestBody
@@ -713,6 +762,26 @@ export class DefaultService {
             query: {
                 'input': input,
             },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Chart Insights
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static chartInsightsQueryChartInsightsPost(
+        requestBody: CaptionData,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/query/chart_insights',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -848,6 +917,27 @@ export class DefaultService {
             url: '/user/update_onboarding_stage',
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * User
+     * @param token
+     * @returns UserWithId Successful Response
+     * @throws ApiError
+     */
+    public static userUserUserGet(
+        token: string,
+    ): CancelablePromise<UserWithId> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/user/user',
+            query: {
+                'token': token,
+            },
             errors: {
                 422: `Validation Error`,
             },

@@ -1,20 +1,40 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
 import { BaseView } from "../Components/BaseView";
 
-import { DefaultService, CurrentResults } from "../vizoApi";
-import { User, ViewInDB } from "../vizoApi";
+import { DefaultService, CurrentResults, User, ViewInDB } from "../vizoApi";
 import { RouterPath } from "../App";
 import { StickyHeadTable } from "../Components/Table";
 
 export const Views: React.FC = () => {
+  const navigate = useNavigate();
+
   const [token, setToken] = useState<string>("");
   const [views, setViews] = useState<ViewInDB[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
   const [selectedView, setSelectedView] = useState<ViewInDB>();
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
+
+  const hanldeChartClick = () => {
+    if (!selectedView) {
+      console.log("view not selected");
+      return;
+    }
+    let data: CurrentResults = {
+      columns: columns,
+      results: results,
+      name: selectedView?.name,
+    };
+    navigate(RouterPath.CREATE_CHART, {
+      state: {
+        view: selectedView,
+        results: data,
+      },
+    });
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -72,6 +92,7 @@ export const Views: React.FC = () => {
                     view={selectedView}
                     setSelectedView={setSelectedView}
                     selected={true}
+                    hanldeChartClick={hanldeChartClick}
                   />
                   <StickyHeadTable results={results} columns={columns} />
                 </>
@@ -81,6 +102,7 @@ export const Views: React.FC = () => {
                     view={view}
                     setSelectedView={setSelectedView}
                     selected={false}
+                    hanldeChartClick={hanldeChartClick}
                   />
                 ))
               )}

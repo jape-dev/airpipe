@@ -4,7 +4,7 @@ import { LoadingMessage } from "./LoadingMessage";
 import { StickyHeadTable } from "./Table";
 import { RouterPath } from "../App";
 import { useNavigate } from "react-router-dom";
-import { ChartSelector } from "./ChartSelector";
+import { CreateChartState } from "../Screens/CreateChart";
 import {
   View,
   ViewInDB,
@@ -22,6 +22,7 @@ import {
   InformationCircleIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
+import { v4 as uuidv4 } from "uuid";
 
 export interface ChatMessageProps {
   index: number;
@@ -40,6 +41,7 @@ export interface ChatMessageProps {
   currentUser?: User;
   userToken?: string;
   dataSource?: DataSourceInDB;
+  question?: string;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({
@@ -48,7 +50,6 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   text,
   data,
   columns,
-  chartType,
   loading,
   tableName,
   clearMessages,
@@ -59,14 +60,17 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   currentUser,
   userToken,
   dataSource,
+  question,
 }) => {
-  const [chartOption, setChartOption] = useState<string>("");
-  const [chartSelectOpen, setChartSelectOpen] = useState<boolean>(false);
   const [showCode, setShowCode] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
-  const [viewName, setViewName] = useState<string>("");
+  // initialize with a random
+  const [viewName, setViewName] = useState<string>(uuidv4());
   const [isLoading, setIsLoading] = useState(false);
   const [fields, setFields] = useState<FieldOption[]>([]);
+  const [responseView, setResponseView] = useState<ViewInDB>();
+
+  let navigate = useNavigate();
 
   const handleViewNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -93,11 +97,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
       end_date: dataSource?.end_date ? dataSource?.end_date : "",
     };
     if (currentUser && userToken) {
-      DefaultService.saveViewQuerySaveViewPost(userToken, view)
+      const viewDB = DefaultService.saveViewQuerySaveViewPost(userToken, view)
         .then((response: ViewInDB) => {
           setModal(false);
           setIsLoading(false);
-          let dataElse: CurrentResults = {
+          let results: CurrentResults = {
             columns: columns ? columns : [],
             results: data,
             name: response.name,
@@ -105,9 +109,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           DefaultService.saveTableQuerySaveTablePost(
             userToken,
             response.db_schema,
-            dataElse
-          ).then(() => {
-            navigate(RouterPath.VIEWS);
+            results
+          ).catch((error) => {
+            console.log(error);
           });
         })
         .catch((error) => {
@@ -115,12 +119,22 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           alert("Could not save view. Please try again");
           setIsLoading(false);
         });
+      return viewDB;
     }
   };
 
-  let navigate = useNavigate();
-  const routeChange = () => {
-    navigate(RouterPath.CONNECT);
+  const routeChangeCreateChart = () => {
+    // pass data into create chart
+    let results: CurrentResults = {
+      columns: columns ? columns : [],
+      results: data,
+      name: question ? question : "Add a title",
+    };
+    navigate(RouterPath.CREATE_CHART, {
+      state: {
+        results: results,
+      },
+    });
   };
 
   const confidenceBackgroundColour = (confidenceScore: number | undefined) => {
@@ -241,6 +255,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                       >
                         Save as view
                       </button>
+                      <button
+                        onClick={() => routeChangeCreateChart()}
+                        className="bg-teal-500 hover:bg-teal-700  text-white font-medium py-2 px-4 rounded-xl mr-2"
+                      >
+                        Create chart
+                      </button>
                       {/* <ChartSelector
                         chartOption={chartOption}
                         setChartOption={setChartOption}
@@ -281,21 +301,15 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                     >
                       Ask a new question
                     </button>
-                    <button
-                      onClick={routeChange}
-                      className="bg-teal-500 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl mt-5 mr-2"
-                    >
-                      Add your own data
-                    </button>
                   </>
                 )}
               </>
             )}
-            {chartOption && data && chartSelectOpen === false && (
-              <div key={index} className="flex justify-start mt-4 mr-0">
-                <Chart data={data} chartType={chartOption} />
-              </div>
-            )}
+            {/* {chartOption && data && chartSelectOpen === false && (
+              // <div key={index} className="flex justify-start mt-4 mr-0">
+              //   <Chart data={data} chartType={chartOption} />
+              // </div>
+            )} */}
           </div>
           <CustomModal
             parentshow={modal}

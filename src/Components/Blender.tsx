@@ -7,9 +7,7 @@ import {
 } from "../vizoApi";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
-import { Dropdown } from "../Components/DropDown";
-import { DropDownOption } from "../Components/MultiSelectDropDown";
-
+import { Dropdown, DropDownOption } from "../Components/DropDown";
 interface BlenderProps {
   fieldOptions: FieldOption[];
   dataSources: DataSourceInDB[];

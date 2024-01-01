@@ -44,6 +44,8 @@ export const Ask: React.FC = () => {
   const [modal, setModal] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
   const [connectionId, setConnectionId] = useState<string>("");
+  const [showInput, setShowInput] = useState<boolean>(false);
+  const [scanComplete, setScanComplete] = useState<boolean>(false);
 
   let navigate = useNavigate();
 
@@ -91,7 +93,6 @@ export const Ask: React.FC = () => {
 
   useEffect(() => {
     if (selectedDataSource && token) {
-      console.log("selectedDataSource", selectedDataSource);
       DefaultService.tableResultsQueryTableResultsGet(
         token,
         selectedDataSource.db_schema,
@@ -113,62 +114,69 @@ export const Ask: React.FC = () => {
   }, [selectedDataSource]);
 
   const handleSelectOption = (selectedOption: DropDownOption) => {
+    setScanComplete(false);
     const aiConsent = localStorage.getItem("aiConsent");
     if (!aiConsent) {
       setModal(true);
     }
-    if (selectedOption.id === "add_data") {
-      window.location.href = RouterPath.CONNECT;
-    } else {
-      const table = tables.find(
-        (table) => table.id.toString() === selectedOption.id
-      );
-      if (table) {
-        const tableAsDataSource: DataSourceInDB = {
-          id: table.id,
-          name: table.name,
-          user_id: table.user_id,
-          db_schema: table.db_schema,
-          fields: table.fields,
-          table_name: table.table_name,
-          channel: table.channel
-            ? getChannelTypeEnum(table.channel)
-            : "airpipe",
-          channel_img: table.channel_img
-            ? table.channel_img
-            : "airpipe-field-icon",
-          ad_account_id: table.ad_account_id ? table.ad_account_id : "na",
-          start_date: table.start_date,
-          end_date: table.end_date,
-        };
-        setSelectedDataSource(tableAsDataSource);
+    const table = tables.find(
+      (table) => table.id.toString() === selectedOption.id
+    );
+    if (table) {
+      const tableAsDataSource: DataSourceInDB = {
+        id: table.id,
+        name: table.name,
+        user_id: table.user_id,
+        db_schema: table.db_schema,
+        fields: table.fields,
+        table_name: table.table_name,
+        channel: table.channel ? getChannelTypeEnum(table.channel) : "airpipe",
+        channel_img: table.channel_img
+          ? table.channel_img
+          : "airpipe-field-icon",
+        ad_account_id: table.ad_account_id ? table.ad_account_id : "na",
+        start_date: table.start_date,
+        end_date: table.end_date,
+      };
+      setSelectedDataSource(tableAsDataSource);
+      setShowInput(false);
+      if (tableAsDataSource !== undefined) {
+        DefaultService.connectDbQueryDataheraldConnectDbPost(
+          tableAsDataSource?.db_schema,
+          false,
+          "airpipe_db"
+        )
+          .then((connection_id: string) => {
+            setConnectionId(connection_id);
+            const requestBody: ScannerRequest = {
+              db_connection_id: connection_id,
+              table_names: [tableAsDataSource.name],
+            };
+            TableDescriptionsService.scanDb(requestBody)
+              .catch((error) => {
+                console.log(error);
+              })
+              .then((response) => {
+                if (response === true) {
+                  setScanComplete(true);
+                  setShowInput(true);
+                }
+                const instructionRequestBody: InstructionRequest = {
+                  db_connection_id: connection_id,
+                  instruction:
+                    "Unless specified, give calculations to two decimal places.",
+                };
+                InstructionsService.addInstruction(
+                  instructionRequestBody
+                ).catch((error) => {
+                  console.log(error);
+                });
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-
-      // const dataSource = dataSources.find(
-      //   // Need to use an actual id field instead of ad_account_id
-      //   (dataSource) => dataSource.id.toString() === selectedOption.id
-      // );
-      // const view = views.find(
-      //   (view) => view.id.toString() === selectedOption.id
-      // );
-      // if (view) {
-      //   const viewAsDataSource: DataSourceInDB = {
-      // id: view.id,
-      // name: view.name,
-      // user_id: view.user_id,
-      // db_schema: view.db_schema,
-      // fields: view.fields,
-      // table_name: view.table_name,
-      // channel: ChannelType.GOOGLE,
-      // channel_img: "na",
-      // ad_account_id: "na",
-      // start_date: view.start_date,
-      // end_date: view.end_date,
-      //   };
-      //   setSelectedDataSource(viewAsDataSource);
-      // } else {
-      //   setSelectedDataSource(dataSource);
-      // }
     }
   };
 
@@ -180,42 +188,6 @@ export const Ask: React.FC = () => {
   const routeChange = () => {
     navigate(RouterPath.CONNECT);
   };
-
-  useEffect(() => {
-    if (selectedDataSource !== undefined) {
-      DefaultService.connectDbQueryDataheraldConnectDbPost(
-        selectedDataSource?.db_schema,
-        false,
-        "airpipe_db"
-      )
-        .then((connection_id: string) => {
-          setConnectionId(connection_id);
-          const requestBody: ScannerRequest = {
-            db_connection_id: connection_id,
-            table_names: [selectedDataSource.name],
-          };
-          TableDescriptionsService.scanDb(requestBody)
-            .catch((error) => {
-              console.log(error);
-            })
-            .then(() => {
-              const instructionRequestBody: InstructionRequest = {
-                db_connection_id: connection_id,
-                instruction:
-                  "Unless specified, give calculations to two decimal places.",
-              };
-              InstructionsService.addInstruction(instructionRequestBody).catch(
-                (error) => {
-                  console.log(error);
-                }
-              );
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [selectedDataSource]);
 
   return (
     <>
@@ -278,6 +250,9 @@ export const Ask: React.FC = () => {
                         currentUser={currentUser}
                         userToken={token}
                         connectionId={connectionId}
+                        showInput={showInput}
+                        setShowInput={setShowInput}
+                        scanComplete={scanComplete}
                       />
                     </div>
                   </>
