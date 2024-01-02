@@ -153,7 +153,7 @@ export const FieldList: React.FC<FieldListProps> = ({
       <div className="col-span-1">
         <ul
           className="border border-gray-400 bg-white rounded-md p-4 h-80 max-h-80 overflow-y-auto"
-          placeholder="selected fields"
+          // placeholder="selected fields"
         >
           {selectedOptions.map((option) => (
             <li

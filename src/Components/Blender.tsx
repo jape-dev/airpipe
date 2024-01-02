@@ -301,7 +301,7 @@ export const Blender: React.FC<BlenderProps> = ({
         <h1 className="text-2xl font-bold mb-8">Blend</h1>
         <ul
           className="border border-gray-400 bg-white rounded-md p-4 h-80 max-h-80 overflow-y-auto"
-          placeholder="selected fields"
+          // placeholder="selected fields"
         >
           {selectedBlendOptions.map((option) => (
             <li
