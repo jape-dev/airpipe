@@ -42,12 +42,11 @@ export const ChartPage: React.FC = () => {
           {chartData.caption !== "Add caption" && (
             <div className="max-w-2xl mt-2">
               <p className="text-md leading-6 text-gray-500 mb-2">
-                {chartData.caption.split(". ").map((sentence, index, array) => (
-                  <span key={index}>
+                {chartData.caption.split(/(?<=\.)\s/).map((sentence, index) => (
+                  <React.Fragment key={index}>
                     {sentence}
-                    {index < array.length - 1 ? ". " : ""}
                     <br />
-                  </span>
+                  </React.Fragment>
                 ))}
               </p>
             </div>
