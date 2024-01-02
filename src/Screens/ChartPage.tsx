@@ -39,7 +39,7 @@ export const ChartPage: React.FC = () => {
             sliceColors={chartData.slice_colors}
             fieldOptions={chartData.field_options}
           />
-          {chartData.caption !== "Add a caption" && (
+          {chartData.caption !== "Add caption" && (
             <div className="max-w-2xl mt-2">
               <p className="text-md leading-6 text-gray-500 mb-2">
                 {chartData.caption}

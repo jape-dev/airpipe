@@ -216,7 +216,7 @@ export const CreateChart = () => {
   };
 
   useEffect(() => {
-    if (caption != "Add caption") {
+    if (caption !== "Add caption") {
       const textElement = document.getElementById("ai-insights-text");
       if (textElement) {
         textElement.innerText = "";
