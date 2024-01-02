@@ -133,13 +133,7 @@ function App() {
               true
             )({ children: <CreateChart /> })}
           />
-          <Route
-            path={RouterPath.CHART_PAGE}
-            element={withMobileWarning(
-              ChartPage,
-              true
-            )({ children: <ChartPage /> })}
-          />
+          <Route path={RouterPath.CHART_PAGE} element={<ChartPage />} />
         </Routes>
       </Router>
     </>
