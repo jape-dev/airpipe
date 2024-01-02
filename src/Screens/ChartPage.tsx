@@ -40,11 +40,15 @@ export const ChartPage: React.FC = () => {
             fieldOptions={chartData.field_options}
           />
           {chartData.caption !== "Add caption" && (
-            <div className="max-w-2xl mt-2">
-              <p className="text-md leading-6 text-gray-500 mb-2">
-                {chartData.caption}
-              </p>
-            </div>
+            <p className="text-md leading-6 text-gray-500 mb-2">
+              {chartData.caption.split(". ").map((sentence, index, array) => (
+                <span key={index}>
+                  {sentence}
+                  {index < array.length - 1 ? ". " : ""}
+                  <br />
+                </span>
+              ))}
+            </p>
           )}
         </>
       )}
