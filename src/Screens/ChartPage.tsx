@@ -25,7 +25,7 @@ export const ChartPage: React.FC = () => {
       {chartData && (
         <>
           {chartData.title !== "Add a title" && (
-            <h3 className="text-md leading-6 font-medium text-gray-900 mb-2">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-2">
               {chartData.title}
             </h3>
           )}
