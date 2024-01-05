@@ -92,6 +92,12 @@ export const AddDataSource: React.FC = () => {
         ).then((response) => {
           setSelectedOptions(response);
         });
+      } else if (adAccount.channel === ChannelType.YOUTUBE) {
+        DefaultService.fieldsConnectorYoutubeFieldsGet(true, false, false).then(
+          (response) => {
+            setSelectedOptions(response);
+          }
+        );
       }
     });
   }, [adAccounts]);
@@ -152,6 +158,14 @@ export const AddDataSource: React.FC = () => {
           ).then((response) => {
             setFieldOptions(response);
           });
+        } else if (adAccount.channel === ChannelType.YOUTUBE) {
+          DefaultService.fieldsConnectorYoutubeFieldsGet(
+            false,
+            false,
+            true
+          ).then((response) => {
+            setFieldOptions(response);
+          });
         }
       });
     }
@@ -168,6 +182,11 @@ export const AddDataSource: React.FC = () => {
     } else if (
       channel === ChannelType.GOOGLE_ANALYTICS &&
       currentUser?.google_analytics_refresh_token
+    ) {
+      setConnected(true);
+    } else if (
+      channel === ChannelType.YOUTUBE &&
+      currentUser?.youtube_refresh_token
     ) {
       setConnected(true);
     } else {
@@ -196,9 +215,18 @@ export const AddDataSource: React.FC = () => {
           setAdAccounts((prev) => [...prev, ...response]);
         })
         .catch((error: any) => {
-          if (error.status === 401) {
-            // alert("Google access token expired. Please connect again");
-            // window.location.href = RouterPath.CONNECT;
+          if (error.status === 400) {
+            const errorDetail: string = error.body.detail;
+            if (errorDetail.includes("CUSTOMER_NOT_ENABLED")) {
+              alert(
+                "Error from Google Ads API: The account can't be accessed because it is not yet enabled or has been deactivated.\n\nPlease re-authenticate with an account that has an active Google Ads account associated.\n\nIf you think this is incorrect, please let us using the chat below. "
+              );
+              DefaultService.clearAccessTokenUserClearAccessTokenPost(
+                token,
+                ChannelType.GOOGLE
+              );
+              window.location.href = RouterPath.CONNECT;
+            }
           } else {
             console.log(error);
           }
@@ -209,6 +237,7 @@ export const AddDataSource: React.FC = () => {
           setAdAccounts((prev) => [...prev, ...response]);
         })
         .catch((error) => {
+          console.log(error);
           if (error.status === 401) {
             // alert("Facebook access token expired. Please connect again");
           } else {
@@ -225,6 +254,18 @@ export const AddDataSource: React.FC = () => {
             // alert(
             //   "Google Analytics access token expired. Please connect again"
             // );
+          } else {
+            console.log(error);
+          }
+        });
+    } else if (channel === ChannelType.YOUTUBE) {
+      DefaultService.adAccountsConnectorYoutubeAdAccountsGet(token)
+        .then((response: AdAccount[]) => {
+          setAdAccounts((prev) => [...prev, ...response]);
+        })
+        .catch((error) => {
+          if (error.status === 401) {
+            // alert("Youtube access token expired. Please connect again");
           } else {
             console.log(error);
           }
