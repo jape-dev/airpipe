@@ -200,7 +200,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             />
             <button
               type="submit"
-              className="absolute mt-0 top-0 right-0 rounded-l h-full min-h-20 px-3"
+              className="absolute mt-0 top-0 right-0 rounded-l h-full px-3"
               disabled={!inputValue}
             >
               <PaperAirplaneIcon className="h-6 w-6 text-gray-700 hover:text-teal-500" />
