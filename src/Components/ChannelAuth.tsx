@@ -21,7 +21,8 @@ export const ChannelAuth: React.FC<ChannelAuthProps> = ({ channel }) => {
   return (
     <>
       {channel === ChannelType.GOOGLE_ANALYTICS ||
-      channel === ChannelType.GOOGLE ? (
+      channel === ChannelType.GOOGLE ||
+      channel === ChannelType.YOUTUBE ? (
         <GoogleSignIn channel_type={channel} />
       ) : (
         <button
