@@ -973,6 +973,30 @@ export class DefaultService {
     }
 
     /**
+     * Clear Access Token
+     * @param token
+     * @param channel
+     * @returns User Successful Response
+     * @throws ApiError
+     */
+    public static clearAccessTokenUserClearAccessTokenPost(
+        token: string,
+        channel: ChannelType,
+    ): CancelablePromise<User> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/user/clear_access_token',
+            query: {
+                'token': token,
+                'channel': channel,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * User
      * @param token
      * @returns UserWithId Successful Response

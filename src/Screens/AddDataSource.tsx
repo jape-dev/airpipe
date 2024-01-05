@@ -237,9 +237,18 @@ export const AddDataSource: React.FC = () => {
           setAdAccounts((prev) => [...prev, ...response]);
         })
         .catch((error) => {
-          console.log(error);
-          if (error.status === 401) {
-            // alert("Facebook access token expired. Please connect again");
+          if (error.status === 400) {
+            const errorDetail: string = error.body.detail;
+            if (errorDetail.includes("CUSTOMER_NOT_ENABLED")) {
+              alert(
+                "Error from Google Analytics API: The account can't be accessed because it is not yet enabled or has been deactivated.\n\nPlease re-authenticate with an account that has an active Google Ads account associated.\n\nIf you think this is incorrect, please let us using the chat below. "
+              );
+              DefaultService.clearAccessTokenUserClearAccessTokenPost(
+                token,
+                ChannelType.GOOGLE_ANALYTICS
+              );
+              window.location.href = RouterPath.CONNECT;
+            }
           } else {
             console.log(error);
           }
