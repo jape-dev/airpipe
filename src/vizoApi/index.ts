@@ -12,6 +12,7 @@ export type { AmbiguousColumns } from './models/AmbiguousColumns';
 export type { BaseAmbiguities } from './models/BaseAmbiguities';
 export type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from './models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 export type { Body_create_blend_query_create_blend_post } from './models/Body_create_blend_query_create_blend_post';
+export type { Body_field_options_query_field_options_post } from './models/Body_field_options_query_field_options_post';
 export type { Body_login_for_access_token_user_auth_token_post } from './models/Body_login_for_access_token_user_auth_token_post';
 export type { CaptionData } from './models/CaptionData';
 export { ChannelType } from './models/ChannelType';

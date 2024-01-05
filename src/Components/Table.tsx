@@ -8,7 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
-import { FieldOption, DefaultService } from "../vizoApi";
+import {
+  FieldOption,
+  DefaultService,
+  Body_field_options_query_field_options_post,
+} from "../vizoApi";
 
 import { useEffect } from "react";
 
@@ -47,7 +51,11 @@ export const StickyHeadTable: React.FC<StickyHeadTableProps> = ({
   };
 
   useEffect(() => {
-    DefaultService.fieldOptionsQueryFieldOptionsPost(columns)
+    let requestBody: Body_field_options_query_field_options_post = {
+      fields: columns,
+      data: results,
+    };
+    DefaultService.fieldOptionsQueryFieldOptionsPost(requestBody)
       .then((response) => {
         setFields(response);
       })

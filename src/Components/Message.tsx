@@ -13,6 +13,7 @@ import {
   User,
   DataSourceInDB,
   FieldOption,
+  Body_field_options_query_field_options_post,
 } from "../vizoApi";
 
 import { CustomModal } from "./CustomModal";
@@ -78,8 +79,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   };
 
   useEffect(() => {
-    if (columns) {
-      DefaultService.fieldOptionsQueryFieldOptionsPost(columns)
+    if (columns && data) {
+      let requestBody: Body_field_options_query_field_options_post = {
+        fields: columns,
+        data: data,
+      };
+      DefaultService.fieldOptionsQueryFieldOptionsPost(requestBody)
         .then((response) => {
           setFields(response);
         })

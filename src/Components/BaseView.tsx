@@ -15,12 +15,6 @@ export const BaseView: React.FC<BaseViewProps> = ({
   selected,
   hanldeChartClick,
 }) => {
-  const [channelName, setChannelName] = useState<string>("");
-
-  //   const getIconUrl = () => {
-  //     return require(`../Static/images/${dataSource.channel_img}.png`);
-  //   };
-
   const handleViewClick = () => {
     if (selected === true) {
       setSelectedView(undefined);

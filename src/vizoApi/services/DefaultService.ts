@@ -5,6 +5,7 @@
 import type { AdAccount } from '../models/AdAccount';
 import type { Body_check_ambiguous_columns_query_check_ambiguous_columns_post } from '../models/Body_check_ambiguous_columns_query_check_ambiguous_columns_post';
 import type { Body_create_blend_query_create_blend_post } from '../models/Body_create_blend_query_create_blend_post';
+import type { Body_field_options_query_field_options_post } from '../models/Body_field_options_query_field_options_post';
 import type { Body_login_for_access_token_user_auth_token_post } from '../models/Body_login_for_access_token_user_auth_token_post';
 import type { CaptionData } from '../models/CaptionData';
 import type { ChannelType } from '../models/ChannelType';
@@ -332,6 +333,54 @@ export class DefaultService {
     }
 
     /**
+     * Ad Accounts
+     * @param token
+     * @returns AdAccount Successful Response
+     * @throws ApiError
+     */
+    public static adAccountsConnectorYoutubeAdAccountsGet(
+        token: string,
+    ): CancelablePromise<Array<AdAccount>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/youtube/ad_accounts',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Fields
+     * @param _default
+     * @param metrics
+     * @param dimensions
+     * @returns FieldOption Successful Response
+     * @throws ApiError
+     */
+    public static fieldsConnectorYoutubeFieldsGet(
+        _default: boolean = false,
+        metrics: boolean = false,
+        dimensions: boolean = false,
+    ): CancelablePromise<Array<FieldOption>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/youtube/fields',
+            query: {
+                'default': _default,
+                'metrics': metrics,
+                'dimensions': dimensions,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
      * Get Table Columns
      * @param token
      * @param tableName
@@ -382,7 +431,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static fieldOptionsQueryFieldOptionsPost(
-        requestBody: Array<string>,
+        requestBody: Body_field_options_query_field_options_post,
     ): CancelablePromise<Array<FieldOption>> {
         return __request(OpenAPI, {
             method: 'POST',

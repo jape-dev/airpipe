@@ -13,6 +13,7 @@ import {
   FieldType,
   CaptionData,
   ChartData,
+  Body_field_options_query_field_options_post,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import {
@@ -86,14 +87,16 @@ export const CreateChart = () => {
 
   useEffect(() => {
     let fields: string[] = [];
-    if (state.results?.columns) {
+    let data: { [key: string]: any }[] = [];
+    if (state.results?.columns && state.results?.results) {
       fields = state.results?.columns;
-    } else if (state.view?.fields) {
-      fields = state.view?.fields.split(",");
-    } else if (state.table?.fields) {
-      fields = state.table?.fields.split(",");
+      data = state.results?.results;
     }
-    DefaultService.fieldOptionsQueryFieldOptionsPost(fields)
+    let requestBody: Body_field_options_query_field_options_post = {
+      fields: fields,
+      data: data,
+    };
+    DefaultService.fieldOptionsQueryFieldOptionsPost(requestBody)
       .then((response: FieldOption[]) => {
         setFieldOptions(response);
         // filter on metrics
