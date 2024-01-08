@@ -239,7 +239,9 @@ export const CreateView: React.FC = () => {
         token,
         selectedDataSource.db_schema,
         selectedDataSource.name,
-        `${selectedDataSource.channel}_date`,
+        `${selectedDataSource.channel}_date` in columns
+          ? `${selectedDataSource.channel}_date`
+          : undefined,
         startDate.toISOString(),
         endDate.toISOString()
       )

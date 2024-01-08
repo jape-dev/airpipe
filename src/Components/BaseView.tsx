@@ -23,26 +23,6 @@ export const BaseView: React.FC<BaseViewProps> = ({
     }
   };
 
-  //   useEffect(() => {
-  //     if (dataSource.channel === ChannelType.GOOGLE) {
-  //       setChannelName("Google Ads");
-  //     } else if (dataSource.channel === ChannelType.FACEBOOK) {
-  //       setChannelName("Facebook Ads");
-  //     } else if (dataSource.channel === ChannelType.GOOGLE_ANALYTICS) {
-  //       setChannelName("Google Analytics");
-  //     }
-  //   }, []);
-
-  //   const getChannelNameFromEnum = () => {
-  //     if (dataSource.channel === ChannelType.GOOGLE) {
-  //       return "Google Ads";
-  //     } else if (dataSource.channel === ChannelType.FACEBOOK) {
-  //       return "Facebook Ads";
-  //     } else if (dataSource.channel === ChannelType.GOOGLE_ANALYTICS) {
-  //       return "Google Analytics";
-  //     }
-  //   };
-
   return (
     <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4 flex items-center justify-between">
       <div className="flex items-center">

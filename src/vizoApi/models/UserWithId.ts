@@ -15,6 +15,7 @@ export type UserWithId = {
     google_analytics_refresh_token?: string;
     google_sheets_refresh_token?: string;
     youtube_refresh_token?: string;
+    instagram_access_token?: string;
     id: number;
 };
 

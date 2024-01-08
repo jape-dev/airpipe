@@ -381,6 +381,90 @@ export class DefaultService {
     }
 
     /**
+     * Login
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static loginConnectorInstagramLoginGet(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/instagram/login',
+        });
+    }
+
+    /**
+     * Ad Accounts
+     * @param token
+     * @returns AdAccount Successful Response
+     * @throws ApiError
+     */
+    public static adAccountsConnectorInstagramAdAccountsGet(
+        token: string,
+    ): CancelablePromise<Array<AdAccount>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/instagram/ad_accounts',
+            query: {
+                'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Fields
+     * @param _default
+     * @param metrics
+     * @param dimensions
+     * @returns FieldOption Successful Response
+     * @throws ApiError
+     */
+    public static fieldsConnectorInstagramFieldsGet(
+        _default: boolean = false,
+        metrics: boolean = false,
+        dimensions: boolean = false,
+    ): CancelablePromise<Array<FieldOption>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/instagram/fields',
+            query: {
+                'default': _default,
+                'metrics': metrics,
+                'dimensions': dimensions,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Delete
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static deleteConnectorInstagramDeleteGet(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/instagram/delete',
+        });
+    }
+
+    /**
+     * Deauthorize
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static deauthorizeConnectorInstagramDeauthorizeGet(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/connector/instagram/deauthorize',
+        });
+    }
+
+    /**
      * Get Table Columns
      * @param token
      * @param tableName

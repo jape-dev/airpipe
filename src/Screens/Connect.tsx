@@ -8,6 +8,8 @@ import { FacebookConnectorV2 } from "../Components/FacebookConnectorV2";
 import { DefaultService } from "../vizoApi";
 import { User } from "../vizoApi";
 import { RouterPath } from "../App";
+import { YouTubeConnector } from "../Components/YouTubeConnector";
+import { InstagramConnector } from "../Components/InstagramConnector";
 
 export const Connect: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>();
@@ -44,6 +46,12 @@ export const Connect: React.FC = () => {
             <GoogleConnectorV2 currentUser={currentUser} />
             <FacebookConnectorV2 currentUser={currentUser} />
             <GoogleAnalyticsConnector currentUser={currentUser} />
+            {currentUser?.email === "metatest@useairpipe.com" && (
+              <>
+                <YouTubeConnector currentUser={currentUser} />
+                <InstagramConnector currentUser={currentUser} />
+              </>
+            )}
           </div>
         </div>
       </div>

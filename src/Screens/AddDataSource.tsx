@@ -84,6 +84,14 @@ export const AddDataSource: React.FC = () => {
         ).then((response) => {
           setSelectedOptions(response);
         });
+      } else if (adAccount.channel === ChannelType.INSTAGRAM) {
+        DefaultService.fieldsConnectorInstagramFieldsGet(
+          true,
+          false,
+          false
+        ).then((response) => {
+          setSelectedOptions(response);
+        });
       } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
         DefaultService.fieldsConnectorGoogleAnalyticsFieldsGet(
           true,
@@ -103,6 +111,8 @@ export const AddDataSource: React.FC = () => {
   }, [adAccounts]);
 
   useEffect(() => {
+    console.log("calling useEffect");
+    console.log(adAccounts);
     if (fieldType === FieldType.METRIC) {
       adAccounts.flatMap((adAccount) => {
         if (adAccount.channel === ChannelType.GOOGLE) {
@@ -121,11 +131,27 @@ export const AddDataSource: React.FC = () => {
           ).then((response) => {
             setFieldOptions(response);
           });
+        } else if (adAccount.channel === ChannelType.INSTAGRAM) {
+          DefaultService.fieldsConnectorInstagramFieldsGet(
+            false,
+            true,
+            false
+          ).then((response) => {
+            setFieldOptions(response);
+          });
         } else if (adAccount.channel === ChannelType.GOOGLE_ANALYTICS) {
           DefaultService.fieldsConnectorGoogleAnalyticsFieldsGet(
             false,
             true,
             false
+          ).then((response) => {
+            setFieldOptions(response);
+          });
+        } else if (adAccount.channel === ChannelType.YOUTUBE) {
+          DefaultService.fieldsConnectorYoutubeFieldsGet(
+            false,
+            true,
+            true
           ).then((response) => {
             setFieldOptions(response);
           });
@@ -144,6 +170,14 @@ export const AddDataSource: React.FC = () => {
           });
         } else if (adAccount.channel === ChannelType.FACEBOOK) {
           DefaultService.fieldsConnectorFacebookFieldsGet(
+            false,
+            false,
+            true
+          ).then((response) => {
+            setFieldOptions(response);
+          });
+        } else if (adAccount.channel === ChannelType.INSTAGRAM) {
+          DefaultService.fieldsConnectorInstagramFieldsGet(
             false,
             false,
             true
@@ -187,6 +221,11 @@ export const AddDataSource: React.FC = () => {
     } else if (
       channel === ChannelType.YOUTUBE &&
       currentUser?.youtube_refresh_token
+    ) {
+      setConnected(true);
+    } else if (
+      channel === ChannelType.INSTAGRAM &&
+      currentUser?.instagram_access_token
     ) {
       setConnected(true);
     } else {
@@ -237,21 +276,15 @@ export const AddDataSource: React.FC = () => {
           setAdAccounts((prev) => [...prev, ...response]);
         })
         .catch((error) => {
-          if (error.status === 400) {
-            const errorDetail: string = error.body.detail;
-            if (errorDetail.includes("CUSTOMER_NOT_ENABLED")) {
-              alert(
-                "Error from Google Analytics API: The account can't be accessed because it is not yet enabled or has been deactivated.\n\nPlease re-authenticate with an account that has an active Google Ads account associated.\n\nIf you think this is incorrect, please let us using the chat below. "
-              );
-              DefaultService.clearAccessTokenUserClearAccessTokenPost(
-                token,
-                ChannelType.GOOGLE_ANALYTICS
-              );
-              window.location.href = RouterPath.CONNECT;
-            }
-          } else {
-            console.log(error);
-          }
+          console.log(error);
+        });
+    } else if (channel === ChannelType.INSTAGRAM) {
+      DefaultService.adAccountsConnectorInstagramAdAccountsGet(token)
+        .then((response: AdAccount[]) => {
+          setAdAccounts((prev) => [...prev, ...response]);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     } else if (channel === ChannelType.GOOGLE_ANALYTICS) {
       DefaultService.adAccountsConnectorGoogleAnalyticsAdAccountsGet(token)

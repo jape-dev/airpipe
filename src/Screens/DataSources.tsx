@@ -44,7 +44,9 @@ export const DataSources: React.FC = () => {
         token,
         selectedDataSource.db_schema,
         selectedDataSource.name,
-        `${selectedDataSource.channel}_date`,
+        `${selectedDataSource.channel}_date` in columns
+          ? `${selectedDataSource.channel}_date`
+          : undefined,
         selectedDataSource.start_date,
         selectedDataSource.end_date
       )

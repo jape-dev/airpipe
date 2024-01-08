@@ -13,4 +13,5 @@ export enum ChannelType {
     SHEETS = 'sheets',
     AIRPIPE = 'airpipe',
     YOUTUBE = 'youtube',
+    INSTAGRAM = 'instagram',
 }

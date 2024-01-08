@@ -27,9 +27,9 @@ export const ChannelAuth: React.FC<ChannelAuthProps> = ({ channel }) => {
       ) : (
         <button
           onClick={() => handleConnect()}
-          className="bg-teal-500 text-white rounded-md px-4 py-2 h-16 w-60 mb-5 flex items-center justify-center  mx-auto"
+          className="bg-teal-500 text-white rounded-md px-4 py-2 h-16 w-60 mb-5 flex items-center justify-center mx-auto"
         >
-          <span className="text-lg">Connect to Facebook</span>
+          <span className="text-lg">Connect to Meta</span>
         </button>
       )}
     </>

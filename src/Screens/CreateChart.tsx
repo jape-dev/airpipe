@@ -321,7 +321,7 @@ export const CreateChart = () => {
   }, [caption]);
 
   useEffect(() => {
-    setEmbedUrl(`https://${window.location.host}/chart-page?id=${chartId}`);
+    setEmbedUrl(`http://${window.location.host}/chart-page?id=${chartId}`);
   }, [chartId]);
 
   return (
