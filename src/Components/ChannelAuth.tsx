@@ -17,9 +17,9 @@ export const ChannelAuth: React.FC<ChannelAuthProps> = ({ channel }) => {
     const redirect_uri = DOMAIN_URL.replace("www.", "");
 
     if (channel === ChannelType.FACEBOOK) {
-      window.location.href = `https://www.facebook.com/v17.0/dialog/oauth?client_id=1190161828611459&redirect_uri=${redirect_uri}/connector/facebook/login/&config_id=3763323933910158&state=${token}`;
+      window.location.href = `https://www.facebook.com/v17.0/dialog/oauth?client_id=3796703967222950&redirect_uri=${redirect_uri}/connector/facebook/login/&config_id=728465868571401&state=${token}`;
     } else {
-      window.location.href = `https://www.facebook.com/v17.0/dialog/oauth?client_id=1190161828611459&redirect_uri=${redirect_uri}/connector/instagram/login/&config_id=3763323933910158&state=${token}`;
+      window.location.href = `https://www.facebook.com/v17.0/dialog/oauth?client_id=3796703967222950&redirect_uri=${redirect_uri}/connector/instagram/login/&config_id=728465868571401&state=${token}`;
     }
   };
 
