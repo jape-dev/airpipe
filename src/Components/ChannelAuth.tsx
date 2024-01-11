@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ChannelType, User } from "../vizoApi";
-import GoogleSignIn from "../Components/GoogleSignInV2";
+import { GoogleSignIn } from "../Components/GoogleSignInV2";
 
 interface ChannelAuthProps {
   channel: ChannelType;
@@ -15,7 +15,12 @@ export const ChannelAuth: React.FC<ChannelAuthProps> = ({ channel }) => {
   const handleConnect = () => {
     const token = localStorage.getItem("token");
     const redirect_uri = DOMAIN_URL.replace("www.", "");
-    window.location.href = `https://www.facebook.com/v17.0/dialog/oauth?client_id=3796703967222950&redirect_uri=${redirect_uri}/connector/${channel}/login/&config_id=728465868571401&state=${token}`;
+
+    if (channel === ChannelType.FACEBOOK) {
+      window.location.href = `https://www.facebook.com/v17.0/dialog/oauth?client_id=1190161828611459&redirect_uri=${redirect_uri}/connector/facebook/login/&config_id=3763323933910158&state=${token}`;
+    } else {
+      window.location.href = `https://www.facebook.com/v17.0/dialog/oauth?client_id=1190161828611459&redirect_uri=${redirect_uri}/connector/instagram/login/&config_id=3763323933910158&state=${token}`;
+    }
   };
 
   return (

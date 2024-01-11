@@ -2,10 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { CurrentResults } from './CurrentResults';
 import type { FieldOption } from './FieldOption';
-
 export type ChartData = {
     chart_id: string;
     data: CurrentResults;

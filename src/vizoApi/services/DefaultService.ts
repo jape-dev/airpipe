@@ -30,13 +30,10 @@ import type { UserInDB } from '../models/UserInDB';
 import type { UserWithId } from '../models/UserWithId';
 import type { View } from '../models/View';
 import type { ViewInDB } from '../models/ViewInDB';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-
 export class DefaultService {
-
     /**
      * Auth
      * @returns any Successful Response
@@ -48,7 +45,6 @@ export class DefaultService {
             url: '/connector/google/auth',
         });
     }
-
     /**
      * Oauth2 Callback
      * @returns any Successful Response
@@ -60,7 +56,6 @@ export class DefaultService {
             url: '/connector/google/oauth2_callback',
         });
     }
-
     /**
      * Ad Accounts
      * @param token
@@ -81,7 +76,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Fields
      * @param _default
@@ -108,7 +102,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Login
      * @returns any Successful Response
@@ -120,7 +113,6 @@ export class DefaultService {
             url: '/connector/facebook/login',
         });
     }
-
     /**
      * Ad Accounts
      * @param token
@@ -141,7 +133,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Fields
      * @param _default
@@ -168,7 +159,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Delete
      * @returns any Successful Response
@@ -180,7 +170,6 @@ export class DefaultService {
             url: '/connector/facebook/delete',
         });
     }
-
     /**
      * Deauthorize
      * @returns any Successful Response
@@ -192,7 +181,6 @@ export class DefaultService {
             url: '/connector/facebook/deauthorize',
         });
     }
-
     /**
      * Ad Accounts
      * @param token
@@ -213,7 +201,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Fields
      * @param _default
@@ -240,7 +227,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Tables
      * @param email
@@ -264,7 +250,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Table Schema
      * @param schema
@@ -291,7 +276,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Table Data
      * @param requestBody
@@ -311,7 +295,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Create
      * @param requestBody
@@ -331,7 +314,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Ad Accounts
      * @param token
@@ -352,7 +334,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Fields
      * @param _default
@@ -379,7 +360,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Login
      * @returns any Successful Response
@@ -391,7 +371,6 @@ export class DefaultService {
             url: '/connector/instagram/login',
         });
     }
-
     /**
      * Ad Accounts
      * @param token
@@ -412,12 +391,12 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Fields
      * @param _default
      * @param metrics
      * @param dimensions
+     * @param media
      * @returns FieldOption Successful Response
      * @throws ApiError
      */
@@ -425,6 +404,7 @@ export class DefaultService {
         _default: boolean = false,
         metrics: boolean = false,
         dimensions: boolean = false,
+        media: boolean = false,
     ): CancelablePromise<Array<FieldOption>> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -433,13 +413,13 @@ export class DefaultService {
                 'default': _default,
                 'metrics': metrics,
                 'dimensions': dimensions,
+                'media': media,
             },
             errors: {
                 422: `Validation Error`,
             },
         });
     }
-
     /**
      * Delete
      * @returns any Successful Response
@@ -451,7 +431,6 @@ export class DefaultService {
             url: '/connector/instagram/delete',
         });
     }
-
     /**
      * Deauthorize
      * @returns any Successful Response
@@ -463,7 +442,6 @@ export class DefaultService {
             url: '/connector/instagram/deauthorize',
         });
     }
-
     /**
      * Get Table Columns
      * @param token
@@ -487,7 +465,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Data Source Field Options
      * @param requestBody
@@ -507,7 +484,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Field Options
      * @param requestBody
@@ -527,7 +503,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Channel Field Options
      * @param channel
@@ -551,7 +526,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Run Query
      * @param token
@@ -575,7 +549,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Table Results
      * @param token
@@ -611,7 +584,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Add Data Source
      * @param requestBody
@@ -631,7 +603,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Data Sources
      * @param token
@@ -652,7 +623,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Views
      * @param token
@@ -673,7 +643,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Tables
      * @param token
@@ -694,7 +663,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Create Blend
      * @param token
@@ -728,7 +696,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Save View
      * @param token
@@ -753,7 +720,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Save Table
      * @param token
@@ -781,7 +747,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Chart Data
      * @param chartId
@@ -802,7 +767,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Save Chart
      * @param token
@@ -827,7 +791,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Din Sql
      * @param question
@@ -852,7 +815,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Schema Links
      * @param question
@@ -877,7 +839,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Check Ambiguous Columns
      * @param input
@@ -902,7 +863,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Chart Insights
      * @param requestBody
@@ -922,7 +882,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Save
      * @param requestBody
@@ -947,7 +906,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Connect Db
      * @param dbSchema
@@ -974,7 +932,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Login For Access Token
      * @param formData
@@ -994,7 +951,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Current User
      * @param token
@@ -1015,7 +971,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Create Customer
      * @param requestBody
@@ -1035,7 +990,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Update Onboarding Stage
      * @param requestBody
@@ -1055,7 +1009,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Clear Access Token
      * @param token
@@ -1079,7 +1032,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * User
      * @param token
@@ -1100,7 +1052,6 @@ export class DefaultService {
             },
         });
     }
-
     /**
      * Read Root
      * @returns string Successful Response
@@ -1112,5 +1063,4 @@ export class DefaultService {
             url: '/',
         });
     }
-
 }

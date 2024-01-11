@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * An enumeration.
  */
@@ -13,5 +12,6 @@ export enum ChannelType {
     SHEETS = 'sheets',
     AIRPIPE = 'airpipe',
     YOUTUBE = 'youtube',
-    INSTAGRAM = 'instagram',
+    INSTAGRAM_MEDIA = 'instagram_media',
+    INSTAGRAM_ACCOUNT = 'instagram_account',
 }

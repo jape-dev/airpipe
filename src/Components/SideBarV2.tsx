@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { RouterPath } from "../App";
 import { CustomModal } from "./CustomModal";
-import GoogleSignIn from "./GoogleSignInV2";
+import { GoogleSignIn } from "./GoogleSignInV2";
 import {
   CodeBracketIcon,
   CircleStackIcon,

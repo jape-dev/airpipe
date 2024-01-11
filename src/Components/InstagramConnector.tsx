@@ -14,7 +14,7 @@ export const InstagramConnector = (props: { currentUser?: User }) => {
 
   const onConnect = () => {
     const nextState: AddDataSourceState = {
-      channel: ChannelType.INSTAGRAM,
+      channel: ChannelType.INSTAGRAM_MEDIA,
     };
     navigate(RouterPath.ADD_DATA_SOURCE, {
       state: nextState,

@@ -10,8 +10,10 @@ export const getChannelTypeEnum = (channel: string) => {
     return ChannelType.GOOGLE_ANALYTICS;
   } else if (channel === "youtube") {
     return ChannelType.YOUTUBE;
-  } else if (channel === "instagram") {
-    return ChannelType.INSTAGRAM;
+  } else if (channel === "instagram_media") {
+    return ChannelType.INSTAGRAM_MEDIA;
+  } else if (channel === "instagram_account") {
+    return ChannelType.INSTAGRAM_ACCOUNT;
   } else {
     return ChannelType.AIRPIPE;
   }
@@ -26,7 +28,10 @@ export const getChannelNameFromEnum = (selectedOption: DropDownOption) => {
     return "Google Analytics";
   } else if (selectedOption.channel === ChannelType.YOUTUBE) {
     return "YouTube";
-  } else if (selectedOption.channel === ChannelType.INSTAGRAM) {
+  } else if (
+    selectedOption.channel === ChannelType.INSTAGRAM_MEDIA ||
+    selectedOption.channel === ChannelType.INSTAGRAM_ACCOUNT
+  ) {
     return "Instagram";
   } else {
     return "";

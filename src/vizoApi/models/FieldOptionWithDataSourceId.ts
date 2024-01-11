@@ -2,10 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { ChannelType } from './ChannelType';
 import type { FieldType } from './FieldType';
-
 export type FieldOptionWithDataSourceId = {
     value: string;
     label: string;

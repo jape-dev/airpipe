@@ -2,10 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { OnboardingStage } from './OnboardingStage';
 import type { UserRoleType } from './UserRoleType';
-
 export type UserWithId = {
     email: string;
     onboarding_stage?: OnboardingStage;

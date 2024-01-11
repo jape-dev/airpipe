@@ -2,9 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { ChannelType } from './ChannelType';
-
 export type Table = {
     id: number;
     user_id: string;

@@ -152,7 +152,6 @@ export const CreateChart = () => {
 
   useEffect(() => {
     if (state.results?.name) {
-      console.log("title to be set", state.results.name);
       setTitle(state.results.name);
     }
 

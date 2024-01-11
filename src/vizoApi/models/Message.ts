@@ -2,9 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { User } from './User';
-
 export type Message = {
     is_user_message: boolean;
     current_user?: User;

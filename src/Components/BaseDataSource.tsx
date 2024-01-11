@@ -48,7 +48,10 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
       return "Google Analytics";
     } else if (dataSource.channel === ChannelType.YOUTUBE) {
       return "YouTube";
-    } else if (dataSource.channel === ChannelType.INSTAGRAM) {
+    } else if (
+      dataSource.channel === ChannelType.INSTAGRAM_MEDIA ||
+      dataSource.channel === ChannelType.INSTAGRAM_ACCOUNT
+    ) {
       return "Instagram";
     }
   };

@@ -142,7 +142,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             ]);
             setShowInput(false);
           } else {
-            console.log("response", response);
             setShowInput(true);
             setMessages([
               ...messages,

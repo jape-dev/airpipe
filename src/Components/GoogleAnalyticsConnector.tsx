@@ -1,6 +1,6 @@
 import { CustomModal } from "./CustomModal";
 import { useState, useEffect } from "react";
-import GoogleSignIn from "./GoogleSignInV2";
+import { GoogleSignIn } from "./GoogleSignInV2";
 import { BaseConnector } from "./BaseConnector";
 import { User, ChannelType } from "../vizoApi";
 import { useNavigate } from "react-router-dom";
