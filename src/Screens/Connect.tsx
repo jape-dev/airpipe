@@ -46,10 +46,10 @@ export const Connect: React.FC = () => {
             <GoogleConnectorV2 currentUser={currentUser} />
             <FacebookConnectorV2 currentUser={currentUser} />
             <GoogleAnalyticsConnector currentUser={currentUser} />
+            <YouTubeConnector currentUser={currentUser} />
             {(currentUser?.email === "metatest@useairpipe.com" ||
               currentUser?.email === "jamespatten1996@gmail.com") && (
               <>
-                <YouTubeConnector currentUser={currentUser} />
                 <InstagramConnector currentUser={currentUser} />
               </>
             )}
