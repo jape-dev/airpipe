@@ -6,8 +6,7 @@
  * An enumeration.
  */
 export enum OnboardingStage {
-    CONNECT = 'connect',
-    ADD_DATA = 'add_data',
-    ASK = 'ask',
-    COMPLETE = 'complete',
+    SIGNED_UP = 'signed_up',
+    CONNECTED = 'connected',
+    DATA_ADDED = 'data_added',
 }

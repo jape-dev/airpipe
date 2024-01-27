@@ -39,7 +39,7 @@ export const SignUp = () => {
     const newUser: UserInDB = {
       email: email,
       hashed_password: password,
-      onboarding_stage: OnboardingStage.CONNECT,
+      onboarding_stage: OnboardingStage.SIGNED_UP,
       role: selectedRole,
     };
 

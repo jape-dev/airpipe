@@ -18,6 +18,7 @@ import type { FieldOption } from '../models/FieldOption';
 import type { LookerDataRequest } from '../models/LookerDataRequest';
 import type { LookerField } from '../models/LookerField';
 import type { LookerTable } from '../models/LookerTable';
+import type { OnboardingStage } from '../models/OnboardingStage';
 import type { QueryResults } from '../models/QueryResults';
 import type { SpreadsheetResponse } from '../models/SpreadsheetResponse';
 import type { SpreadsheetWithRefreshToken } from '../models/SpreadsheetWithRefreshToken';
@@ -504,29 +505,6 @@ export class DefaultService {
         });
     }
     /**
-     * Channel Field Options
-     * @param channel
-     * @param token
-     * @returns FieldOption Successful Response
-     * @throws ApiError
-     */
-    public static channelFieldOptionsQueryChannelFieldOptionsGet(
-        channel: ChannelType,
-        token: string,
-    ): CancelablePromise<Array<FieldOption>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/query/channel_field_options',
-            query: {
-                'channel': channel,
-                'token': token,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-    /**
      * Run Query
      * @param token
      * @param query
@@ -992,16 +970,21 @@ export class DefaultService {
     }
     /**
      * Update Onboarding Stage
+     * @param newStage
      * @param requestBody
      * @returns User Successful Response
      * @throws ApiError
      */
     public static updateOnboardingStageUserUpdateOnboardingStagePost(
+        newStage: OnboardingStage,
         requestBody: User,
     ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/user/update_onboarding_stage',
+            query: {
+                'new_stage': newStage,
+            },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -1050,6 +1033,17 @@ export class DefaultService {
             errors: {
                 422: `Validation Error`,
             },
+        });
+    }
+    /**
+     * Send Loops Events
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static sendLoopsEventsUserLoopsEventsPost(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/user/loops_events',
         });
     }
     /**

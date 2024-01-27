@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BaseConnector } from "./BaseConnector";
-import { User, ChannelType } from "../vizoApi";
+import { User, ChannelType, OnboardingStage, DefaultService } from "../vizoApi";
 import { useNavigate } from "react-router-dom";
 import { RouterPath } from "../App";
 import { AddDataSourceState } from "../Screens/AddDataSource";
@@ -13,6 +13,12 @@ export const InstagramConnector = (props: { currentUser?: User }) => {
   const [connected, setConnected] = useState(false);
 
   const onConnect = () => {
+    if (props.currentUser?.onboarding_stage === OnboardingStage.SIGNED_UP) {
+      DefaultService.updateOnboardingStageUserUpdateOnboardingStagePost(
+        OnboardingStage.CONNECTED,
+        props.currentUser
+      );
+    }
     const nextState: AddDataSourceState = {
       channel: ChannelType.INSTAGRAM_MEDIA,
     };

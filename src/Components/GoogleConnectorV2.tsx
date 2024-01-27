@@ -2,7 +2,7 @@ import { CustomModal } from "./CustomModal";
 import { useState, useEffect } from "react";
 import { GoogleSignIn } from "./GoogleSignInV2";
 import { BaseConnector } from "./BaseConnector";
-import { User, ChannelType } from "../vizoApi";
+import { User, ChannelType, DefaultService, OnboardingStage } from "../vizoApi";
 import { useNavigate } from "react-router-dom";
 import { RouterPath } from "../App";
 import { AddDataSourceState } from "../Screens/AddDataSource";
@@ -21,6 +21,12 @@ export const GoogleConnectorV2 = (props: { currentUser?: User }) => {
     const nextState: AddDataSourceState = {
       channel: ChannelType.GOOGLE,
     };
+    if (props.currentUser?.onboarding_stage === OnboardingStage.SIGNED_UP) {
+      DefaultService.updateOnboardingStageUserUpdateOnboardingStagePost(
+        OnboardingStage.CONNECTED,
+        props.currentUser
+      );
+    }
     navigate(RouterPath.ADD_DATA_SOURCE, {
       state: nextState,
     });
