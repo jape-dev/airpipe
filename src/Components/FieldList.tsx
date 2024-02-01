@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldType, FieldOption } from "../vizoApi";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
@@ -55,21 +55,23 @@ export const FieldList: React.FC<FieldListProps> = ({
     setSelectedOptions(selectedOptions.filter((o) => o.value !== option.value));
 
     setFieldOptions((metricOptions) => {
+      console.log(option);
       const options = [...metricOptions, option];
       const sortedOptions = options.sort((a, b) =>
         a.label.localeCompare(b.label)
       );
-      const index = sortedOptions.indexOf(option);
-      if (
-        index !== -1 &&
-        index < sortedOptions.length - 1 &&
-        sortedOptions[index + 1].label === option.label
-      ) {
+      const exists = options.some((opt) => opt.value === option.value);
+      if (exists) {
         return metricOptions; // option already exists, return current state of metricOptions
+      } else {
+        return sortedOptions;
       }
-      return sortedOptions;
     });
   };
+
+  useEffect(() => {
+    console.log("fieldOptions", fieldOptions);
+  }, [fieldOptions]);
 
   const handleFieldTypeChange = (fieldType: FieldType) => {
     setFieldType(fieldType);
