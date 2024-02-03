@@ -19,7 +19,7 @@ import {
 import { RouterPath } from "../App";
 import { StickyHeadTable } from "../Components/Table";
 import { FieldList } from "../Components/FieldList";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { DateSelector } from "../Components/DateSelector";
 import { Blender } from "../Components/Blender";
 import { ConfigureBlend } from "../Components/ConfigureBlend";
@@ -32,7 +32,14 @@ import { ListBulletIcon } from "@heroicons/react/24/outline";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
+export interface CreateViewState {
+  dataSource?: DataSourceInDB;
+}
+
 export const CreateView: React.FC = () => {
+  const location = useLocation();
+  const state = location.state as CreateViewState;
+
   const [token, setToken] = useState<string>("");
   const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
@@ -223,6 +230,17 @@ export const CreateView: React.FC = () => {
           DefaultService.dataSourcesQueryDataSourcesGet(token).then(
             (response) => {
               setDataSources(response);
+              if (state.dataSource) {
+                const option: DropDownOption = {
+                  id: state.dataSource.id.toString(),
+                  name: state.dataSource.name,
+                  img: state.dataSource.channel_img,
+                  ad_account_id: state.dataSource.ad_account_id,
+                  channel: getChannelTypeEnum(state.dataSource.channel),
+                };
+                setSelectedOption(option);
+                setSelectedDataSource(state.dataSource);
+              }
             }
           );
         })
@@ -300,6 +318,7 @@ export const CreateView: React.FC = () => {
               <Dropdown
                 options={dropDownOptions}
                 onSelectOption={handleSelectOption}
+                defaultOption={selectedOption}
               ></Dropdown>
             )}
             <>

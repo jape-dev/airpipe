@@ -80,15 +80,17 @@ export const DataSources: React.FC = () => {
                     dataSource={selectedDataSource}
                     setSelectedDataSource={setSelectedDataSource}
                     selected={true}
+                    firstSource={true}
                   />
                   <StickyHeadTable results={results} columns={columns} />
                 </>
               ) : (
-                dataSources.map((dataSource: DataSourceInDB) => (
+                dataSources.map((dataSource: DataSourceInDB, index) => (
                   <BaseDataSource
                     dataSource={dataSource}
                     setSelectedDataSource={setSelectedDataSource}
                     selected={false}
+                    firstSource={index === 0 ? true : false}
                   />
                 ))
               )}

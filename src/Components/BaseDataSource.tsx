@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { DatetimeStringToDateString } from "../Utils/DateFormat";
 import { DataSourceInDB, ChannelType } from "../vizoApi";
+import { useNavigate } from "react-router-dom";
+import { RouterPath } from "../App";
+import { CreateViewState } from "../Screens/CreateView";
 
 interface BaseDataSourceProps {
   dataSource: DataSourceInDB;
@@ -8,14 +11,17 @@ interface BaseDataSourceProps {
     React.SetStateAction<DataSourceInDB | undefined>
   >;
   selected: boolean;
+  firstSource: boolean;
 }
 
 export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
   dataSource,
   setSelectedDataSource,
   selected,
+  firstSource = false,
 }) => {
   const [channelName, setChannelName] = useState<string>("");
+  const navigate = useNavigate();
 
   const getIconUrl = () => {
     return require(`../Static/images/${dataSource.channel_img}.png`);
@@ -27,6 +33,15 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
     } else {
       setSelectedDataSource(dataSource);
     }
+  };
+
+  const handleCreateViewClick = () => {
+    const state: CreateViewState = {
+      dataSource: dataSource,
+    };
+    navigate(RouterPath.CREATE_VIEW, {
+      state: state,
+    });
   };
 
   useEffect(() => {
@@ -69,18 +84,24 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
           </span>
         </h1>
       </div>
-      <div className="flex items-center">
+      <div className="flex flex-col">
+        {firstSource && (
+          <h2 className="text-sm font-medium text-gray-600 text-center mb-1">
+            Date Range
+          </h2>
+        )}
         <h2 className="text-md text-gray-500">
           {DatetimeStringToDateString(dataSource.start_date)} -{" "}
           {DatetimeStringToDateString(dataSource.end_date)}
         </h2>
       </div>
+
       <div className="flex items-center">
         <button
           className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4"
-          onClick={handleDataSourceClick}
+          onClick={handleCreateViewClick}
         >
-          {selected ? "Back" : "View Data"}
+          {selected ? "Back" : "Create View"}
         </button>
       </div>
     </div>
