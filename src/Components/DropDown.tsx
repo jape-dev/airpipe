@@ -30,10 +30,20 @@ export const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<DropDownOption>();
+  const [filterText, setFilterText] = useState("");
+
+  const filteredOptions = options.filter((option) => {
+    return option.name
+      ? option.name.toLowerCase().includes(filterText.toLowerCase())
+      : false;
+  });
 
   const handleOptionClick = (option: DropDownOption) => {
+    console.log(option);
     setSelectedOption(option);
-    setIsOpen(false);
+    if (option !== selectedOption) {
+      setIsOpen(false);
+    }
     onSelectOption(option);
   };
 
@@ -51,9 +61,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <div className="relative mb-5">
       <button
         className="block w-full bg-white border border-gray-400 shadow-sm py-2 px-4 rounded-md text-left cursor-pointer focus:outline-none max-h-16 truncate"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(true)}
       >
-        {selectedOption ? (
+        {selectedOption && !isOpen ? (
           <div className="flex items-center">
             {selectedOption.img && (
               <img
@@ -73,13 +83,18 @@ export const Dropdown: React.FC<DropdownProps> = ({
             )}
           </div>
         ) : (
-          "Select an option"
+          <input
+            className="mt-0 pl-3 focus:outline-none h-[4vh]"
+            placeholder="Select an option..."
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
         )}
       </button>
       {isOpen && (
         <div className="absolute z-10 mt-1 w-full bg-white border border-gray-400 rounded-md shadow-lg">
           <ul className="py-1">
-            {options.map((option) => (
+            {filteredOptions.map((option) => (
               <li
                 key={option.id}
                 className="px-4 py-2 cursor-pointer hover:bg-gray-100"
