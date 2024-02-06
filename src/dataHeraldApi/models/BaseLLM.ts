@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-export type QuestionRequest = {
-    db_connection_id: string;
-    question?: string;
+export type BaseLLM = {
+    model_provider?: string;
+    model_name?: string;
+    model_parameters?: Record<string, string>;
 };
 

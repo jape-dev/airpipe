@@ -2,8 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UpdateInstruction = {
-    instruction: string;
+import type { LLMConfig } from './LLMConfig';
+export type NLGenerationRequest = {
+    llm_config?: LLMConfig;
+    max_rows?: number;
     metadata?: Record<string, any>;
 };
 

@@ -2,9 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-export type CreateResponseRequest = {
-    question_id: string;
-    sql_query?: string;
+export type RefreshTableDescriptionRequest = {
+    db_connection_id: string;
 };
 

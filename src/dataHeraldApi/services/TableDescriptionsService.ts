@@ -2,25 +2,23 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { RefreshTableDescriptionRequest } from '../models/RefreshTableDescriptionRequest';
 import type { ScannerRequest } from '../models/ScannerRequest';
-import type { TableDescription } from '../models/TableDescription';
 import type { TableDescriptionRequest } from '../models/TableDescriptionRequest';
-
+import type { TableDescriptionResponse } from '../models/TableDescriptionResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-
 export class TableDescriptionsService {
-
     /**
      * Scan Db
      * @param requestBody
-     * @returns boolean Successful Response
+     * @returns TableDescriptionResponse Successful Response
      * @throws ApiError
      */
     public static scanDb(
         requestBody: ScannerRequest,
-    ): CancelablePromise<boolean> {
+    ): CancelablePromise<Array<TableDescriptionResponse>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/table-descriptions/sync-schemas',
@@ -31,17 +29,35 @@ export class TableDescriptionsService {
             },
         });
     }
-
+    /**
+     * Refresh Table Description
+     * @param requestBody
+     * @returns TableDescriptionResponse Successful Response
+     * @throws ApiError
+     */
+    public static refreshTableDescription(
+        requestBody: RefreshTableDescriptionRequest,
+    ): CancelablePromise<Array<TableDescriptionResponse>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/table-descriptions/refresh',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
     /**
      * Get Table Description
      * Get description
      * @param tableDescriptionId
-     * @returns TableDescription Successful Response
+     * @returns TableDescriptionResponse Successful Response
      * @throws ApiError
      */
     public static getTableDescription(
         tableDescriptionId: string,
-    ): CancelablePromise<TableDescription> {
+    ): CancelablePromise<TableDescriptionResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/table-descriptions/{table_description_id}',
@@ -53,21 +69,20 @@ export class TableDescriptionsService {
             },
         });
     }
-
     /**
      * Update Table Description
      * Add descriptions for tables and columns
      * @param tableDescriptionId
      * @param requestBody
-     * @returns TableDescription Successful Response
+     * @returns TableDescriptionResponse Successful Response
      * @throws ApiError
      */
     public static updateTableDescription(
         tableDescriptionId: string,
         requestBody: TableDescriptionRequest,
-    ): CancelablePromise<TableDescription> {
+    ): CancelablePromise<TableDescriptionResponse> {
         return __request(OpenAPI, {
-            method: 'PATCH',
+            method: 'PUT',
             url: '/api/v1/table-descriptions/{table_description_id}',
             path: {
                 'table_description_id': tableDescriptionId,
@@ -79,19 +94,18 @@ export class TableDescriptionsService {
             },
         });
     }
-
     /**
      * List Table Descriptions
      * List table descriptions
      * @param dbConnectionId
      * @param tableName
-     * @returns TableDescription Successful Response
+     * @returns TableDescriptionResponse Successful Response
      * @throws ApiError
      */
     public static listTableDescriptions(
         dbConnectionId: string,
         tableName?: string,
-    ): CancelablePromise<Array<TableDescription>> {
+    ): CancelablePromise<Array<TableDescriptionResponse>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/table-descriptions',
@@ -104,5 +118,4 @@ export class TableDescriptionsService {
             },
         });
     }
-
 }

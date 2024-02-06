@@ -2,9 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-export type SQLQueryResult = {
-    columns: Array<string>;
-    rows: Array<Record<string, any>>;
+export type CancelFineTuningRequest = {
+    finetuning_id: string;
+    metadata?: Record<string, any>;
 };
 

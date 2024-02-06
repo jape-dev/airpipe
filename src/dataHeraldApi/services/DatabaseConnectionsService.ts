@@ -4,13 +4,11 @@
 /* eslint-disable */
 import type { DatabaseConnection } from '../models/DatabaseConnection';
 import type { DatabaseConnectionRequest } from '../models/DatabaseConnectionRequest';
-
+import type { DatabaseConnectionResponse } from '../models/DatabaseConnectionResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-
 export class DatabaseConnectionsService {
-
     /**
      * List Database Connections
      * List all database connections
@@ -23,17 +21,16 @@ export class DatabaseConnectionsService {
             url: '/api/v1/database-connections',
         });
     }
-
     /**
      * Create Database Connection
      * Creates a database connection
      * @param requestBody
-     * @returns DatabaseConnection Successful Response
+     * @returns DatabaseConnectionResponse Successful Response
      * @throws ApiError
      */
     public static createDatabaseConnection(
         requestBody: DatabaseConnectionRequest,
-    ): CancelablePromise<DatabaseConnection> {
+    ): CancelablePromise<DatabaseConnectionResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/database-connections',
@@ -44,7 +41,6 @@ export class DatabaseConnectionsService {
             },
         });
     }
-
     /**
      * Update Database Connection
      * Creates a database connection
@@ -70,5 +66,4 @@ export class DatabaseConnectionsService {
             },
         });
     }
-
 }

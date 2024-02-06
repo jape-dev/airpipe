@@ -2,30 +2,27 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Instruction } from '../models/Instruction';
 import type { InstructionRequest } from '../models/InstructionRequest';
+import type { InstructionResponse } from '../models/InstructionResponse';
 import type { UpdateInstruction } from '../models/UpdateInstruction';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-
 export class InstructionsService {
-
     /**
      * Get Instructions
      * Gets instructions
      * @param dbConnectionId
      * @param page
      * @param limit
-     * @returns Instruction Successful Response
+     * @returns InstructionResponse Successful Response
      * @throws ApiError
      */
     public static getInstructions(
         dbConnectionId?: string,
         page: number = 1,
         limit: number = 10,
-    ): CancelablePromise<Array<Instruction>> {
+    ): CancelablePromise<Array<InstructionResponse>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/instructions',
@@ -39,17 +36,16 @@ export class InstructionsService {
             },
         });
     }
-
     /**
      * Add Instruction
      * Adds an instruction
      * @param requestBody
-     * @returns Instruction Successful Response
+     * @returns InstructionResponse Successful Response
      * @throws ApiError
      */
     public static addInstruction(
         requestBody: InstructionRequest,
-    ): CancelablePromise<Instruction> {
+    ): CancelablePromise<InstructionResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/instructions',
@@ -60,19 +56,18 @@ export class InstructionsService {
             },
         });
     }
-
     /**
      * Update Instruction
      * Updates an instruction
      * @param instructionId
      * @param requestBody
-     * @returns Instruction Successful Response
+     * @returns InstructionResponse Successful Response
      * @throws ApiError
      */
     public static updateInstruction(
         instructionId: string,
         requestBody: UpdateInstruction,
-    ): CancelablePromise<Instruction> {
+    ): CancelablePromise<InstructionResponse> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/api/v1/instructions/{instruction_id}',
@@ -86,7 +81,6 @@ export class InstructionsService {
             },
         });
     }
-
     /**
      * Delete Instruction
      * Deletes an instruction
@@ -108,5 +102,4 @@ export class InstructionsService {
             },
         });
     }
-
 }

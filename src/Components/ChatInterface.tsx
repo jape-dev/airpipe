@@ -12,7 +12,12 @@ import {
 } from "../vizoApi";
 import { ChatMessage } from "./Message";
 
-import { QuestionsService, QuestionRequest, Response } from "../dataHeraldApi";
+import {
+  PromptSQLGenerationRequest,
+  PromptRequest,
+  SqlGenerationService,
+  SQLGenerationResponse,
+} from "../dataHeraldApi";
 
 export interface ChatInterfaceProps {
   dataSources: DataSourceInDB[];
@@ -70,10 +75,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   }, [scanComplete]);
 
-  // useEffect(() => {
-  //   clearMessages();
-  // }, [dataSources]);
-
   const clearMessages = () => {
     setSql(undefined);
     setConfidenceScore(undefined);
@@ -107,40 +108,47 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       },
     ]);
     if (connectionId) {
-      const requestBody: QuestionRequest = {
+      const prompt: PromptRequest = {
         db_connection_id: connectionId,
-        question: inputValue,
+        text: inputValue,
       };
-      QuestionsService.answerQuestion(true, false, requestBody)
-        .then((response: Response) => {
-          setSql(response.sql_query);
+      const requestBody: PromptSQLGenerationRequest = {
+        // low_latency_mode: true,
+        prompt: prompt,
+      };
+      SqlGenerationService.createPromptAndSqlGeneration(requestBody)
+        .then((response: SQLGenerationResponse) => {
+          setSql(response.sql);
           setConfidenceScore(response.confidence_score);
-          if (response.sql_generation_status === "VALID") {
-            setMessages([
-              ...messages,
-              {
-                text: inputValue,
-                isUserMessage: true,
-              },
-              {
-                text: undefined,
-                question: inputValue,
-                data: response.sql_query_result?.rows,
-                columns: [
-                  ...new Set(
-                    response.sql_query_result?.rows.flatMap((record) =>
-                      Object.keys(record)
-                    )
-                  ),
-                ],
-                isUserMessage: false,
-                tableName: dataSources[0].name,
-                currentUser: currentUser,
-                userToken: userToken,
-                dataSource: dataSources[0],
-              },
-            ]);
-            setShowInput(false);
+          //  add response valid check here.
+          if (response.status === "VALID") {
+            SqlGenerationService.executeSqlQuery(response.id).then(
+              (response) => {
+                console.log(response);
+                setMessages([
+                  ...messages,
+                  {
+                    text: inputValue,
+                    isUserMessage: true,
+                  },
+                  {
+                    text: undefined,
+                    question: inputValue,
+                    data: response,
+                    columns: [
+                      ...new Set(
+                        response.flatMap((record) => Object.keys(record))
+                      ),
+                    ],
+                    isUserMessage: false,
+                    tableName: dataSources[0].name,
+                    currentUser: currentUser,
+                    userToken: userToken,
+                    dataSource: dataSources[0],
+                  },
+                ]);
+              }
+            );
           } else {
             setShowInput(true);
             setMessages([

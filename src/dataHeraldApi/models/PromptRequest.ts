@@ -2,11 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-export type GoldenRecord = {
-    id?: string;
-    question: string;
-    sql_query: string;
+export type PromptRequest = {
+    text: string;
     db_connection_id: string;
+    metadata?: Record<string, any>;
 };
 

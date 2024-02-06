@@ -2,9 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ScannerRequest = {
+import type { BaseLLM } from './BaseLLM';
+export type FineTuningRequest = {
     db_connection_id: string;
-    table_names?: Array<string>;
+    alias?: string;
+    base_llm?: BaseLLM;
+    golden_sqls?: Array<string>;
     metadata?: Record<string, any>;
 };
 

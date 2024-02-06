@@ -9,9 +9,7 @@ import {
   DataSourceInDB,
   User,
   CurrentResults,
-  OnboardingStage,
   ViewInDB,
-  ChannelType,
   Table,
 } from "../vizoApi";
 import { RouterPath } from "../App";
@@ -157,10 +155,8 @@ export const Ask: React.FC = () => {
                 console.log(error);
               })
               .then((response) => {
-                if (response === true) {
-                  setScanComplete(true);
-                  setShowInput(true);
-                }
+                setScanComplete(true);
+                setShowInput(true);
                 const instructionRequestBody: InstructionRequest = {
                   db_connection_id: connection_id,
                   instruction:

@@ -2,8 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UpdateInstruction = {
-    instruction: string;
+export type UpdateMetadataRequest = {
     metadata?: Record<string, any>;
 };
 

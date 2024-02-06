@@ -4,8 +4,8 @@
 /* eslint-disable */
 import type { FileStorage } from './FileStorage';
 import type { SSHSettings } from './SSHSettings';
-export type DatabaseConnection = {
-    id?: string;
+export type DatabaseConnectionResponse = {
+    id: string;
     alias: string;
     use_ssh?: boolean;
     connection_uri?: string;

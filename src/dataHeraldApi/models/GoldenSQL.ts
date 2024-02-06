@@ -2,9 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-export type Query = {
+export type GoldenSQL = {
+    id?: string;
+    prompt_text: string;
+    sql: string;
     db_connection_id: string;
-    sql_query: string;
+    created_at?: string;
+    metadata?: Record<string, any>;
 };
 

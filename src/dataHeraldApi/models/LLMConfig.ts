@@ -2,10 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-export type Question = {
-    id?: string;
-    question: string;
-    db_connection_id: string;
+export type LLMConfig = {
+    llm_name?: string;
+    api_base?: string;
 };
 
