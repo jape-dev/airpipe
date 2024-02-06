@@ -115,6 +115,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       const requestBody: PromptSQLGenerationRequest = {
         // low_latency_mode: true,
         prompt: prompt,
+        evaluate: true,
       };
       SqlGenerationService.createPromptAndSqlGeneration(requestBody)
         .then((response: SQLGenerationResponse) => {
