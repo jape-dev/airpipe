@@ -114,9 +114,9 @@ export const Ask: React.FC = () => {
   const handleSelectOption = (selectedOption: DropDownOption) => {
     setScanComplete(false);
     const aiConsent = localStorage.getItem("aiConsent");
-    if (!aiConsent) {
-      setModal(true);
-    }
+    // if (!aiConsent) {
+    //   setModal(true);
+    // }
     const table = tables.find(
       (table) => table.id.toString() === selectedOption.id
     );
