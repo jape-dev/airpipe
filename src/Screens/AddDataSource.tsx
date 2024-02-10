@@ -354,6 +354,7 @@ export const AddDataSource: React.FC = () => {
         id: account.id,
         name: account.name,
         img: account.img,
+        ad_account_id: account.account_id,
       };
       options.push(option);
     });
@@ -363,8 +364,9 @@ export const AddDataSource: React.FC = () => {
   const handleSelectOption = (selectedOption: DropDownOption) => {
     const selectedAccount = adAccounts.find(
       // Need to use an actual id field instead of ad_account_id
-      (account) => account.id.toString() === selectedOption.id
+      (account) => account.account_id === selectedOption.ad_account_id
     );
+
     setSelectedAdAccount(selectedAccount);
   };
 

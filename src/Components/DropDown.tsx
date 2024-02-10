@@ -39,7 +39,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
   });
 
   const handleOptionClick = (option: DropDownOption) => {
-    console.log(option);
     setSelectedOption(option);
     if (option !== selectedOption) {
       setIsOpen(false);
