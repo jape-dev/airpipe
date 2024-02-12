@@ -93,16 +93,18 @@ export const Views: React.FC = () => {
                     setSelectedView={setSelectedView}
                     selected={true}
                     hanldeChartClick={hanldeChartClick}
+                    firstSource={true}
                   />
                   <StickyHeadTable results={results} columns={columns} />
                 </>
               ) : (
-                views.map((view: ViewInDB) => (
+                views.map((view: ViewInDB, index) => (
                   <BaseView
                     view={view}
                     setSelectedView={setSelectedView}
                     selected={false}
                     hanldeChartClick={hanldeChartClick}
+                    firstSource={index === 0 ? true : false}
                   />
                 ))
               )}

@@ -78,7 +78,6 @@ export const DataSources: React.FC = () => {
                 <>
                   <BaseDataSource
                     dataSource={selectedDataSource}
-                    setSelectedDataSource={setSelectedDataSource}
                     selected={true}
                     firstSource={true}
                   />
@@ -88,7 +87,6 @@ export const DataSources: React.FC = () => {
                 dataSources.map((dataSource: DataSourceInDB, index) => (
                   <BaseDataSource
                     dataSource={dataSource}
-                    setSelectedDataSource={setSelectedDataSource}
                     selected={false}
                     firstSource={index === 0 ? true : false}
                   />

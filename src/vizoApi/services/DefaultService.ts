@@ -565,12 +565,12 @@ export class DefaultService {
     /**
      * Add Data Source
      * @param requestBody
-     * @returns SuccessResponse Successful Response
+     * @returns DataSourceInDB Successful Response
      * @throws ApiError
      */
     public static addDataSourceQueryAddDataSourcePost(
         requestBody: DataSource,
-    ): CancelablePromise<SuccessResponse> {
+    ): CancelablePromise<DataSourceInDB> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/add_data_source',
@@ -602,6 +602,29 @@ export class DefaultService {
         });
     }
     /**
+     * Data Source
+     * @param token
+     * @param dataSourceId
+     * @returns DataSourceInDB Successful Response
+     * @throws ApiError
+     */
+    public static dataSourceQueryDataSourceGet(
+        token: string,
+        dataSourceId: number,
+    ): CancelablePromise<DataSourceInDB> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/data_source',
+            query: {
+                'token': token,
+                'data_source_id': dataSourceId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
      * Views
      * @param token
      * @returns ViewInDB Successful Response
@@ -615,6 +638,29 @@ export class DefaultService {
             url: '/query/views',
             query: {
                 'token': token,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
+     * View
+     * @param token
+     * @param viewId
+     * @returns ViewInDB Successful Response
+     * @throws ApiError
+     */
+    public static viewQueryViewGet(
+        token: string,
+        viewId: number,
+    ): CancelablePromise<ViewInDB> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/query/view',
+            query: {
+                'token': token,
+                'view_id': viewId,
             },
             errors: {
                 422: `Validation Error`,
@@ -886,24 +932,27 @@ export class DefaultService {
     }
     /**
      * Connect Db
+     * @param tableId
      * @param dbSchema
      * @param useSsh
-     * @param alias
+     * @param dataSource
      * @returns any Successful Response
      * @throws ApiError
      */
     public static connectDbQueryDataheraldConnectDbPost(
+        tableId: number,
         dbSchema: string,
         useSsh: boolean = false,
-        alias: string = 'airpipe_db',
+        dataSource: boolean = true,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/query/dataherald/connect_db',
             query: {
+                'table_id': tableId,
                 'db_schema': dbSchema,
                 'use_ssh': useSsh,
-                'alias': alias,
+                'data_source': dataSource,
             },
             errors: {
                 422: `Validation Error`,
@@ -1040,9 +1089,9 @@ export class DefaultService {
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static sendLoopsEventsUserLoopsEventsPost(): CancelablePromise<any> {
+    public static sendLoopsEventsUserLoopsEventsGet(): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'POST',
+            method: 'GET',
             url: '/user/loops_events',
         });
     }

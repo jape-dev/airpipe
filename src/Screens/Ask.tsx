@@ -20,28 +20,17 @@ import { WelcomeModal } from "../Components/Welcome";
 import { getChannelTypeEnum } from "../Utils/StaticData";
 import { CustomModal } from "../Components/CustomModal";
 
-import {
-  TableDescriptionsService,
-  ScannerRequest,
-  InstructionsService,
-  InstructionRequest,
-} from "../dataHeraldApi";
-
 export const Ask: React.FC = () => {
   const [token, setToken] = useState<string>("");
-  const [dataSources, setDataSources] = useState<DataSourceInDB[]>([]);
-  const [views, setViews] = useState<ViewInDB[]>([]);
   const [tables, setTables] = useState<Table[]>([]);
   const [dropDownOptions, setDropDownOptions] = useState<DropDownOption[]>([]);
-  const [selectedDataSource, setSelectedDataSource] =
-    useState<DataSourceInDB>();
+  const [selectedTable, setSelectedTable] = useState<Table>();
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useState<User>();
   const [welcome, setWelcome] = useState(false);
   const [modal, setModal] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
-  const [connectionId, setConnectionId] = useState<string>("");
   const [showInput, setShowInput] = useState<boolean>(false);
   const [scanComplete, setScanComplete] = useState<boolean>(false);
 
@@ -72,34 +61,40 @@ export const Ask: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    console.log("results", results);
+    console.log("columns", columns);
+  }, [results, columns]);
+
+  useEffect(() => {
     // Initialize an empty array for DropDownOptions
     let options: DropDownOption[] = [];
-    // Process each table and add to options
+    // Process each table and add to options only if dh_connection_id is not undefined
     tables.forEach((table) => {
-      const option: DropDownOption = {
-        id: table.id.toString(),
-        name: table.name,
-        img: table.channel_img ? table.channel_img : "airpipe-field-icon",
-        channel: table.channel ? getChannelTypeEnum(table.channel) : undefined,
-        ad_account_id: table.ad_account_id ? table.ad_account_id : undefined,
-      };
-      options.push(option);
+      if (table.dh_connection_id !== null) {
+        // Check if dh_connection_id is not undefined
+        const option: DropDownOption = {
+          id: table.id.toString(),
+          name: table.name,
+          img: table.channel_img ? table.channel_img : "airpipe-field-icon",
+          channel: table.channel
+            ? getChannelTypeEnum(table.channel)
+            : undefined,
+          ad_account_id: table.ad_account_id ? table.ad_account_id : undefined,
+        };
+        options.push(option);
+      }
     });
 
     setDropDownOptions(options);
   }, [tables, currentUser]);
 
   useEffect(() => {
-    if (selectedDataSource && token) {
+    if (selectedTable && token) {
+      console.log("selectedTable", selectedTable);
       DefaultService.tableResultsQueryTableResultsGet(
         token,
-        selectedDataSource.db_schema,
-        selectedDataSource.name,
-        selectedDataSource.channel_img !== "airpipe-field-icon"
-          ? `${selectedDataSource.channel}_date`
-          : undefined,
-        selectedDataSource.start_date,
-        selectedDataSource.end_date
+        selectedTable.db_schema,
+        selectedTable.name
       )
         .then((response: CurrentResults) => {
           setResults(response.results);
@@ -109,70 +104,20 @@ export const Ask: React.FC = () => {
           console.log(error);
         });
     }
-  }, [selectedDataSource]);
+  }, [selectedTable]);
 
   const handleSelectOption = (selectedOption: DropDownOption) => {
-    setScanComplete(false);
-    const aiConsent = localStorage.getItem("aiConsent");
+    // const aiConsent = localStorage.getItem("aiConsent");
     // if (!aiConsent) {
     //   setModal(true);
     // }
     const table = tables.find(
       (table) => table.id.toString() === selectedOption.id
     );
+
     if (table) {
-      const tableAsDataSource: DataSourceInDB = {
-        id: table.id,
-        name: table.name,
-        user_id: table.user_id,
-        db_schema: table.db_schema,
-        fields: table.fields,
-        table_name: table.table_name,
-        channel: table.channel ? getChannelTypeEnum(table.channel) : "airpipe",
-        channel_img: table.channel_img
-          ? table.channel_img
-          : "airpipe-field-icon",
-        ad_account_id: table.ad_account_id ? table.ad_account_id : "na",
-        start_date: table.start_date,
-        end_date: table.end_date,
-      };
-      setSelectedDataSource(tableAsDataSource);
-      setShowInput(false);
-      if (tableAsDataSource !== undefined) {
-        DefaultService.connectDbQueryDataheraldConnectDbPost(
-          tableAsDataSource?.db_schema,
-          false,
-          "airpipe_db"
-        )
-          .then((connection_id: string) => {
-            setConnectionId(connection_id);
-            const requestBody: ScannerRequest = {
-              db_connection_id: connection_id,
-              table_names: [tableAsDataSource.name],
-            };
-            TableDescriptionsService.scanDb(requestBody)
-              .catch((error) => {
-                console.log(error);
-              })
-              .then((response) => {
-                setScanComplete(true);
-                setShowInput(true);
-                const instructionRequestBody: InstructionRequest = {
-                  db_connection_id: connection_id,
-                  instruction:
-                    "Unless specified, give calculations to two decimal places.",
-                };
-                InstructionsService.addInstruction(
-                  instructionRequestBody
-                ).catch((error) => {
-                  console.log(error);
-                });
-              });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+      setSelectedTable(table);
+      setShowInput(true);
     }
   };
 
@@ -202,7 +147,7 @@ export const Ask: React.FC = () => {
                 id="askContainer"
                 className="bg-gray-100 rounded-lg p-4 mx-auto mt-10 my-4 max-w-4xl relative"
               >
-                {selectedDataSource?.name == "tutorial_data" && (
+                {selectedTable?.name == "tutorial_data" && (
                   <>
                     <button
                       id="add-data-button"
@@ -217,7 +162,7 @@ export const Ask: React.FC = () => {
                 )}
                 <div id="main-title">
                   <h1 className="text-2xl font-bold mb-4">
-                    {selectedDataSource?.name == "tutorial_data"
+                    {selectedTable?.name == "tutorial_data"
                       ? "Ask - AI Tutorial"
                       : "Ask"}
                   </h1>
@@ -231,28 +176,31 @@ export const Ask: React.FC = () => {
                   options={dropDownOptions}
                   onSelectOption={handleSelectOption}
                 ></Dropdown>
-                {selectedDataSource && columns && results && (
-                  <>
-                    <div id="data-preview">
-                      <DataPreview
-                        columns={columns}
-                        results={results}
-                        tablePreview={true}
-                      />
-                    </div>
-                    <div id="chat-interface">
-                      <ChatInterface
-                        dataSources={[selectedDataSource]}
-                        currentUser={currentUser}
-                        userToken={token}
-                        connectionId={connectionId}
-                        showInput={showInput}
-                        setShowInput={setShowInput}
-                        scanComplete={scanComplete}
-                      />
-                    </div>
-                  </>
-                )}
+                {selectedTable &&
+                  columns &&
+                  results &&
+                  selectedTable.dh_connection_id && (
+                    <>
+                      <div id="data-preview">
+                        <DataPreview
+                          columns={columns}
+                          results={results}
+                          tablePreview={true}
+                        />
+                      </div>
+                      <div id="chat-interface">
+                        <ChatInterface
+                          table={selectedTable}
+                          currentUser={currentUser}
+                          userToken={token}
+                          connectionId={selectedTable.dh_connection_id}
+                          showInput={showInput}
+                          setShowInput={setShowInput}
+                          scanComplete={true}
+                        />
+                      </div>
+                    </>
+                  )}
               </div>
             </div>
           </div>

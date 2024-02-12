@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
-import {
-  DefaultService,
-  DataSourceInDB,
-  AmbiguousColumns,
-  BaseAmbiguities,
-  Body_check_ambiguous_columns_query_check_ambiguous_columns_post,
-  User,
-  View,
-  CurrentResults,
-} from "../vizoApi";
+import { DataSourceInDB, User, Table } from "../vizoApi";
 import { ChatMessage } from "./Message";
 
 import {
@@ -20,7 +11,7 @@ import {
 } from "../dataHeraldApi";
 
 export interface ChatInterfaceProps {
-  dataSources: DataSourceInDB[];
+  table: Table;
   currentUser?: User;
   userToken: string;
   connectionId?: string;
@@ -38,12 +29,12 @@ interface ChatMessage {
   tableName?: any;
   currentUser?: User;
   userToken?: string;
-  dataSource?: DataSourceInDB;
+  table?: Table;
   question?: string;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
-  dataSources,
+  table,
   currentUser,
   userToken,
   connectionId,
@@ -82,7 +73,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setMessages([
       {
         text:
-          dataSources[0].name === "tutorial_data"
+          table.name === "tutorial_data"
             ? "Use the input box or click on the starter question below:"
             : "Ask a question about your data.",
         isUserMessage: false,
@@ -102,7 +93,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       ...messages,
       { text: inputValue, isUserMessage: true },
       {
-        text: "Working. Estimated time: 45 seconds.",
+        text: "Working. Estimated time: 30 seconds.",
         isUserMessage: false,
         loading: true,
       },
@@ -142,10 +133,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                       ),
                     ],
                     isUserMessage: false,
-                    tableName: dataSources[0].name,
+                    tableName: table.name,
                     currentUser: currentUser,
                     userToken: userToken,
-                    dataSource: dataSources[0],
+                    table: table,
                   },
                 ]);
               }

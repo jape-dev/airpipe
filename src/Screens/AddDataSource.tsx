@@ -9,6 +9,7 @@ import {
   FieldOption,
   ChannelType,
   FieldType,
+  DataSourceInDB,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { useLocation } from "react-router-dom";
@@ -18,6 +19,12 @@ import { getChannelTypeEnum } from "../Utils/StaticData";
 import { v4 as uuidv4 } from "uuid";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import {
+  TableDescriptionsService,
+  ScannerRequest,
+  InstructionsService,
+  InstructionRequest,
+} from "../dataHeraldApi";
 
 export interface AddDataSourceState {
   channel?: ChannelType;
@@ -386,8 +393,48 @@ export const AddDataSource: React.FC = () => {
       };
 
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource)
-        .then(() => {
-          window.location.href = RouterPath.DATA_SOURCES;
+        .then((response: DataSourceInDB) => {
+          DefaultService.connectDbQueryDataheraldConnectDbPost(
+            response.id,
+            response.db_schema
+          )
+            .then((connection_id: string) => {
+              console.log("about to scan db", connection_id);
+              const requestBody: ScannerRequest = {
+                db_connection_id: connection_id,
+                table_names: [response.name],
+              };
+              TableDescriptionsService.scanDb(requestBody)
+                .then(() => {
+                  console.log("database scan complete");
+                  const instructionRequestBodyOne: InstructionRequest = {
+                    db_connection_id: connection_id,
+                    instruction:
+                      "Unless specified, give calculations to two decimal places.",
+                  };
+                  InstructionsService.addInstruction(
+                    instructionRequestBodyOne
+                  ).catch((error) => {
+                    console.log(error);
+                  });
+                  const instructionRequestBodyTwo: InstructionRequest = {
+                    db_connection_id: connection_id,
+                    instruction: `Only use the following table to answer the question: ${response.name}`,
+                  };
+                  InstructionsService.addInstruction(
+                    instructionRequestBodyTwo
+                  ).catch((error) => {
+                    console.log(error);
+                  });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          // window.location.href = RouterPath.DATA_SOURCES;
         })
         .catch((error) => {
           setIsLoading(false);

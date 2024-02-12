@@ -4,36 +4,28 @@ import { DataSourceInDB, ChannelType } from "../vizoApi";
 import { useNavigate } from "react-router-dom";
 import { RouterPath } from "../App";
 import { CreateViewState } from "../Screens/CreateView";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 interface BaseDataSourceProps {
   dataSource: DataSourceInDB;
-  setSelectedDataSource: React.Dispatch<
-    React.SetStateAction<DataSourceInDB | undefined>
-  >;
   selected: boolean;
   firstSource: boolean;
 }
 
 export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
   dataSource,
-  setSelectedDataSource,
   selected,
   firstSource = false,
 }) => {
-  const [channelName, setChannelName] = useState<string>("");
   const navigate = useNavigate();
 
   const getIconUrl = () => {
     return require(`../Static/images/${dataSource.channel_img}.png`);
   };
 
-  const handleDataSourceClick = () => {
-    if (selected === true) {
-      setSelectedDataSource(undefined);
-    } else {
-      setSelectedDataSource(dataSource);
-    }
-  };
+  useEffect(() => {
+    console.log("dataSource", dataSource);
+  }, [dataSource]);
 
   const handleCreateViewClick = () => {
     const state: CreateViewState = {
@@ -43,16 +35,6 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
       state: state,
     });
   };
-
-  useEffect(() => {
-    if (dataSource.channel === ChannelType.GOOGLE) {
-      setChannelName("Google Ads");
-    } else if (dataSource.channel === ChannelType.FACEBOOK) {
-      setChannelName("Facebook Ads");
-    } else if (dataSource.channel === ChannelType.GOOGLE_ANALYTICS) {
-      setChannelName("Google Analytics");
-    }
-  }, []);
 
   const getChannelNameFromEnum = () => {
     if (dataSource.channel === ChannelType.GOOGLE) {
@@ -74,7 +56,7 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
   return (
     <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4 flex items-center justify-between">
       <div className="flex items-center">
-        <img className="h-8 w-8 mr-4" src={getIconUrl()} alt="icon" />
+        <img className="h-8 w-8 mr-3" src={getIconUrl()} alt="icon" />
         <h1 className="mr-10">
           <span className="text-lg font-medium">
             {getChannelNameFromEnum()} |{" "}
@@ -94,6 +76,33 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
           {DatetimeStringToDateString(dataSource.start_date)} -{" "}
           {DatetimeStringToDateString(dataSource.end_date)}
         </h2>
+      </div>
+      <div className="flex flex-col">
+        {firstSource && (
+          <div className="text-center mb-1">
+            <div className="inline-flex items-center justify-center">
+              <h2 className="text-sm font-medium text-gray-600">Scan Status</h2>
+              <div className="relative group ml-2">
+                <InformationCircleIcon className="h-4 w-4 cursor-pointer" />
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 w-60 mb-4 hidden group-hover:block bg-gray-50 text-black text-sm rounded-md shadow-lg p-4">
+                  <p className="mb-2">
+                    AirPipe scans data sources to gather metadata that helps our
+                    AI model understand and answer marketing questions.
+                  </p>
+                  <p>Once complete, you'll see this data source in Ask AI.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {dataSource.dh_connection_id ? (
+          <h2 className="text-md text-gray-500">Scan Complete</h2>
+        ) : (
+          <div className="flex items-center justify-center">
+            <div className="h-4 w-4 border-t-transparent border-solid animate-spin rounded-full border-teal-500 border-4 mr-1"></div>
+            <h2 className="text-md text-gray-500">Scanning</h2>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center">

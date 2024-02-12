@@ -14,5 +14,6 @@ export type DataSourceInDB = {
     ad_account_id: string;
     start_date: string;
     end_date: string;
+    dh_connection_id?: string;
 };
 

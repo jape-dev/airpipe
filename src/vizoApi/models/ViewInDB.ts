@@ -11,5 +11,6 @@ export type ViewInDB = {
     fields: string;
     start_date: string;
     end_date: string;
+    dh_connection_id?: string;
 };
 

@@ -16,5 +16,6 @@ export type Table = {
     channel?: ChannelType;
     channel_img?: string;
     ad_account_id?: string;
+    dh_connection_id?: string;
 };
 
