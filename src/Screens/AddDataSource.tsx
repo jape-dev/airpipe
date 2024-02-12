@@ -434,7 +434,7 @@ export const AddDataSource: React.FC = () => {
             .catch((error) => {
               console.log(error);
             });
-          // window.location.href = RouterPath.DATA_SOURCES;
+          window.location.href = RouterPath.DATA_SOURCES;
         })
         .catch((error) => {
           setIsLoading(false);
