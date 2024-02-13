@@ -55,7 +55,6 @@ export const FieldList: React.FC<FieldListProps> = ({
     setSelectedOptions(selectedOptions.filter((o) => o.value !== option.value));
 
     setFieldOptions((metricOptions) => {
-      console.log(option);
       const options = [...metricOptions, option];
       const sortedOptions = options.sort((a, b) =>
         a.label.localeCompare(b.label)
@@ -68,10 +67,6 @@ export const FieldList: React.FC<FieldListProps> = ({
       }
     });
   };
-
-  useEffect(() => {
-    console.log("fieldOptions", fieldOptions);
-  }, [fieldOptions]);
 
   const handleFieldTypeChange = (fieldType: FieldType) => {
     setFieldType(fieldType);

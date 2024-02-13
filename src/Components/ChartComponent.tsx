@@ -62,10 +62,6 @@ const CustomTooltip = ({
   xAxis,
   chartType,
 }: CustomTooltipProps) => {
-  useEffect(() => {
-    console.log(xAxis);
-  }, [xAxis]);
-
   if (active && payload?.length && payload?.length > 0) {
     const dataKey = payload[0].dataKey;
 

@@ -12,7 +12,7 @@ import {
   DataSourceInDB,
 } from "../vizoApi";
 import { RouterPath } from "../App";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FieldList } from "../Components/FieldList";
 import { Dropdown, DropDownOption } from "../Components/DropDown";
 import { getChannelTypeEnum } from "../Utils/StaticData";
@@ -32,6 +32,7 @@ export interface AddDataSourceState {
 
 export const AddDataSource: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const state = location.state as AddDataSourceState;
 
   const [token, setToken] = useState<string>("");
@@ -399,14 +400,12 @@ export const AddDataSource: React.FC = () => {
             response.db_schema
           )
             .then((connection_id: string) => {
-              console.log("about to scan db", connection_id);
               const requestBody: ScannerRequest = {
                 db_connection_id: connection_id,
                 table_names: [response.name],
               };
               TableDescriptionsService.scanDb(requestBody)
                 .then(() => {
-                  console.log("database scan complete");
                   const instructionRequestBodyOne: InstructionRequest = {
                     db_connection_id: connection_id,
                     instruction:
@@ -434,7 +433,7 @@ export const AddDataSource: React.FC = () => {
             .catch((error) => {
               console.log(error);
             });
-          window.location.href = RouterPath.DATA_SOURCES;
+          navigate(RouterPath.DATA_SOURCES);
         })
         .catch((error) => {
           setIsLoading(false);

@@ -116,7 +116,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           if (response.status === "VALID") {
             SqlGenerationService.executeSqlQuery(response.id).then(
               (response) => {
-                console.log(response);
                 setMessages([
                   ...messages,
                   {

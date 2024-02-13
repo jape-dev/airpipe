@@ -61,11 +61,6 @@ export const Ask: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("results", results);
-    console.log("columns", columns);
-  }, [results, columns]);
-
-  useEffect(() => {
     // Initialize an empty array for DropDownOptions
     let options: DropDownOption[] = [];
     // Process each table and add to options only if dh_connection_id is not undefined
@@ -90,7 +85,6 @@ export const Ask: React.FC = () => {
 
   useEffect(() => {
     if (selectedTable && token) {
-      console.log("selectedTable", selectedTable);
       DefaultService.tableResultsQueryTableResultsGet(
         token,
         selectedTable.db_schema,

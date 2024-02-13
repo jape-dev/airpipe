@@ -23,10 +23,6 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
     return require(`../Static/images/${dataSource.channel_img}.png`);
   };
 
-  useEffect(() => {
-    console.log("dataSource", dataSource);
-  }, [dataSource]);
-
   const handleCreateViewClick = () => {
     const state: CreateViewState = {
       dataSource: dataSource,
