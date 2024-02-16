@@ -378,7 +378,7 @@ export const AddDataSource: React.FC = () => {
     setSelectedAdAccount(selectedAccount);
   };
 
-  const handleNameSubmit = () => {
+  const handleAddDataSourceButtonClick = async () => {
     setIsLoading(true);
     // const startDateString = DateToString(startDate);
     // const endDateString = DateToString(endDate);
@@ -398,41 +398,7 @@ export const AddDataSource: React.FC = () => {
           DefaultService.connectDbQueryDataheraldConnectDbPost(
             response.id,
             response.db_schema
-          )
-            .then((connection_id: string) => {
-              const requestBody: ScannerRequest = {
-                db_connection_id: connection_id,
-                table_names: [response.name],
-              };
-              TableDescriptionsService.scanDb(requestBody)
-                .then(() => {
-                  const instructionRequestBodyOne: InstructionRequest = {
-                    db_connection_id: connection_id,
-                    instruction:
-                      "Unless specified, give calculations to two decimal places.",
-                  };
-                  InstructionsService.addInstruction(
-                    instructionRequestBodyOne
-                  ).catch((error) => {
-                    console.log(error);
-                  });
-                  const instructionRequestBodyTwo: InstructionRequest = {
-                    db_connection_id: connection_id,
-                    instruction: `Only use the following table to answer the question: ${response.name}`,
-                  };
-                  InstructionsService.addInstruction(
-                    instructionRequestBodyTwo
-                  ).catch((error) => {
-                    console.log(error);
-                  });
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          );
           navigate(RouterPath.DATA_SOURCES);
         })
         .catch((error) => {
@@ -626,7 +592,7 @@ export const AddDataSource: React.FC = () => {
                       </div>
                     </div>
                     <button
-                      onClick={() => handleNameSubmit()}
+                      onClick={() => handleAddDataSourceButtonClick()}
                       className="bg-teal-500  hover:bg-teal-600  text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
                     >
                       <PlusCircleIcon className="inline h-6 w-6 mr-2" />
