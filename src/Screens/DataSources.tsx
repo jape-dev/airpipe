@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
 import { BaseDataSource } from "../Components/BaseDataSource";
-import { useLocation } from "react-router-dom";
 
 import { DefaultService, CurrentResults } from "../vizoApi";
 import { User, DataSourceInDB } from "../vizoApi";
