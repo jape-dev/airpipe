@@ -18,8 +18,8 @@ export const Overview: React.FC<OverviewProps> = ({ currentUser }) => {
 
   const gifs = [
     require("../Static/images/connect.gif"),
-    require("../Static/images/manage.gif"),
-    require("../Static/images/ask.gif"),
+    require("../Static/images/manage_tutorial.gif"),
+    require("../Static/images/ask_tutorial.gif"),
   ];
 
   const handleMouseEnter = (step: number) => {
