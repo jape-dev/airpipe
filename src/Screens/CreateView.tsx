@@ -31,12 +31,6 @@ import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { ListBulletIcon } from "@heroicons/react/24/outline";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import {
-  TableDescriptionsService,
-  ScannerRequest,
-  InstructionsService,
-  InstructionRequest,
-} from "../dataHeraldApi";
 
 export interface CreateViewState {
   dataSource?: DataSourceInDB;
@@ -189,51 +183,19 @@ export const CreateView: React.FC = () => {
             results: results,
             name: response.name,
           };
-          DefaultService.connectDbQueryDataheraldConnectDbPost(
-            response.id,
-            response.db_schema,
-            false,
-            false
-          )
-            .then((connection_id: string) => {
-              const requestBody: ScannerRequest = {
-                db_connection_id: connection_id,
-                table_names: [response.name],
-              };
-              TableDescriptionsService.scanDb(requestBody)
-                .then(() => {
-                  const instructionRequestBodyOne: InstructionRequest = {
-                    db_connection_id: connection_id,
-                    instruction:
-                      "Unless specified, give calculations to two decimal places.",
-                  };
-                  InstructionsService.addInstruction(
-                    instructionRequestBodyOne
-                  ).catch((error) => {
-                    console.log(error);
-                  });
-                  const instructionRequestBodyTwo: InstructionRequest = {
-                    db_connection_id: connection_id,
-                    instruction: `Only use the following table to answer the question: ${response.name}`,
-                  };
-                  InstructionsService.addInstruction(
-                    instructionRequestBodyTwo
-                  ).catch((error) => {
-                    console.log(error);
-                  });
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
           DefaultService.saveTableQuerySaveTablePost(
             token,
             response.db_schema,
             data
           ).then(() => {
+            DefaultService.connectDbQueryDataheraldConnectDbPost(
+              response.id,
+              response.db_schema,
+              false,
+              false
+            ).catch((error) => {
+              console.log(error);
+            });
             navigate(RouterPath.VIEWS);
           });
         })

@@ -69,7 +69,6 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   const [viewName, setViewName] = useState<string>(uuidv4());
   const [isLoading, setIsLoading] = useState(false);
   const [fields, setFields] = useState<FieldOption[]>([]);
-  const [responseView, setResponseView] = useState<ViewInDB>();
 
   let navigate = useNavigate();
 
@@ -98,8 +97,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     let view: View = {
       name: viewName,
       fields: fields,
-      start_date: dataSource?.start_date ? dataSource?.start_date : "",
-      end_date: dataSource?.end_date ? dataSource?.end_date : "",
+      start_date: dataSource?.start_date ? dataSource?.start_date : undefined,
+      end_date: dataSource?.end_date ? dataSource?.end_date : undefined,
     };
     if (currentUser && userToken) {
       const viewDB = DefaultService.saveViewQuerySaveViewPost(userToken, view)
@@ -115,8 +114,16 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             userToken,
             response.db_schema,
             results
-          ).catch((error) => {
-            console.log(error);
+          ).then(() => {
+            DefaultService.connectDbQueryDataheraldConnectDbPost(
+              response.id,
+              response.db_schema,
+              false,
+              false
+            ).catch((error) => {
+              console.log(error);
+            });
+            navigate(RouterPath.VIEWS);
           });
         })
         .catch((error) => {

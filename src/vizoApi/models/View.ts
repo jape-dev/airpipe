@@ -7,8 +7,8 @@ import type { JoinCondition } from './JoinCondition';
 export type View = {
     name: string;
     fields: Array<FieldOption>;
-    start_date: string;
-    end_date: string;
+    start_date?: string;
+    end_date?: string;
     join_conditions?: Array<JoinCondition>;
 };
 

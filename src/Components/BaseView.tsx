@@ -41,8 +41,11 @@ export const BaseView: React.FC<BaseViewProps> = ({
           </h2>
         )}
         <h2 className="text-md text-gray-500">
-          {DatetimeStringToDateString(view.start_date)} -{" "}
-          {DatetimeStringToDateString(view.end_date)}
+          {view.start_date && view.end_date
+            ? `${DatetimeStringToDateString(
+                view.start_date
+              )} - ${DatetimeStringToDateString(view.end_date)}`
+            : "-"}
         </h2>
       </div>
       <div className="flex flex-col">

@@ -9,8 +9,8 @@ export type ViewInDB = {
     name: string;
     table_name: string;
     fields: string;
-    start_date: string;
-    end_date: string;
+    start_date?: string;
+    end_date?: string;
     dh_connection_id?: string;
 };
 

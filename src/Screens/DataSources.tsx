@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavBar } from "../Components/NavBar";
 import { SideBar } from "../Components/SideBarV2";
 import { BaseDataSource } from "../Components/BaseDataSource";
+import { useLocation } from "react-router-dom";
 
 import { DefaultService, CurrentResults } from "../vizoApi";
 import { User, DataSourceInDB } from "../vizoApi";
@@ -16,27 +17,45 @@ export const DataSources: React.FC = () => {
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
   const [token, setToken] = useState<string>("");
+  const [requestCount, setRequestCount] = useState(0);
+  const requestLimit = 12;
 
   useEffect(() => {
-    const userToken = localStorage.getItem("token");
-    if (userToken === null) {
-      window.location.href = RouterPath.LOGIN;
-    } else {
-      setToken(userToken);
-      DefaultService.currentUserUserAuthCurrentUserGet(userToken)
-        .then((response: User) => {
-          setCurrentUser(response);
-          DefaultService.dataSourcesQueryDataSourcesGet(userToken).then(
-            (response) => {
-              setDataSources(response);
-            }
-          );
-        })
-        .catch((error) => {
-          window.location.href = RouterPath.LOGIN;
-        });
-    }
-  }, []);
+    const getDataSources = () => {
+      const userToken = localStorage.getItem("token");
+      if (userToken === null) {
+        window.location.href = RouterPath.LOGIN;
+      } else {
+        setToken(userToken);
+        DefaultService.currentUserUserAuthCurrentUserGet(userToken)
+          .then((response: User) => {
+            setCurrentUser(response);
+            DefaultService.dataSourcesQueryDataSourcesGet(userToken).then(
+              (response) => {
+                setDataSources(response);
+              }
+            );
+          })
+          .catch((error) => {
+            window.location.href = RouterPath.LOGIN;
+          });
+      }
+    };
+
+    // Run once immediately and then set the interval
+    getDataSources(); // To ensure it runs immediately the first time
+    const interval = setInterval(() => {
+      if (requestCount < requestLimit) {
+        getDataSources();
+        setRequestCount(requestCount + 1);
+      } else {
+        clearInterval(interval);
+      }
+    }, 5000); // Run every 5 seconds
+
+    // Cleanup on component unmount
+    return () => clearInterval(interval);
+  }, []); // Ensure this effect only runs once
 
   useEffect(() => {
     if (selectedDataSource) {

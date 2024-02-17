@@ -17,6 +17,8 @@ export const Views: React.FC = () => {
   const [selectedView, setSelectedView] = useState<ViewInDB>();
   const [results, setResults] = useState<Object[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
+  const [requestCount, setRequestCount] = useState(0);
+  const requestLimit = 12;
 
   const hanldeChartClick = () => {
     if (!selectedView) {
@@ -37,22 +39,37 @@ export const Views: React.FC = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token === null) {
-      window.location.href = RouterPath.LOGIN;
-    } else {
-      setToken(token);
-      DefaultService.currentUserUserAuthCurrentUserGet(token)
-        .then((response: User) => {
-          setCurrentUser(response);
-          DefaultService.viewsQueryViewsGet(token).then((response) => {
-            setViews(response);
+    const getViews = () => {
+      const token = localStorage.getItem("token");
+      if (token === null) {
+        window.location.href = RouterPath.LOGIN;
+      } else {
+        setToken(token);
+        DefaultService.currentUserUserAuthCurrentUserGet(token)
+          .then((response: User) => {
+            setCurrentUser(response);
+            DefaultService.viewsQueryViewsGet(token).then((response) => {
+              setViews(response);
+            });
+          })
+          .catch((error) => {
+            window.location.href = RouterPath.LOGIN;
           });
-        })
-        .catch((error) => {
-          window.location.href = RouterPath.LOGIN;
-        });
-    }
+      }
+    };
+    // Run once immediately and then set the interval
+    getViews(); // To ensure it runs immediately the first time
+    const interval = setInterval(() => {
+      if (requestCount < requestLimit) {
+        getViews();
+        setRequestCount(requestCount + 1);
+      } else {
+        clearInterval(interval);
+      }
+    }, 5000); // Run every 5 seconds
+
+    // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
