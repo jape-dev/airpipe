@@ -69,7 +69,7 @@ export const Ask: React.FC = () => {
         // Check if dh_connection_id is not undefined
         const option: DropDownOption = {
           id: table.id.toString(),
-          name: table.name,
+          name: table.ad_account_name ? table.ad_account_name : table.name,
           img: table.channel_img ? table.channel_img : "airpipe-field-icon",
           channel: table.channel
             ? getChannelTypeEnum(table.channel)

@@ -58,7 +58,10 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
         <img className="h-8 w-8 mr-3" src={getIconUrl()} alt="icon" />
         <h1 className="mr-10">
           <span className="text-lg font-medium">
-            {getChannelNameFromEnum()} |{" "}
+            {dataSource.ad_account_name
+              ? dataSource.ad_account_name
+              : getChannelNameFromEnum()}{" "}
+            |{" "}
           </span>
           <span className="text-md text-gray-500">
             {dataSource.ad_account_id}

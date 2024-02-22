@@ -241,7 +241,9 @@ export const CreateView: React.FC = () => {
               if (state.dataSource) {
                 const option: DropDownOption = {
                   id: state.dataSource.id.toString(),
-                  name: state.dataSource.name,
+                  name: state.dataSource.ad_account_name
+                    ? state.dataSource.ad_account_name
+                    : state.dataSource.name,
                   img: state.dataSource.channel_img,
                   ad_account_id: state.dataSource.ad_account_id,
                   channel: getChannelTypeEnum(state.dataSource.channel),
@@ -287,7 +289,7 @@ export const CreateView: React.FC = () => {
     dataSources.map((source) => {
       const option: DropDownOption = {
         id: source.id.toString(),
-        name: source.name,
+        name: source.ad_account_name ? source.ad_account_name : source.name,
         img: source.channel_img,
         ad_account_id: source.ad_account_id,
         channel: getChannelTypeEnum(source.channel),

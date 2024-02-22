@@ -9,6 +9,7 @@ export interface DropDownOption {
   img?: string;
   channel?: ChannelType;
   ad_account_id?: string;
+  ad_account_name?: string;
 }
 
 interface DropdownProps {
@@ -71,8 +72,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
               />
             )}
             <span className="font-medium mr-1 truncate">
-              {selectedOption.channel
-                ? getChannelNameFromEnum(selectedOption)
+              {selectedOption.ad_account_name
+                ? selectedOption.ad_account_name
                 : selectedOption.name}
             </span>
             {selectedOption.ad_account_id && (
@@ -108,8 +109,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
                   )}
                   <span className="font-medium mr-1">
                     {" "}
-                    {option.channel
-                      ? getChannelNameFromEnum(option)
+                    {option.ad_account_name
+                      ? option.ad_account_name
                       : option.name}
                   </span>
                   <span className="text-gray-500 text-xs">
