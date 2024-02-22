@@ -20,6 +20,7 @@ import type { LookerField } from '../models/LookerField';
 import type { LookerTable } from '../models/LookerTable';
 import type { OnboardingStage } from '../models/OnboardingStage';
 import type { QueryResults } from '../models/QueryResults';
+import type { ReportType } from '../models/ReportType';
 import type { SpreadsheetResponse } from '../models/SpreadsheetResponse';
 import type { SpreadsheetWithRefreshToken } from '../models/SpreadsheetWithRefreshToken';
 import type { SuccessResponse } from '../models/SuccessResponse';
@@ -82,6 +83,7 @@ export class DefaultService {
      * @param _default
      * @param metrics
      * @param dimensions
+     * @param reportType
      * @returns FieldOption Successful Response
      * @throws ApiError
      */
@@ -89,6 +91,7 @@ export class DefaultService {
         _default: boolean = false,
         metrics: boolean = false,
         dimensions: boolean = false,
+        reportType?: ReportType,
     ): CancelablePromise<Array<FieldOption>> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -97,6 +100,7 @@ export class DefaultService {
                 'default': _default,
                 'metrics': metrics,
                 'dimensions': dimensions,
+                'report_type': reportType,
             },
             errors: {
                 422: `Validation Error`,
@@ -397,7 +401,7 @@ export class DefaultService {
      * @param _default
      * @param metrics
      * @param dimensions
-     * @param media
+     * @param reportType
      * @returns FieldOption Successful Response
      * @throws ApiError
      */
@@ -405,7 +409,7 @@ export class DefaultService {
         _default: boolean = false,
         metrics: boolean = false,
         dimensions: boolean = false,
-        media: boolean = false,
+        reportType?: ReportType,
     ): CancelablePromise<Array<FieldOption>> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -414,7 +418,7 @@ export class DefaultService {
                 'default': _default,
                 'metrics': metrics,
                 'dimensions': dimensions,
-                'media': media,
+                'report_type': reportType,
             },
             errors: {
                 422: `Validation Error`,

@@ -33,7 +33,10 @@ export const BaseDataSource: React.FC<BaseDataSourceProps> = ({
   };
 
   const getChannelNameFromEnum = () => {
-    if (dataSource.channel === ChannelType.GOOGLE) {
+    if (
+      dataSource.channel === ChannelType.GOOGLE ||
+      dataSource.channel === ChannelType.GOOGLE_VIDEO
+    ) {
       return "Google Ads";
     } else if (dataSource.channel === ChannelType.FACEBOOK) {
       return "Facebook Ads";

@@ -34,6 +34,7 @@ export type { LookerTable } from './models/LookerTable';
 export type { Message } from './models/Message';
 export { OnboardingStage } from './models/OnboardingStage';
 export type { QueryResults } from './models/QueryResults';
+export { ReportType } from './models/ReportType';
 export type { Schema } from './models/Schema';
 export type { SpreadsheetResponse } from './models/SpreadsheetResponse';
 export type { SpreadsheetWithRefreshToken } from './models/SpreadsheetWithRefreshToken';

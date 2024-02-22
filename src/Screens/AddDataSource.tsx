@@ -10,6 +10,7 @@ import {
   ChannelType,
   FieldType,
   DataSourceInDB,
+  ReportType,
 } from "../vizoApi";
 import { RouterPath } from "../App";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,12 +20,7 @@ import { getChannelTypeEnum } from "../Utils/StaticData";
 import { v4 as uuidv4 } from "uuid";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import {
-  TableDescriptionsService,
-  ScannerRequest,
-  InstructionsService,
-  InstructionRequest,
-} from "../dataHeraldApi";
+import { ReportTypeModal } from "../Components/ReportType";
 
 export interface AddDataSourceState {
   channel?: ChannelType;
@@ -52,7 +48,7 @@ export const AddDataSource: React.FC = () => {
   const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
   const [fieldType, setFieldType] = useState<FieldType>(FieldType.METRIC);
   const [timer, setTimer] = useState(0);
-  const [mediaReport, setMediaReport] = useState(true);
+  const [reportType, setReportType] = useState<ReportType>();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,26 +77,35 @@ export const AddDataSource: React.FC = () => {
     if (
       selectedAdAccount &&
       (selectedAdAccount.channel === ChannelType.INSTAGRAM_ACCOUNT ||
-        selectedAdAccount.channel === ChannelType.INSTAGRAM_MEDIA)
+        selectedAdAccount.channel === ChannelType.INSTAGRAM_MEDIA ||
+        selectedAdAccount.channel === ChannelType.GOOGLE ||
+        selectedAdAccount.channel === ChannelType.GOOGLE_VIDEO)
     ) {
       let selectedAdAccountCopy = { ...selectedAdAccount }; // Make a copy of selectedAdAccount
-      if (mediaReport) {
+      if (reportType == ReportType.MEDIA) {
         selectedAdAccountCopy.channel = ChannelType.INSTAGRAM_MEDIA; // Assign the value
-      } else {
+      } else if (reportType == ReportType.ACCOUNT) {
         selectedAdAccountCopy.channel = ChannelType.INSTAGRAM_ACCOUNT; // Assign the value
+      } else if (reportType == ReportType.STANDARD) {
+        selectedAdAccountCopy.channel = ChannelType.GOOGLE; // Assign the value
+      } else if (reportType == ReportType.VIDEO) {
+        selectedAdAccountCopy.channel = ChannelType.GOOGLE_VIDEO; // Assign the value
       }
       setSelectedAdAccount(selectedAdAccountCopy);
     }
-  }, [mediaReport]);
+  }, [reportType]);
 
   useEffect(() => {
     adAccounts.flatMap((adAccount) => {
       if (adAccount.channel === ChannelType.GOOGLE) {
-        DefaultService.fieldsConnectorGoogleFieldsGet(true, false, false).then(
-          (response) => {
-            setSelectedOptions(response);
-          }
-        );
+        DefaultService.fieldsConnectorGoogleFieldsGet(
+          true,
+          false,
+          false,
+          reportType
+        ).then((response) => {
+          setSelectedOptions(response);
+        });
       } else if (adAccount.channel === ChannelType.FACEBOOK) {
         DefaultService.fieldsConnectorFacebookFieldsGet(
           true,
@@ -117,7 +122,7 @@ export const AddDataSource: React.FC = () => {
           true,
           false,
           false,
-          mediaReport
+          reportType
         ).then((response) => {
           setSelectedOptions(response);
         });
@@ -137,7 +142,7 @@ export const AddDataSource: React.FC = () => {
         );
       }
     });
-  }, [adAccounts, mediaReport]);
+  }, [adAccounts, reportType]);
 
   useEffect(() => {
     if (fieldType === FieldType.METRIC) {
@@ -146,7 +151,8 @@ export const AddDataSource: React.FC = () => {
           DefaultService.fieldsConnectorGoogleFieldsGet(
             false,
             true,
-            false
+            false,
+            reportType
           ).then((response) => {
             setFieldOptions(response);
           });
@@ -166,7 +172,7 @@ export const AddDataSource: React.FC = () => {
             false,
             true,
             false,
-            mediaReport
+            reportType
           ).then((response) => {
             setFieldOptions(response);
           });
@@ -195,7 +201,8 @@ export const AddDataSource: React.FC = () => {
           DefaultService.fieldsConnectorGoogleFieldsGet(
             false,
             false,
-            true
+            true,
+            reportType
           ).then((response) => {
             setFieldOptions(response);
           });
@@ -215,7 +222,7 @@ export const AddDataSource: React.FC = () => {
             false,
             false,
             true,
-            mediaReport
+            reportType
           ).then((response) => {
             setFieldOptions(response);
           });
@@ -238,7 +245,7 @@ export const AddDataSource: React.FC = () => {
         }
       });
     }
-  }, [adAccounts, fieldType, mediaReport]);
+  }, [adAccounts, fieldType, reportType]);
 
   useEffect(() => {
     if (channel === ChannelType.GOOGLE && currentUser?.google_refresh_token) {
@@ -375,6 +382,13 @@ export const AddDataSource: React.FC = () => {
       (account) => account.account_id === selectedOption.ad_account_id
     );
 
+    // Set the default reportType depending on the selectedAccount channel
+    if (selectedAccount?.channel === ChannelType.GOOGLE) {
+      setReportType(ReportType.STANDARD);
+    } else if (selectedAccount?.channel === ChannelType.INSTAGRAM_MEDIA) {
+      setReportType(ReportType.MEDIA);
+    }
+
     setSelectedAdAccount(selectedAccount);
   };
 
@@ -392,7 +406,6 @@ export const AddDataSource: React.FC = () => {
         start_date: startDate.toISOString(),
         end_date: endDate.toISOString(),
       };
-
       DefaultService.addDataSourceQueryAddDataSourcePost(dataSource)
         .then((response: DataSourceInDB) => {
           DefaultService.connectDbQueryDataheraldConnectDbPost(
@@ -403,7 +416,6 @@ export const AddDataSource: React.FC = () => {
         })
         .catch((error) => {
           setIsLoading(false);
-          console.log(error);
           alert(
             "Could not add data source. Please change your fields and try again. Ensure that monetary fields are only used on accounts with active or previously active ads."
           );
@@ -438,9 +450,9 @@ export const AddDataSource: React.FC = () => {
                 options={dropDownOptions}
                 onSelectOption={handleSelectOption}
               />
-            ) : connected && timer < 5 ? (
+            ) : connected && timer < 10 ? (
               <p>Connecting...</p>
-            ) : connected && timer >= 5 && adAccounts.length === 0 ? (
+            ) : connected && timer >= 10 && adAccounts.length === 0 ? (
               <>
                 <p>
                   If you see this, something went wrong. Please press the button
@@ -527,68 +539,16 @@ export const AddDataSource: React.FC = () => {
                           Edit Fields
                         </button>
                         {(channel == ChannelType.INSTAGRAM_MEDIA ||
-                          channel == ChannelType.INSTAGRAM_ACCOUNT) && (
-                          <>
-                            <button
-                              className="text-white bg-teal-500 hover:bg-teal-600 py-2 px-4 rounded transition duration-150 ease-in-out"
-                              onClick={() =>
-                                (
-                                  document.getElementById(
-                                    "my_modal_3"
-                                  ) as HTMLDialogElement
-                                ).showModal()
-                              }
-                            >
-                              Report Type: {mediaReport ? "Media" : "Account"}
-                            </button>
-                            <dialog id="my_modal_3" className="modal">
-                              <div className="modal-box">
-                                <form method="dialog">
-                                  {/* if there is a button in form, it will close the modal */}
-                                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                                    ✕
-                                  </button>
-                                </form>
-                                <h3 className="font-bold text-lg">
-                                  Instagram Report Type:{" "}
-                                  {mediaReport ? "Media" : "Account"}
-                                </h3>
-                                <p className="py-4">
-                                  <strong>Media:</strong> Opt for this report
-                                  type to receive data for each individual media
-                                  post. This report will compile data from the
-                                  most recent 1000 posts.
-                                </p>
-                                <p className="py-4">
-                                  <strong>Account:</strong> Choose this report
-                                  type for daily Account level data reporting.
-                                  It will retrieve data from the past 30 days.
-                                </p>
-
-                                <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box mb -2">
-                                  <li
-                                    className={
-                                      mediaReport ? "bg-gray-300 rounded" : ""
-                                    }
-                                  >
-                                    <a onClick={() => setMediaReport(true)}>
-                                      Media
-                                    </a>
-                                  </li>
-                                  <li
-                                    className={
-                                      mediaReport ? "" : "bg-gray-300 rounded"
-                                    }
-                                  >
-                                    <a onClick={() => setMediaReport(false)}>
-                                      Account
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </dialog>
-                          </>
-                        )}
+                          channel == ChannelType.INSTAGRAM_ACCOUNT ||
+                          ChannelType.GOOGLE) &&
+                          channel &&
+                          reportType && (
+                            <ReportTypeModal
+                              channel={channel}
+                              reportType={reportType}
+                              setReportType={setReportType}
+                            />
+                          )}
                       </div>
                     </div>
                     <button

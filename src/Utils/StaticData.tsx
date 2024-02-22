@@ -4,6 +4,8 @@ import { DropDownOption } from "../Components/DropDown";
 export const getChannelTypeEnum = (channel: string) => {
   if (channel === "google") {
     return ChannelType.GOOGLE;
+  } else if (channel === "google_video") {
+    return ChannelType.GOOGLE_VIDEO;
   } else if (channel === "facebook") {
     return ChannelType.FACEBOOK;
   } else if (channel === "google_analytics") {
@@ -20,7 +22,10 @@ export const getChannelTypeEnum = (channel: string) => {
 };
 
 export const getChannelNameFromEnum = (selectedOption: DropDownOption) => {
-  if (selectedOption.channel === ChannelType.GOOGLE) {
+  if (
+    selectedOption.channel === ChannelType.GOOGLE ||
+    selectedOption.channel === ChannelType.GOOGLE_VIDEO
+  ) {
     return "Google Ads";
   } else if (selectedOption.channel === ChannelType.FACEBOOK) {
     return "Facebook Ads";

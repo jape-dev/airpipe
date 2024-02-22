@@ -11,8 +11,8 @@ export type Table = {
     table_name: string;
     label: string;
     fields: string;
-    start_date: string;
-    end_date: string;
+    start_date?: string;
+    end_date?: string;
     channel?: ChannelType;
     channel_img?: string;
     ad_account_id?: string;

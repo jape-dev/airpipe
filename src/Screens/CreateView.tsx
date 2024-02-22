@@ -292,6 +292,7 @@ export const CreateView: React.FC = () => {
         ad_account_id: source.ad_account_id,
         channel: getChannelTypeEnum(source.channel),
       };
+      console.log(option);
       options.push(option);
     });
 
