@@ -73,14 +73,6 @@ export const ReportTypeModal: React.FC<ReportTypeProps> = ({
               <h3 className="font-bold text-lg">
                 Google Report Type: {reportType}
               </h3>
-              <p className="py-4">
-                <strong>Media:</strong> Opt for this report type to receive data
-                for ...
-              </p>
-              <p className="py-4">
-                <strong>Video:</strong> Choose this report type for ...
-              </p>
-
               <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box mb -2">
                 <li
                   className={
