@@ -12,7 +12,6 @@ import { Home } from "./Screens/Home";
 import { SignUp } from "./Screens/SignUp";
 import { Login } from "./Screens/Login";
 import { Welcome } from "./Screens/Welcome";
-import { AddData } from "./Screens/AddData";
 import { AddDataSource } from "./Screens/AddDataSource";
 import { Connect } from "./Screens/Connect";
 import { ChartPage } from "./Screens/ChartPage";
@@ -32,7 +31,6 @@ export const RouterPath = {
   LOGIN: "/login/",
   SIGNUP: "/signup/",
   WELCOME: "/welcome/",
-  ADD_DATA: "/add-data/",
   ADD_DATA_SOURCE: "/add-data-source/",
   CONNECT: "/connect/",
   DATA_SOURCES: "/data-sources/",
@@ -75,13 +73,6 @@ function App() {
               Welcome,
               true
             )({ children: <Welcome /> })}
-          />
-          <Route
-            path={RouterPath.ADD_DATA}
-            element={withMobileWarning(
-              AddData,
-              true
-            )({ children: <AddData /> })}
           />
           <Route
             path={RouterPath.ADD_DATA_SOURCE}

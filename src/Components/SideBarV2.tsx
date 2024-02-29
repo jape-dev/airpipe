@@ -215,7 +215,7 @@ export const SideBarBurger = (props: {
               </div>
               <div className="p-2 w-full hover:bg-gray-100 rounded-md">
                 <Link
-                  to={RouterPath.ADD_DATA}
+                  to={RouterPath.ADD_DATA_SOURCE}
                   className="flex items-center 0 text-gray-700"
                 >
                   Create data source

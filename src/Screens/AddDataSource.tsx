@@ -552,11 +552,18 @@ export const AddDataSource: React.FC = () => {
                       </div>
                     </div>
                     <button
-                      onClick={() => handleAddDataSourceButtonClick()}
-                      className="bg-teal-500  hover:bg-teal-600  text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center  mx-auto"
+                      onClick={() => handleAddDataSourceButtonClick()} // Call the new handleSubmit function
+                      className="bg-teal-500  hover:bg-teal-600  text-white rounded-md px-4 py-2 h-16 w-60 flex items-center justify-center mx-auto"
+                      disabled={isLoading} // Disable the button when loading
                     >
-                      <PlusCircleIcon className="inline h-6 w-6 mr-2" />
-                      Add Data Source
+                      {isLoading ? ( // Render loading animation if isLoading is true
+                        <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
+                      ) : (
+                        <>
+                          <PlusCircleIcon className="inline h-6 w-6 mr-2" />
+                          <span className="text-md">Create View</span>
+                        </>
+                      )}
                     </button>
                   </>
                 )}
