@@ -415,9 +415,10 @@ export const AddDataSource: React.FC = () => {
           navigate(RouterPath.DATA_SOURCES);
         })
         .catch((error) => {
+          console.log(error);
           setIsLoading(false);
           alert(
-            "Could not add data source. Please change your fields and try again. Ensure that monetary fields are only used on accounts with active or previously active ads."
+            "There was an error adding your data source. Feedback has been sent to the developer."
           );
         });
     }
@@ -561,7 +562,7 @@ export const AddDataSource: React.FC = () => {
                       ) : (
                         <>
                           <PlusCircleIcon className="inline h-6 w-6 mr-2" />
-                          <span className="text-md">Create View</span>
+                          <span className="text-md">Create Data Source</span>
                         </>
                       )}
                     </button>
