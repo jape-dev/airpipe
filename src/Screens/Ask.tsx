@@ -101,10 +101,10 @@ export const Ask: React.FC = () => {
   }, [selectedTable]);
 
   const handleSelectOption = (selectedOption: DropDownOption) => {
-    // const aiConsent = localStorage.getItem("aiConsent");
-    // if (!aiConsent) {
-    //   setModal(true);
-    // }
+    const aiConsent = localStorage.getItem("aiConsent");
+    if (!aiConsent) {
+      setModal(true);
+    }
     const table = tables.find(
       (table) => table.id.toString() === selectedOption.id
     );
